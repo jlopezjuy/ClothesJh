@@ -1,0 +1,61 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "pago",
+            "otherEntityName": "pago",
+            "otherEntityRelationshipName": "encargo"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": "required",
+            "relationshipName": "cliente",
+            "otherEntityName": "cliente",
+            "otherEntityField": "nombre"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "importeTotal",
+            "fieldType": "Double",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "fechaEncargo",
+            "fieldType": "LocalDate",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "fechaEntrega",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "detalleVestido",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "estado",
+            "fieldType": "Estado",
+            "fieldValues": "ENCARGADO,CORTADO,PROBADO,ENTREGADO,CANCELADO"
+        },
+        {
+            "fieldName": "tipoEncargo",
+            "fieldType": "TipoEncargo",
+            "fieldValues": "QUINCE,NOVIA,MADRINA,FIESTA,POLICIA"
+        }
+    ],
+    "changelogDate": "20170604152017",
+    "javadoc": "Class Encargo.\n@author anelsoftware",
+    "entityTableName": "encargo",
+    "dto": "mapstruct",
+    "pagination": "pager",
+    "service": "serviceImpl"
+}

@@ -1,0 +1,12 @@
+{
+    "clothesApp": {
+        "TipoEncargo" : {
+            "null": "",
+            "QUINCE": "QUINCE",
+            "NOVIA": "NOVIA",
+            "MADRINA": "MADRINA",
+            "FIESTA": "FIESTA",
+            "POLICIA": "POLICIA"
+        }
+    }
+}

@@ -1,0 +1,25 @@
+{
+    "clothesApp": {
+        "pago" : {
+            "home": {
+                "title": "Pagos",
+                "createLabel": "Create a new Pago",
+                "createOrEditLabel": "Create or edit a Pago"
+            },
+            "created": "A new Pago is created with identifier {{ param }}",
+            "updated": "A Pago is updated with identifier {{ param }}",
+            "deleted": "A Pago is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Pago {{ id }}?"
+            },
+            "detail": {
+                "title": "Pago"
+            },
+            "fechaPago": "Fecha Pago",
+            "importe": "Importe",
+            "detalle": "Detalle",
+            "numeroRecibo": "Numero Recibo",
+            "encargo": "Encargo"
+        }
+    }
+}

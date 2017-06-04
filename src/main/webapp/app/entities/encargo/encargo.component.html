@@ -1,0 +1,81 @@
+<div>
+    <h2>
+        <span jhiTranslate="clothesApp.encargo.home.title">Encargos</span>
+        <button class="btn btn-primary float-right create-encargo" [routerLink]="['/', { outlets: { popup: ['encargo-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span  jhiTranslate="clothesApp.encargo.home.createLabel">
+            Create new Encargo
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="encargos">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="importeTotal"><span jhiTranslate="clothesApp.encargo.importeTotal">Importe Total</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="fechaEncargo"><span jhiTranslate="clothesApp.encargo.fechaEncargo">Fecha Encargo</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="fechaEntrega"><span jhiTranslate="clothesApp.encargo.fechaEntrega">Fecha Entrega</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="detalleVestido"><span jhiTranslate="clothesApp.encargo.detalleVestido">Detalle Vestido</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="estado"><span jhiTranslate="clothesApp.encargo.estado">Estado</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="tipoEncargo"><span jhiTranslate="clothesApp.encargo.tipoEncargo">Tipo Encargo</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="clienteNombre"><span jhiTranslate="clothesApp.encargo.cliente">Cliente</span> <span class="fa fa-sort"></span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let encargo of encargos ;trackBy: trackId">
+                <td><a [routerLink]="['../encargo', encargo.id ]">{{encargo.id}}</a></td>
+                <td>{{encargo.importeTotal}}</td>
+                <td>{{encargo.fechaEncargo | date:'mediumDate'}}</td>
+                <td>{{encargo.fechaEntrega | date:'mediumDate'}}</td>
+                <td>{{encargo.detalleVestido}}</td>
+                <td jhiTranslate="{{'clothesApp.Estado.' + encargo.estado}}">{{encargo.estado}}</td>
+                <td jhiTranslate="{{'clothesApp.TipoEncargo.' + encargo.tipoEncargo}}">{{encargo.tipoEncargo}}</td>
+                <td>
+                    <div *ngIf="encargo.clienteId">
+                        <a [routerLink]="['../cliente', encargo.clienteId  ]" >{{encargo.clienteNombre}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../encargo', encargo.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'encargo/'+ encargo.id + '/edit'} }]"
+                                replaceUrl="true"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'encargo/'+ encargo.id + '/delete'} }]"
+                                replaceUrl="true"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+        <!-- Pager is not implemented yet, so this is normal pagination instead -->
+        <div *ngIf="encargos && encargos.length">
+            <div class="row justify-content-center">
+                <jhi-item-count [page]="page" [total]="queryCount" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+            </div>
+            <div class="row justify-content-center">
+                <ngb-pagination [collectionSize]="totalItems" [(page)]="page"  (pageChange)="loadPage(page)"></ngb-pagination>
+            </div>
+        </div>
+</div>

@@ -1,0 +1,140 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": "required",
+            "relationshipName": "cliente",
+            "otherEntityName": "cliente",
+            "otherEntityField": "nombre"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "contornoBusto",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "anchoPecho",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "altoBusto",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "bajoBusto",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "alturaPinza",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "separacionBusto",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "talleDeltantero",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "talleEspalda",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "largoCorset",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "costado",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "hombro",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "anchoHombro",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "largoManga",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "sisaDelantero",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "sisaEspalda",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "contornoCintura",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "anteCadera",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "contornoCadera",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "posicionCadera",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "largoFalda",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "tipoFalda",
+            "fieldType": "TipoFalda",
+            "fieldValues": "TUBO,RECTA,TAJO,EVASE,CORTEA,CAMPANA,PLATO,GAJOS"
+        },
+        {
+            "fieldName": "fechaMedida",
+            "fieldType": "LocalDate",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "anchoEspalda",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "anchoManga",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "tiroPantalon",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "anchoPinzaPantalon",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "anchoRodillaPantalon",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "botaPantalon",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "largoPantalon",
+            "fieldType": "Double"
+        }
+    ],
+    "changelogDate": "20170604152016",
+    "javadoc": "Class Medida.\n@author anelsoftware",
+    "entityTableName": "medida",
+    "dto": "mapstruct",
+    "pagination": "pager",
+    "service": "serviceImpl"
+}

@@ -1,0 +1,83 @@
+<div>
+    <h2>
+        <span jhiTranslate="clothesApp.cliente.home.title">Clientes</span>
+        <button class="btn btn-primary float-right create-cliente" [routerLink]="['/', { outlets: { popup: ['cliente-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span  jhiTranslate="clothesApp.cliente.home.createLabel">
+            Create new Cliente
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="clientes">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="nombre"><span jhiTranslate="clothesApp.cliente.nombre">Nombre</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="apellido"><span jhiTranslate="clothesApp.cliente.apellido">Apellido</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="celular"><span jhiTranslate="clothesApp.cliente.celular">Celular</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="telefono"><span jhiTranslate="clothesApp.cliente.telefono">Telefono</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="email"><span jhiTranslate="clothesApp.cliente.email">Email</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="domicilio"><span jhiTranslate="clothesApp.cliente.domicilio">Domicilio</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="colegio"><span jhiTranslate="clothesApp.cliente.colegio">Colegio</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="empresaNombre"><span jhiTranslate="clothesApp.cliente.empresa">Empresa</span> <span class="fa fa-sort"></span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let cliente of clientes ;trackBy: trackId">
+                <td><a [routerLink]="['../cliente', cliente.id ]">{{cliente.id}}</a></td>
+                <td>{{cliente.nombre}}</td>
+                <td>{{cliente.apellido}}</td>
+                <td>{{cliente.celular}}</td>
+                <td>{{cliente.telefono}}</td>
+                <td>{{cliente.email}}</td>
+                <td>{{cliente.domicilio}}</td>
+                <td>{{cliente.colegio}}</td>
+                <td>
+                    <div *ngIf="cliente.empresaId">
+                        <a [routerLink]="['../empresa', cliente.empresaId  ]" >{{cliente.empresaNombre}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../cliente', cliente.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'cliente/'+ cliente.id + '/edit'} }]"
+                                replaceUrl="true"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'cliente/'+ cliente.id + '/delete'} }]"
+                                replaceUrl="true"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+        <!-- Pager is not implemented yet, so this is normal pagination instead -->
+        <div *ngIf="clientes && clientes.length">
+            <div class="row justify-content-center">
+                <jhi-item-count [page]="page" [total]="queryCount" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+            </div>
+            <div class="row justify-content-center">
+                <ngb-pagination [collectionSize]="totalItems" [(page)]="page"  (pageChange)="loadPage(page)"></ngb-pagination>
+            </div>
+        </div>
+</div>

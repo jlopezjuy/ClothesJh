@@ -1,0 +1,43 @@
+
+<div *ngIf="pago">
+    <h2><span jhiTranslate="clothesApp.pago.detail.title">Pago</span> {{pago.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="clothesApp.pago.fechaPago">Fecha Pago</span></dt>
+        <dd>
+            <span>{{pago.fechaPago | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span jhiTranslate="clothesApp.pago.importe">Importe</span></dt>
+        <dd>
+            <span>{{pago.importe}}</span>
+        </dd>
+        <dt><span jhiTranslate="clothesApp.pago.detalle">Detalle</span></dt>
+        <dd>
+            <span>{{pago.detalle}}</span>
+        </dd>
+        <dt><span jhiTranslate="clothesApp.pago.numeroRecibo">Numero Recibo</span></dt>
+        <dd>
+            <span>{{pago.numeroRecibo}}</span>
+        </dd>
+        <dt><span jhiTranslate="clothesApp.pago.encargo">Encargo</span></dt>
+        <dd>
+            <div *ngIf="pago.encargoId">
+                <a [routerLink]="['/encargo', pago.encargoId]">{{pago.encargoId}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'pago/'+ pago.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

@@ -1,0 +1,50 @@
+{
+    "clothesApp": {
+        "medida" : {
+            "home": {
+                "title": "Medidas",
+                "createLabel": "Crear nuevo Medida",
+                "createOrEditLabel": "Crear o editar Medida"
+            },
+            "created": "Un nuevo Medida ha sido creado con el identificador {{ param }}",
+            "updated": "Un Medida ha sido actualizado con el identificador {{ param }}",
+            "deleted": "Un Medida ha sido eliminado con el identificador {{ param }}",
+            "delete": {
+                "question": "¿Seguro que quiere eliminar Medida {{ id }}?"
+            },
+            "detail": {
+                "title": "Medida"
+            },
+            "contornoBusto": "Contorno Busto",
+            "anchoPecho": "Ancho Pecho",
+            "altoBusto": "Alto Busto",
+            "bajoBusto": "Bajo Busto",
+            "alturaPinza": "Altura Pinza",
+            "separacionBusto": "Separacion Busto",
+            "talleDeltantero": "Talle Deltantero",
+            "talleEspalda": "Talle Espalda",
+            "largoCorset": "Largo Corset",
+            "costado": "Costado",
+            "hombro": "Hombro",
+            "anchoHombro": "Ancho Hombro",
+            "largoManga": "Largo Manga",
+            "sisaDelantero": "Sisa Delantero",
+            "sisaEspalda": "Sisa Espalda",
+            "contornoCintura": "Contorno Cintura",
+            "anteCadera": "Ante Cadera",
+            "contornoCadera": "Contorno Cadera",
+            "posicionCadera": "Posicion Cadera",
+            "largoFalda": "Largo Falda",
+            "tipoFalda": "Tipo Falda",
+            "fechaMedida": "Fecha Medida",
+            "anchoEspalda": "Ancho Espalda",
+            "anchoManga": "Ancho Manga",
+            "tiroPantalon": "Tiro Pantalon",
+            "anchoPinzaPantalon": "Ancho Pinza Pantalon",
+            "anchoRodillaPantalon": "Ancho Rodilla Pantalon",
+            "botaPantalon": "Bota Pantalon",
+            "largoPantalon": "Largo Pantalon",
+            "cliente": "Cliente"
+        }
+    }
+}

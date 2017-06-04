@@ -1,0 +1,15 @@
+{
+    "clothesApp": {
+        "TipoFalda" : {
+            "null": "",
+            "TUBO": "TUBO",
+            "RECTA": "RECTA",
+            "TAJO": "TAJO",
+            "EVASE": "EVASE",
+            "CORTEA": "CORTEA",
+            "CAMPANA": "CAMPANA",
+            "PLATO": "PLATO",
+            "GAJOS": "GAJOS"
+        }
+    }
+}

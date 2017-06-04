@@ -1,0 +1,91 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myPagoLabel" jhiTranslate="clothesApp.pago.home.createOrEditLabel">Create or edit a Pago</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!pago.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="pago.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="clothesApp.pago.fechaPago" for="field_fechaPago">Fecha Pago</label>
+            <div class="input-group">
+                <input id="field_fechaPago" type="text" class="form-control" name="fechaPago" ngbDatepicker  #fechaPagoDp="ngbDatepicker" [(ngModel)]="pago.fechaPago"
+                />
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" (click)="fechaPagoDp.toggle()"><i class="fa fa-calendar"></i></button>
+                </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="clothesApp.pago.importe" for="field_importe">Importe</label>
+            <input type="number" class="form-control" name="importe" id="field_importe"
+                [(ngModel)]="pago.importe"
+            required />
+            <div [hidden]="!(editForm.controls.importe?.dirty && editForm.controls.importe?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.importe?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.importe?.errors?.number" jhiTranslate="entity.validation.number">
+                    This field should be a number.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="clothesApp.pago.detalle" for="field_detalle">Detalle</label>
+            <input type="text" class="form-control" name="detalle" id="field_detalle"
+                [(ngModel)]="pago.detalle"
+            required />
+            <div [hidden]="!(editForm.controls.detalle?.dirty && editForm.controls.detalle?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.detalle?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="clothesApp.pago.numeroRecibo" for="field_numeroRecibo">Numero Recibo</label>
+            <input type="number" class="form-control" name="numeroRecibo" id="field_numeroRecibo"
+                [(ngModel)]="pago.numeroRecibo"
+            required />
+            <div [hidden]="!(editForm.controls.numeroRecibo?.dirty && editForm.controls.numeroRecibo?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.numeroRecibo?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.numeroRecibo?.errors?.number" jhiTranslate="entity.validation.number">
+                    This field should be a number.
+                </small>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label jhiTranslate="clothesApp.pago.encargo" for="field_encargo">Encargo</label>
+            <select class="form-control" id="field_encargo" name="encargo" [(ngModel)]="pago.encargoId"  required>
+                <option [ngValue]="encargoOption.id" *ngFor="let encargoOption of encargos; trackBy: trackEncargoById">{{encargoOption.id}}</option>
+            </select>
+        </div>
+        <div [hidden]="!(editForm.controls.encargo?.dirty && editForm.controls.encargo?.invalid)">
+            <small class="form-text text-danger"
+                [hidden]="!editForm.controls.encargo?.errors?.required" jhiTranslate="entity.validation.required">
+                This field is required.
+            </small>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

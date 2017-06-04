@@ -1,0 +1,77 @@
+<div>
+    <h2>
+        <span jhiTranslate="clothesApp.pago.home.title">Pagos</span>
+        <button class="btn btn-primary float-right create-pago" [routerLink]="['/', { outlets: { popup: ['pago-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span  jhiTranslate="clothesApp.pago.home.createLabel">
+            Create new Pago
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="pagos">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="fechaPago"><span jhiTranslate="clothesApp.pago.fechaPago">Fecha Pago</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="importe"><span jhiTranslate="clothesApp.pago.importe">Importe</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="detalle"><span jhiTranslate="clothesApp.pago.detalle">Detalle</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="numeroRecibo"><span jhiTranslate="clothesApp.pago.numeroRecibo">Numero Recibo</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="encargoId"><span jhiTranslate="clothesApp.pago.encargo">Encargo</span> <span class="fa fa-sort"></span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let pago of pagos ;trackBy: trackId">
+                <td><a [routerLink]="['../pago', pago.id ]">{{pago.id}}</a></td>
+                <td>{{pago.fechaPago | date:'mediumDate'}}</td>
+                <td>{{pago.importe}}</td>
+                <td>{{pago.detalle}}</td>
+                <td>{{pago.numeroRecibo}}</td>
+                <td>
+                    <div *ngIf="pago.encargoId">
+                        <a [routerLink]="['../encargo', pago.encargoId  ]" >{{pago.encargoId}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../pago', pago.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'pago/'+ pago.id + '/edit'} }]"
+                                replaceUrl="true"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'pago/'+ pago.id + '/delete'} }]"
+                                replaceUrl="true"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+        <!-- Pager is not implemented yet, so this is normal pagination instead -->
+        <div *ngIf="pagos && pagos.length">
+            <div class="row justify-content-center">
+                <jhi-item-count [page]="page" [total]="queryCount" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+            </div>
+            <div class="row justify-content-center">
+                <ngb-pagination [collectionSize]="totalItems" [(page)]="page"  (pageChange)="loadPage(page)"></ngb-pagination>
+            </div>
+        </div>
+</div>

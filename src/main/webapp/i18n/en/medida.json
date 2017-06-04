@@ -1,0 +1,50 @@
+{
+    "clothesApp": {
+        "medida" : {
+            "home": {
+                "title": "Medidas",
+                "createLabel": "Create a new Medida",
+                "createOrEditLabel": "Create or edit a Medida"
+            },
+            "created": "A new Medida is created with identifier {{ param }}",
+            "updated": "A Medida is updated with identifier {{ param }}",
+            "deleted": "A Medida is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Medida {{ id }}?"
+            },
+            "detail": {
+                "title": "Medida"
+            },
+            "contornoBusto": "Contorno Busto",
+            "anchoPecho": "Ancho Pecho",
+            "altoBusto": "Alto Busto",
+            "bajoBusto": "Bajo Busto",
+            "alturaPinza": "Altura Pinza",
+            "separacionBusto": "Separacion Busto",
+            "talleDeltantero": "Talle Deltantero",
+            "talleEspalda": "Talle Espalda",
+            "largoCorset": "Largo Corset",
+            "costado": "Costado",
+            "hombro": "Hombro",
+            "anchoHombro": "Ancho Hombro",
+            "largoManga": "Largo Manga",
+            "sisaDelantero": "Sisa Delantero",
+            "sisaEspalda": "Sisa Espalda",
+            "contornoCintura": "Contorno Cintura",
+            "anteCadera": "Ante Cadera",
+            "contornoCadera": "Contorno Cadera",
+            "posicionCadera": "Posicion Cadera",
+            "largoFalda": "Largo Falda",
+            "tipoFalda": "Tipo Falda",
+            "fechaMedida": "Fecha Medida",
+            "anchoEspalda": "Ancho Espalda",
+            "anchoManga": "Ancho Manga",
+            "tiroPantalon": "Tiro Pantalon",
+            "anchoPinzaPantalon": "Ancho Pinza Pantalon",
+            "anchoRodillaPantalon": "Ancho Rodilla Pantalon",
+            "botaPantalon": "Bota Pantalon",
+            "largoPantalon": "Largo Pantalon",
+            "cliente": "Cliente"
+        }
+    }
+}

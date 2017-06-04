@@ -1,0 +1,127 @@
+<div>
+    <h2>
+        <span jhiTranslate="clothesApp.medida.home.title">Medidas</span>
+        <button class="btn btn-primary float-right create-medida" [routerLink]="['/', { outlets: { popup: ['medida-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span  jhiTranslate="clothesApp.medida.home.createLabel">
+            Create new Medida
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="medidas">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="contornoBusto"><span jhiTranslate="clothesApp.medida.contornoBusto">Contorno Busto</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="anchoPecho"><span jhiTranslate="clothesApp.medida.anchoPecho">Ancho Pecho</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="altoBusto"><span jhiTranslate="clothesApp.medida.altoBusto">Alto Busto</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="bajoBusto"><span jhiTranslate="clothesApp.medida.bajoBusto">Bajo Busto</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="alturaPinza"><span jhiTranslate="clothesApp.medida.alturaPinza">Altura Pinza</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="separacionBusto"><span jhiTranslate="clothesApp.medida.separacionBusto">Separacion Busto</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="talleDeltantero"><span jhiTranslate="clothesApp.medida.talleDeltantero">Talle Deltantero</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="talleEspalda"><span jhiTranslate="clothesApp.medida.talleEspalda">Talle Espalda</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="largoCorset"><span jhiTranslate="clothesApp.medida.largoCorset">Largo Corset</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="costado"><span jhiTranslate="clothesApp.medida.costado">Costado</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="hombro"><span jhiTranslate="clothesApp.medida.hombro">Hombro</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="anchoHombro"><span jhiTranslate="clothesApp.medida.anchoHombro">Ancho Hombro</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="largoManga"><span jhiTranslate="clothesApp.medida.largoManga">Largo Manga</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="sisaDelantero"><span jhiTranslate="clothesApp.medida.sisaDelantero">Sisa Delantero</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="sisaEspalda"><span jhiTranslate="clothesApp.medida.sisaEspalda">Sisa Espalda</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="contornoCintura"><span jhiTranslate="clothesApp.medida.contornoCintura">Contorno Cintura</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="anteCadera"><span jhiTranslate="clothesApp.medida.anteCadera">Ante Cadera</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="contornoCadera"><span jhiTranslate="clothesApp.medida.contornoCadera">Contorno Cadera</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="posicionCadera"><span jhiTranslate="clothesApp.medida.posicionCadera">Posicion Cadera</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="largoFalda"><span jhiTranslate="clothesApp.medida.largoFalda">Largo Falda</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="tipoFalda"><span jhiTranslate="clothesApp.medida.tipoFalda">Tipo Falda</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="fechaMedida"><span jhiTranslate="clothesApp.medida.fechaMedida">Fecha Medida</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="anchoEspalda"><span jhiTranslate="clothesApp.medida.anchoEspalda">Ancho Espalda</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="anchoManga"><span jhiTranslate="clothesApp.medida.anchoManga">Ancho Manga</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="tiroPantalon"><span jhiTranslate="clothesApp.medida.tiroPantalon">Tiro Pantalon</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="anchoPinzaPantalon"><span jhiTranslate="clothesApp.medida.anchoPinzaPantalon">Ancho Pinza Pantalon</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="anchoRodillaPantalon"><span jhiTranslate="clothesApp.medida.anchoRodillaPantalon">Ancho Rodilla Pantalon</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="botaPantalon"><span jhiTranslate="clothesApp.medida.botaPantalon">Bota Pantalon</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="largoPantalon"><span jhiTranslate="clothesApp.medida.largoPantalon">Largo Pantalon</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="clienteNombre"><span jhiTranslate="clothesApp.medida.cliente">Cliente</span> <span class="fa fa-sort"></span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let medida of medidas ;trackBy: trackId">
+                <td><a [routerLink]="['../medida', medida.id ]">{{medida.id}}</a></td>
+                <td>{{medida.contornoBusto}}</td>
+                <td>{{medida.anchoPecho}}</td>
+                <td>{{medida.altoBusto}}</td>
+                <td>{{medida.bajoBusto}}</td>
+                <td>{{medida.alturaPinza}}</td>
+                <td>{{medida.separacionBusto}}</td>
+                <td>{{medida.talleDeltantero}}</td>
+                <td>{{medida.talleEspalda}}</td>
+                <td>{{medida.largoCorset}}</td>
+                <td>{{medida.costado}}</td>
+                <td>{{medida.hombro}}</td>
+                <td>{{medida.anchoHombro}}</td>
+                <td>{{medida.largoManga}}</td>
+                <td>{{medida.sisaDelantero}}</td>
+                <td>{{medida.sisaEspalda}}</td>
+                <td>{{medida.contornoCintura}}</td>
+                <td>{{medida.anteCadera}}</td>
+                <td>{{medida.contornoCadera}}</td>
+                <td>{{medida.posicionCadera}}</td>
+                <td>{{medida.largoFalda}}</td>
+                <td jhiTranslate="{{'clothesApp.TipoFalda.' + medida.tipoFalda}}">{{medida.tipoFalda}}</td>
+                <td>{{medida.fechaMedida | date:'mediumDate'}}</td>
+                <td>{{medida.anchoEspalda}}</td>
+                <td>{{medida.anchoManga}}</td>
+                <td>{{medida.tiroPantalon}}</td>
+                <td>{{medida.anchoPinzaPantalon}}</td>
+                <td>{{medida.anchoRodillaPantalon}}</td>
+                <td>{{medida.botaPantalon}}</td>
+                <td>{{medida.largoPantalon}}</td>
+                <td>
+                    <div *ngIf="medida.clienteId">
+                        <a [routerLink]="['../cliente', medida.clienteId  ]" >{{medida.clienteNombre}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../medida', medida.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'medida/'+ medida.id + '/edit'} }]"
+                                replaceUrl="true"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'medida/'+ medida.id + '/delete'} }]"
+                                replaceUrl="true"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+        <!-- Pager is not implemented yet, so this is normal pagination instead -->
+        <div *ngIf="medidas && medidas.length">
+            <div class="row justify-content-center">
+                <jhi-item-count [page]="page" [total]="queryCount" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+            </div>
+            <div class="row justify-content-center">
+                <ngb-pagination [collectionSize]="totalItems" [(page)]="page"  (pageChange)="loadPage(page)"></ngb-pagination>
+            </div>
+        </div>
+</div>

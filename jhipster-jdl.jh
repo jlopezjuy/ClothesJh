@@ -1,0 +1,130 @@
+
+entity Empresa{
+	nombre String required,
+    domicilio String required,
+    telefono String required,
+    categoria String required
+}
+
+/**
+ * Class Cliente.
+ * @author anelsoftware
+ */
+entity Cliente{
+	nombre String required,
+	apellido String required,
+	celular String,
+	telefono String required,
+	email String required,
+	domicilio String required,
+	colegio String required
+}
+/**
+ * Class Modelo.
+ * @author anelsoftware
+ */
+entity Modelo{
+	imagen ImageBlob required,
+    nombreModelo String required,
+    colorVestido String required,
+    observacion String required
+}
+/**
+ * Class Medida.
+ * @author anelsoftware
+ */
+entity Medida{
+	contornoBusto Double,
+    anchoPecho Double,
+    altoBusto Double,
+    bajoBusto Double,
+    alturaPinza Double,
+    separacionBusto Double,
+    talleDeltantero Double,
+    talleEspalda Double,
+    largoCorset Double,
+    costado Double,
+    hombro Double,
+    anchoHombro Double,
+    largoManga Double,
+    sisaDelantero Double,
+    sisaEspalda Double,
+    contornoCintura Double,
+    anteCadera Double,
+    contornoCadera Double,
+    posicionCadera Double,
+    largoFalda Double,
+    tipoFalda TipoFalda,
+    fechaMedida LocalDate required,
+    anchoHombro Double,
+    anchoEspalda Double,
+    largoManga Double,
+    anchoManga Double,
+    tiroPantalon Double,
+    anchoPinzaPantalon Double,
+    anchoRodillaPantalon Double,
+    botaPantalon Double,
+    largoPantalon Double
+}
+/**
+ * Class Encargo.
+ * @author anelsoftware
+ */
+entity Encargo{
+	importeTotal Double required,
+    fechaEncargo LocalDate required,
+    fechaEntrega LocalDate,
+    detalleVestido String required,
+    estado Estado,
+    tipoEncargo TipoEncargo
+}
+/**
+ * Class Pago.
+ * @author anelsoftware
+ */
+entity Pago{
+	fechaPago LocalDate,
+    importe Double required,
+    detalle String required,
+    numeroRecibo Integer required
+}
+
+enum Estado {
+	ENCARGADO, CORTADO, PROBADO, ENTREGADO, CANCELADO
+}
+
+enum TipoEncargo{
+	QUINCE, NOVIA, MADRINA, FIESTA, POLICIA
+}
+
+enum TipoFalda{
+	TUBO, RECTA, TAJO, EVASE, CORTEA, CAMPANA, PLATO, GAJOS 
+}
+
+
+/**
+  * Relacion Una empresa tiene uno o muchos usuarios
+  */
+relationship OneToMany {
+	Empresa{cliente(nombre)} to Cliente{empresa(nombre) required},
+    Cliente{modelo(nombre)} to Modelo{cliente(nombre) required},
+    Cliente{medida(nombre)} to Medida{cliente(nombre) required},
+    Cliente{encargo(nombre)} to Encargo{cliente(nombre) required},
+    Encargo{pago} to Pago{encargo required}
+}
+
+relationship ManyToOne {
+    Empresa{user(email)} to User{Empresa(nombre)}
+}
+
+
+paginate Cliente with pager
+paginate Empresa with pager
+paginate Encargo with pager
+paginate Modelo with pager
+paginate Medida with pager
+paginate Pago with pager
+
+dto all with mapstruct
+
+service all with serviceImpl

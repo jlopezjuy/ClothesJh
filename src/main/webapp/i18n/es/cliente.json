@@ -1,0 +1,31 @@
+{
+    "clothesApp": {
+        "cliente" : {
+            "home": {
+                "title": "Clientes",
+                "createLabel": "Crear nuevo Cliente",
+                "createOrEditLabel": "Crear o editar Cliente"
+            },
+            "created": "Un nuevo Cliente ha sido creado con el identificador {{ param }}",
+            "updated": "Un Cliente ha sido actualizado con el identificador {{ param }}",
+            "deleted": "Un Cliente ha sido eliminado con el identificador {{ param }}",
+            "delete": {
+                "question": "¿Seguro que quiere eliminar Cliente {{ id }}?"
+            },
+            "detail": {
+                "title": "Cliente"
+            },
+            "nombre": "Nombre",
+            "apellido": "Apellido",
+            "celular": "Celular",
+            "telefono": "Telefono",
+            "email": "Email",
+            "domicilio": "Domicilio",
+            "colegio": "Colegio",
+            "modelo": "Modelo",
+            "medida": "Medida",
+            "encargo": "Encargo",
+            "empresa": "Empresa"
+        }
+    }
+}
