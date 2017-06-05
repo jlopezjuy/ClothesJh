@@ -1,5 +1,7 @@
 package com.anelsoftware.service.impl;
 
+import com.anelsoftware.domain.Cliente;
+import com.anelsoftware.repository.ClienteRepository;
 import com.anelsoftware.service.ModeloService;
 import com.anelsoftware.domain.Modelo;
 import com.anelsoftware.repository.ModeloRepository;
@@ -22,14 +24,16 @@ import java.util.List;
 public class ModeloServiceImpl implements ModeloService{
 
     private final Logger log = LoggerFactory.getLogger(ModeloServiceImpl.class);
-    
+
     private final ModeloRepository modeloRepository;
+    private final ClienteRepository clienteRepository;
 
     private final ModeloMapper modeloMapper;
 
-    public ModeloServiceImpl(ModeloRepository modeloRepository, ModeloMapper modeloMapper) {
+    public ModeloServiceImpl(ModeloRepository modeloRepository, ModeloMapper modeloMapper, ClienteRepository clienteRepository) {
         this.modeloRepository = modeloRepository;
         this.modeloMapper = modeloMapper;
+        this.clienteRepository = clienteRepository;
     }
 
     /**
@@ -49,7 +53,7 @@ public class ModeloServiceImpl implements ModeloService{
 
     /**
      *  Get all the modelos.
-     *  
+     *
      *  @param pageable the pagination information
      *  @return the list of entities
      */
@@ -85,5 +89,19 @@ public class ModeloServiceImpl implements ModeloService{
     public void delete(Long id) {
         log.debug("Request to delete Modelo : {}", id);
         modeloRepository.delete(id);
+    }
+
+    /**
+     *
+     * @param pageable
+     * @param clienteId
+     * @return
+     */
+    @Override
+    public Page<ModeloDTO> findAllByCliente(Pageable pageable, Long clienteId) {
+        log.debug("Request to get all Modelos");
+        Cliente cliente  = clienteRepository.findOne(clienteId);
+        Page<Modelo> result = modeloRepository.findAllByCliente(pageable, cliente);
+        return result.map(modelo -> modeloMapper.toDto(modelo));
     }
 }

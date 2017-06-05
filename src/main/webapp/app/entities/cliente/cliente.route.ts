@@ -8,8 +8,11 @@ import { ClienteComponent } from './cliente.component';
 import { ClienteDetailComponent } from './cliente-detail.component';
 import { ClientePopupComponent } from './cliente-dialog.component';
 import { ClienteDeletePopupComponent } from './cliente-delete-dialog.component';
+import { ModeloComponent } from "../modelo/modelo.component";
 
 import { Principal } from '../../shared';
+import {ModeloResolvePagingParams} from "../modelo/modelo.route";
+
 
 @Injectable()
 export class ClienteResolvePagingParams implements Resolve<any> {
@@ -45,6 +48,17 @@ export const clienteRoute: Routes = [
         data: {
             authorities: ['ROLE_USER'],
             pageTitle: 'clothesApp.cliente.home.title'
+        },
+        canActivate: [UserRouteAccessService]
+    }, {
+        path: 'clienteModelo/:id',
+        component: ModeloComponent,
+        resolve:{
+            'pagingParams': ModeloResolvePagingParams
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'clothesApp.modelo.home.title'
         },
         canActivate: [UserRouteAccessService]
     }

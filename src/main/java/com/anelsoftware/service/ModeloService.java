@@ -1,5 +1,6 @@
 package com.anelsoftware.service;
 
+import com.anelsoftware.domain.Cliente;
 import com.anelsoftware.service.dto.ModeloDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,7 +20,7 @@ public interface ModeloService {
 
     /**
      *  Get all the modelos.
-     *  
+     *
      *  @param pageable the pagination information
      *  @return the list of entities
      */
@@ -39,4 +40,6 @@ public interface ModeloService {
      *  @param id the id of the entity
      */
     void delete(Long id);
+
+    Page<ModeloDTO> findAllByCliente(Pageable pageable, Long clienteId);
 }

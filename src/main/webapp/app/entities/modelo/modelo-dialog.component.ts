@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
@@ -28,6 +28,7 @@ export class ModeloDialogComponent implements OnInit {
         public activeModal: NgbActiveModal,
         private dataUtils: DataUtils,
         private alertService: AlertService,
+        private activatedRoute: ActivatedRoute,
         private modeloService: ModeloService,
         private clienteService: ClienteService,
         private eventManager: EventManager
@@ -39,6 +40,11 @@ export class ModeloDialogComponent implements OnInit {
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
         this.clienteService.query()
             .subscribe((res: ResponseWrapper) => { this.clientes = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+        this.activatedRoute.params.forEach((params:Params) => {
+            let idCliente = params['clienteId'];
+            console.log("Cliente id: " + idCliente);
+            this.modelo.clienteId = idCliente;
+        });
     }
     byteSize(field) {
         return this.dataUtils.byteSize(field);

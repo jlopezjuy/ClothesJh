@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
 import { EventManager, ParseLinks, PaginationUtil, JhiLanguageService, AlertService, DataUtils } from 'ng-jhipster';
 
@@ -28,6 +28,7 @@ currentAccount: any;
     predicate: any;
     previousPage: any;
     reverse: any;
+    clienteId: number;
 
     constructor(
         private modeloService: ModeloService,
@@ -51,13 +52,19 @@ currentAccount: any;
     }
 
     loadAll() {
-        this.modeloService.query({
-            page: this.page - 1,
-            size: this.itemsPerPage,
-            sort: this.sort()}).subscribe(
-            (res: ResponseWrapper) => this.onSuccess(res.json, res.headers),
-            (res: ResponseWrapper) => this.onError(res.json)
-        );
+        this.activatedRoute.params.forEach((params:Params) => {
+            this.clienteId = params['id'];
+            console.log("Cliente id: " + this.clienteId);
+
+            this.modeloService.query({
+                page: this.page - 1,
+                size: this.itemsPerPage,
+                sort: this.sort()}, this.clienteId).subscribe(
+                (res: ResponseWrapper) => this.onSuccess(res.json, res.headers),
+                (res: ResponseWrapper) => this.onError(res.json)
+            );
+        });
+
     }
     loadPage(page: number) {
         if (page !== this.previousPage) {

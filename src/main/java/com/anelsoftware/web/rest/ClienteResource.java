@@ -33,7 +33,7 @@ public class ClienteResource {
     private final Logger log = LoggerFactory.getLogger(ClienteResource.class);
 
     private static final String ENTITY_NAME = "cliente";
-        
+
     private final ClienteService clienteService;
 
     public ClienteResource(ClienteService clienteService) {

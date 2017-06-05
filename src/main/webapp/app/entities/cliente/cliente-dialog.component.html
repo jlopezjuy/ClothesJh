@@ -91,11 +91,10 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" style="visibility: hidden">
             <label jhiTranslate="clothesApp.cliente.empresa" for="field_empresa">Empresa</label>
-            <select class="form-control" id="field_empresa" name="empresa" [(ngModel)]="cliente.empresaId"  required>
-                <option [ngValue]="empresaOption.id" *ngFor="let empresaOption of empresas; trackBy: trackEmpresaById">{{empresaOption.nombre}}</option>
-            </select>
+
+            <input type="text" class="form-control" name="empresa" id="field_empresa" [(ngModel)]="cliente.empresaId" value="1"/>
         </div>
         <div [hidden]="!(editForm.controls.empresa?.dirty && editForm.controls.empresa?.invalid)">
             <small class="form-text text-danger"

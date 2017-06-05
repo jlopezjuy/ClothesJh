@@ -1,5 +1,7 @@
 package com.anelsoftware.web.rest;
 
+import com.anelsoftware.domain.Cliente;
+import com.anelsoftware.service.ClienteService;
 import com.codahale.metrics.annotation.Timed;
 import com.anelsoftware.service.ModeloService;
 import com.anelsoftware.web.rest.util.HeaderUtil;
@@ -33,7 +35,7 @@ public class ModeloResource {
     private final Logger log = LoggerFactory.getLogger(ModeloResource.class);
 
     private static final String ENTITY_NAME = "modelo";
-        
+
     private final ModeloService modeloService;
 
     public ModeloResource(ModeloService modeloService) {
@@ -93,6 +95,22 @@ public class ModeloResource {
     public ResponseEntity<List<ModeloDTO>> getAllModelos(@ApiParam Pageable pageable) {
         log.debug("REST request to get a page of Modelos");
         Page<ModeloDTO> page = modeloService.findAll(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/modelos");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
+    /**
+     * GET  /modelos : get all the modelos.
+     *
+     * @param pageable the pagination information
+     * @return the ResponseEntity with status 200 (OK) and the list of modelos in body
+     */
+    @GetMapping("/modelosCliente/{clienteId}")
+    @Timed
+    public ResponseEntity<List<ModeloDTO>> getAllModelosByCliente(@ApiParam Pageable pageable, @PathVariable Long clienteId) {
+        log.debug("REST request to get a page of Modelos");
+        log.info("Cliente id: "+ clienteId);
+        Page<ModeloDTO> page = modeloService.findAllByCliente(pageable, clienteId);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/modelos");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }

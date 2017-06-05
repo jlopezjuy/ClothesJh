@@ -45,6 +45,7 @@ export class ClienteDialogComponent implements OnInit {
 
     save() {
         this.isSaving = true;
+        this.cliente.empresaId = 1;
         if (this.cliente.id !== undefined) {
             this.subscribeToSaveResponse(
                 this.clienteService.update(this.cliente));
