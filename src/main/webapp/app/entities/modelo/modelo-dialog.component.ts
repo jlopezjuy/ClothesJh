@@ -40,11 +40,6 @@ export class ModeloDialogComponent implements OnInit {
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
         this.clienteService.query()
             .subscribe((res: ResponseWrapper) => { this.clientes = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
-        this.activatedRoute.params.forEach((params:Params) => {
-            let idCliente = params['clienteId'];
-            console.log("Cliente id: " + idCliente);
-            this.modelo.clienteId = idCliente;
-        });
     }
     byteSize(field) {
         return this.dataUtils.byteSize(field);
@@ -76,6 +71,11 @@ export class ModeloDialogComponent implements OnInit {
             this.subscribeToSaveResponse(
                 this.modeloService.update(this.modelo));
         } else {
+            this.activatedRoute.params.forEach((params:Params) => {
+                let idCliente = params['clienteId'];
+                console.log("Cliente id: " + idCliente);
+                this.modelo.clienteId = idCliente;
+            });
             this.subscribeToSaveResponse(
                 this.modeloService.create(this.modelo));
         }

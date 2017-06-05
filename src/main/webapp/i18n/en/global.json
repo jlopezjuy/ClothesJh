@@ -101,7 +101,8 @@
             "edit": "Edit",
             "open": "Open",
             "save": "Save",
-            "view": "View"
+            "view": "View",
+            "model": "Models"
         },
         "detail": {
             "field": "Field",

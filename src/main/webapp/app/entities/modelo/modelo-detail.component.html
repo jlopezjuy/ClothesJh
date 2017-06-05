@@ -10,7 +10,7 @@
                 <a (click)="openFile(modelo.imagenContentType, modelo.imagen)">
                     <img [src]="'data:' + modelo.imagenContentType + ';base64,' + modelo.imagen" style="max-width: 100%;" alt="modelo image"/>
                 </a>
-                {{modelo.imagenContentType}}, {{byteSize(modelo.imagen)}}
+                <!--{{modelo.imagenContentType}}, {{byteSize(modelo.imagen)}}-->
             </div>
         </dd>
         <dt><span jhiTranslate="clothesApp.modelo.nombreModelo">Nombre Modelo</span></dt>

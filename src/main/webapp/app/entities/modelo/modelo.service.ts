@@ -24,6 +24,9 @@ export class ModeloService {
     }
 
     update(modelo: Modelo): Observable<Modelo> {
+        console.log("modelo editado: " + modelo);
+        console.log(modelo);
+
         const copy = this.convert(modelo);
         return this.http.put(this.resourceUrl, copy).map((res: Response) => {
             return res.json();

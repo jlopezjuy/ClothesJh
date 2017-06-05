@@ -136,4 +136,8 @@ currentAccount: any;
     private onError(error) {
         this.alertService.error(error.message, null, null);
     }
+
+    previousState() {
+        window.history.back();
+    }
 }

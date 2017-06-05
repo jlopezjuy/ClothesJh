@@ -27,12 +27,12 @@
             </thead>
             <tbody>
             <tr *ngFor="let modelo of modelos ;trackBy: trackId">
-                <td><a [routerLink]="['../modelo', modelo.id ]">{{modelo.id}}</a></td>
+                <td><a [routerLink]="['/modelo/', modelo.id ]">{{modelo.id}}</a></td>
                 <td>
                     <a *ngIf="modelo.imagen" (click)="openFile(modelo.imagenContentType, modelo.imagen)">
                         <img [src]="'data:' + modelo.imagenContentType + ';base64,' + modelo.imagen" style="max-height: 30px;" alt="modelo image"/>
                     </a>
-                    <span *ngIf="modelo.imagen">{{modelo.imagenContentType}}, {{byteSize(modelo.imagen)}}</span>
+                    <!--<span *ngIf="modelo.imagen">{{modelo.imagenContentType}}, {{byteSize(modelo.imagen)}}</span>-->
                 </td>
                 <td>{{modelo.nombreModelo}}</td>
                 <td>{{modelo.colorVestido}}</td>
@@ -45,7 +45,7 @@
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"
-                                [routerLink]="['../modelo', modelo.id ]"
+                                [routerLink]="['/modelo/', modelo.id ]"
                                 class="btn btn-info btn-sm">
                             <span class="fa fa-eye"></span>
                             <span class="hidden-md-down" jhiTranslate="entity.action.view">View</span>
@@ -69,6 +69,11 @@
             </tr>
             </tbody>
         </table>
+        <button type="submit"
+                (click)="previousState()"
+                class="btn btn-info">
+            <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+        </button>
     </div>
         <!-- Pager is not implemented yet, so this is normal pagination instead -->
         <div *ngIf="modelos && modelos.length">
