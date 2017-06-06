@@ -9,9 +9,12 @@ import { ClienteDetailComponent } from './cliente-detail.component';
 import { ClientePopupComponent } from './cliente-dialog.component';
 import { ClienteDeletePopupComponent } from './cliente-delete-dialog.component';
 import { ModeloComponent } from "../modelo/modelo.component";
+import { MedidaComponent } from "../medida/medida.component";
 
 import { Principal } from '../../shared';
 import {ModeloResolvePagingParams} from "../modelo/modelo.route";
+import {MedidaResolvePagingParams} from "../medida/medida.route";
+
 
 
 @Injectable()
@@ -59,6 +62,17 @@ export const clienteRoute: Routes = [
         data: {
             authorities: ['ROLE_USER'],
             pageTitle: 'clothesApp.modelo.home.title'
+        },
+        canActivate: [UserRouteAccessService]
+    }, {
+        path: 'clienteMedida/:id',
+        component: MedidaComponent,
+        resolve:{
+            'pagingParams': MedidaResolvePagingParams
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'clothesApp.medida.home.title'
         },
         canActivate: [UserRouteAccessService]
     }

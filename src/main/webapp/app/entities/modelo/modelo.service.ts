@@ -41,6 +41,7 @@ export class ModeloService {
 
     query(req?: any, idCliente?:number): Observable<ResponseWrapper> {
         this.clienteId = idCliente;
+        console.log("guardado: "+ this.clienteId);
         const options = createRequestOption(req);
         return this.http.get(`${this.resourceUrlCliente}/${idCliente}`, options)
             .map((res: Response) => this.convertResponse(res));

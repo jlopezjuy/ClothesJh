@@ -19,7 +19,7 @@ public interface MedidaService {
 
     /**
      *  Get all the medidas.
-     *  
+     *
      *  @param pageable the pagination information
      *  @return the list of entities
      */
@@ -39,4 +39,12 @@ public interface MedidaService {
      *  @param id the id of the entity
      */
     void delete(Long id);
+
+    /**
+     * Get all medidas from selected Client
+     * @param pageable
+     * @param clienteId
+     * @return
+     */
+    Page<MedidaDTO> findAllByCliente(Pageable pageable, Long clienteId);
 }

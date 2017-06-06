@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
@@ -28,6 +28,7 @@ export class MedidaDialogComponent implements OnInit {
     constructor(
         public activeModal: NgbActiveModal,
         private alertService: AlertService,
+        private activatedRoute: ActivatedRoute,
         private medidaService: MedidaService,
         private clienteService: ClienteService,
         private eventManager: EventManager
@@ -50,6 +51,11 @@ export class MedidaDialogComponent implements OnInit {
             this.subscribeToSaveResponse(
                 this.medidaService.update(this.medida));
         } else {
+            this.activatedRoute.params.forEach((params:Params) => {
+                let idCliente = params['clienteId'];
+                console.log("Cliente id: " + idCliente);
+                this.medida.clienteId = idCliente;
+            });
             this.subscribeToSaveResponse(
                 this.medidaService.create(this.medida));
         }

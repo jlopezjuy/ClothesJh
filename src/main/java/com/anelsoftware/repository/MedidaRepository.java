@@ -1,6 +1,9 @@
 package com.anelsoftware.repository;
 
+import com.anelsoftware.domain.Cliente;
 import com.anelsoftware.domain.Medida;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import org.springframework.data.jpa.repository.*;
@@ -13,4 +16,7 @@ import org.springframework.data.jpa.repository.*;
 @Repository
 public interface MedidaRepository extends JpaRepository<Medida,Long> {
 
+    Page<Medida> findAllByClienteId(Pageable pageable, Long clienteId);
+
+    Page<Medida> findAllByCliente(Pageable pageable, Cliente cliente);
 }

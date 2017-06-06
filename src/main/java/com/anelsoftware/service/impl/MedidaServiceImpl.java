@@ -1,5 +1,7 @@
 package com.anelsoftware.service.impl;
 
+import com.anelsoftware.domain.Cliente;
+import com.anelsoftware.repository.ClienteRepository;
 import com.anelsoftware.service.MedidaService;
 import com.anelsoftware.domain.Medida;
 import com.anelsoftware.repository.MedidaRepository;
@@ -22,14 +24,17 @@ import java.util.List;
 public class MedidaServiceImpl implements MedidaService{
 
     private final Logger log = LoggerFactory.getLogger(MedidaServiceImpl.class);
-    
+
     private final MedidaRepository medidaRepository;
+
+    private final ClienteRepository clienteRepository;
 
     private final MedidaMapper medidaMapper;
 
-    public MedidaServiceImpl(MedidaRepository medidaRepository, MedidaMapper medidaMapper) {
+    public MedidaServiceImpl(MedidaRepository medidaRepository, MedidaMapper medidaMapper, ClienteRepository clienteRepository) {
         this.medidaRepository = medidaRepository;
         this.medidaMapper = medidaMapper;
+        this.clienteRepository = clienteRepository;
     }
 
     /**
@@ -49,7 +54,7 @@ public class MedidaServiceImpl implements MedidaService{
 
     /**
      *  Get all the medidas.
-     *  
+     *
      *  @param pageable the pagination information
      *  @return the list of entities
      */
@@ -85,5 +90,20 @@ public class MedidaServiceImpl implements MedidaService{
     public void delete(Long id) {
         log.debug("Request to delete Medida : {}", id);
         medidaRepository.delete(id);
+    }
+
+    /**
+     * Get all medidas from selected Client
+     *
+     * @param pageable
+     * @param clienteId
+     * @return
+     */
+    @Override
+    public Page<MedidaDTO> findAllByCliente(Pageable pageable, Long clienteId) {
+        log.debug("Request to get all Medidas");
+        Cliente cliente = clienteRepository.findOne(clienteId);
+        Page<Medida> result = medidaRepository.findAllByCliente(pageable, cliente);
+        return result.map(medida -> medidaMapper.toDto(medida));
     }
 }

@@ -18,25 +18,6 @@
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="contornoBusto"><span jhiTranslate="clothesApp.medida.contornoBusto">Contorno Busto</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="anchoPecho"><span jhiTranslate="clothesApp.medida.anchoPecho">Ancho Pecho</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="altoBusto"><span jhiTranslate="clothesApp.medida.altoBusto">Alto Busto</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="bajoBusto"><span jhiTranslate="clothesApp.medida.bajoBusto">Bajo Busto</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="alturaPinza"><span jhiTranslate="clothesApp.medida.alturaPinza">Altura Pinza</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="separacionBusto"><span jhiTranslate="clothesApp.medida.separacionBusto">Separacion Busto</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="talleDeltantero"><span jhiTranslate="clothesApp.medida.talleDeltantero">Talle Deltantero</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="talleEspalda"><span jhiTranslate="clothesApp.medida.talleEspalda">Talle Espalda</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="largoCorset"><span jhiTranslate="clothesApp.medida.largoCorset">Largo Corset</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="costado"><span jhiTranslate="clothesApp.medida.costado">Costado</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="hombro"><span jhiTranslate="clothesApp.medida.hombro">Hombro</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="anchoHombro"><span jhiTranslate="clothesApp.medida.anchoHombro">Ancho Hombro</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="largoManga"><span jhiTranslate="clothesApp.medida.largoManga">Largo Manga</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="sisaDelantero"><span jhiTranslate="clothesApp.medida.sisaDelantero">Sisa Delantero</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="sisaEspalda"><span jhiTranslate="clothesApp.medida.sisaEspalda">Sisa Espalda</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="contornoCintura"><span jhiTranslate="clothesApp.medida.contornoCintura">Contorno Cintura</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="anteCadera"><span jhiTranslate="clothesApp.medida.anteCadera">Ante Cadera</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="contornoCadera"><span jhiTranslate="clothesApp.medida.contornoCadera">Contorno Cadera</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="posicionCadera"><span jhiTranslate="clothesApp.medida.posicionCadera">Posicion Cadera</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="largoFalda"><span jhiTranslate="clothesApp.medida.largoFalda">Largo Falda</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="tipoFalda"><span jhiTranslate="clothesApp.medida.tipoFalda">Tipo Falda</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="fechaMedida"><span jhiTranslate="clothesApp.medida.fechaMedida">Fecha Medida</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="anchoEspalda"><span jhiTranslate="clothesApp.medida.anchoEspalda">Ancho Espalda</span> <span class="fa fa-sort"></span></th>
@@ -52,29 +33,10 @@
             </thead>
             <tbody>
             <tr *ngFor="let medida of medidas ;trackBy: trackId">
-                <td><a [routerLink]="['../medida', medida.id ]">{{medida.id}}</a></td>
+                <td><a [routerLink]="['/medida/', medida.id ]">{{medida.id}}</a></td>
                 <td>{{medida.contornoBusto}}</td>
-                <td>{{medida.anchoPecho}}</td>
-                <td>{{medida.altoBusto}}</td>
-                <td>{{medida.bajoBusto}}</td>
-                <td>{{medida.alturaPinza}}</td>
-                <td>{{medida.separacionBusto}}</td>
-                <td>{{medida.talleDeltantero}}</td>
-                <td>{{medida.talleEspalda}}</td>
-                <td>{{medida.largoCorset}}</td>
-                <td>{{medida.costado}}</td>
-                <td>{{medida.hombro}}</td>
-                <td>{{medida.anchoHombro}}</td>
-                <td>{{medida.largoManga}}</td>
-                <td>{{medida.sisaDelantero}}</td>
-                <td>{{medida.sisaEspalda}}</td>
-                <td>{{medida.contornoCintura}}</td>
-                <td>{{medida.anteCadera}}</td>
-                <td>{{medida.contornoCadera}}</td>
-                <td>{{medida.posicionCadera}}</td>
-                <td>{{medida.largoFalda}}</td>
                 <td jhiTranslate="{{'clothesApp.TipoFalda.' + medida.tipoFalda}}">{{medida.tipoFalda}}</td>
-                <td>{{medida.fechaMedida | date:'mediumDate'}}</td>
+                <td>{{medida.fechaMedida | date:'dd/MM/yyyy'}}</td>
                 <td>{{medida.anchoEspalda}}</td>
                 <td>{{medida.anchoManga}}</td>
                 <td>{{medida.tiroPantalon}}</td>
@@ -90,7 +52,7 @@
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"
-                                [routerLink]="['../medida', medida.id ]"
+                                [routerLink]="['/medida/', medida.id ]"
                                 class="btn btn-info btn-sm">
                             <span class="fa fa-eye"></span>
                             <span class="hidden-md-down" jhiTranslate="entity.action.view">View</span>
@@ -115,6 +77,11 @@
             </tbody>
         </table>
     </div>
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
         <!-- Pager is not implemented yet, so this is normal pagination instead -->
         <div *ngIf="medidas && medidas.length">
             <div class="row justify-content-center">

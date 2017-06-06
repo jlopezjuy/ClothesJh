@@ -69,12 +69,12 @@
             </tr>
             </tbody>
         </table>
-        <button type="submit"
-                (click)="previousState()"
-                class="btn btn-info">
-            <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
-        </button>
     </div>
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
         <!-- Pager is not implemented yet, so this is normal pagination instead -->
         <div *ngIf="modelos && modelos.length">
             <div class="row justify-content-center">

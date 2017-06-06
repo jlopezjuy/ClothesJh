@@ -102,7 +102,8 @@
             "open": "Open",
             "save": "Guardar",
             "view": "Vista",
-            "model": "Modelos"
+            "model": "Modelos",
+            "medida": "Medidas"
         },
         "detail": {
             "field": "Campo",

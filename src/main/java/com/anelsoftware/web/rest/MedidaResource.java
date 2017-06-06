@@ -33,7 +33,7 @@ public class MedidaResource {
     private final Logger log = LoggerFactory.getLogger(MedidaResource.class);
 
     private static final String ENTITY_NAME = "medida";
-        
+
     private final MedidaService medidaService;
 
     public MedidaResource(MedidaService medidaService) {
@@ -93,6 +93,22 @@ public class MedidaResource {
     public ResponseEntity<List<MedidaDTO>> getAllMedidas(@ApiParam Pageable pageable) {
         log.debug("REST request to get a page of Medidas");
         Page<MedidaDTO> page = medidaService.findAll(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/medidas");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
+    /**
+     * GET  /medidas : get all the medidas.
+     *
+     * @param pageable the pagination information
+     * @param clienteId id of Client to filter
+     * @return the ResponseEntity with status 200 (OK) and the list of medidas in body
+     */
+    @GetMapping("/medidasCliente/{clienteId}")
+    @Timed
+    public ResponseEntity<List<MedidaDTO>> getAllMedidasByCliente(@ApiParam Pageable pageable, @PathVariable Long clienteId) {
+        log.debug("REST request to get a page of Medidas");
+        Page<MedidaDTO> page = medidaService.findAllByCliente(pageable, clienteId);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/medidas");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
