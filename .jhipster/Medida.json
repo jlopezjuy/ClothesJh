@@ -129,12 +129,20 @@
         {
             "fieldName": "largoPantalon",
             "fieldType": "Double"
+        },
+        {
+            "fieldName": "observacion",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "detalleMedida",
+            "fieldType": "String"
         }
     ],
     "changelogDate": "20170604152016",
-    "javadoc": "Class Medida.\n@author anelsoftware",
-    "entityTableName": "medida",
     "dto": "mapstruct",
+    "service": "serviceImpl",
+    "entityTableName": "medida",
     "pagination": "pager",
-    "service": "serviceImpl"
+    "javadoc": "Class Medida.\n@author anelsoftware"
 }

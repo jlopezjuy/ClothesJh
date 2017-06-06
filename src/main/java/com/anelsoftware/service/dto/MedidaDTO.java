@@ -75,6 +75,10 @@ public class MedidaDTO implements Serializable {
 
     private Double largoPantalon;
 
+    private String observacion;
+
+    private String detalleMedida;
+
     private Long clienteId;
 
     private String clienteNombre;
@@ -319,6 +323,22 @@ public class MedidaDTO implements Serializable {
         this.largoPantalon = largoPantalon;
     }
 
+    public String getObservacion() {
+        return observacion;
+    }
+
+    public void setObservacion(String observacion) {
+        this.observacion = observacion;
+    }
+
+    public String getDetalleMedida() {
+        return detalleMedida;
+    }
+
+    public void setDetalleMedida(String detalleMedida) {
+        this.detalleMedida = detalleMedida;
+    }
+
     public Long getClienteId() {
         return clienteId;
     }
@@ -389,6 +409,8 @@ public class MedidaDTO implements Serializable {
             ", anchoRodillaPantalon='" + getAnchoRodillaPantalon() + "'" +
             ", botaPantalon='" + getBotaPantalon() + "'" +
             ", largoPantalon='" + getLargoPantalon() + "'" +
+            ", observacion='" + getObservacion() + "'" +
+            ", detalleMedida='" + getDetalleMedida() + "'" +
             "}";
     }
 }

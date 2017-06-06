@@ -68,7 +68,7 @@ class MedidaGatlingTest extends Simulation {
             .exec(http("Create new medida")
             .post("/api/medidas")
             .headers(headers_http_authenticated)
-            .body(StringBody("""{"id":null, "contornoBusto":null, "anchoPecho":null, "altoBusto":null, "bajoBusto":null, "alturaPinza":null, "separacionBusto":null, "talleDeltantero":null, "talleEspalda":null, "largoCorset":null, "costado":null, "hombro":null, "anchoHombro":null, "largoManga":null, "sisaDelantero":null, "sisaEspalda":null, "contornoCintura":null, "anteCadera":null, "contornoCadera":null, "posicionCadera":null, "largoFalda":null, "tipoFalda":null, "fechaMedida":"2020-01-01T00:00:00.000Z", "anchoEspalda":null, "anchoManga":null, "tiroPantalon":null, "anchoPinzaPantalon":null, "anchoRodillaPantalon":null, "botaPantalon":null, "largoPantalon":null}""")).asJSON
+            .body(StringBody("""{"id":null, "contornoBusto":null, "anchoPecho":null, "altoBusto":null, "bajoBusto":null, "alturaPinza":null, "separacionBusto":null, "talleDeltantero":null, "talleEspalda":null, "largoCorset":null, "costado":null, "hombro":null, "anchoHombro":null, "largoManga":null, "sisaDelantero":null, "sisaEspalda":null, "contornoCintura":null, "anteCadera":null, "contornoCadera":null, "posicionCadera":null, "largoFalda":null, "tipoFalda":null, "fechaMedida":"2020-01-01T00:00:00.000Z", "anchoEspalda":null, "anchoManga":null, "tiroPantalon":null, "anchoPinzaPantalon":null, "anchoRodillaPantalon":null, "botaPantalon":null, "largoPantalon":null, "observacion":"SAMPLE_TEXT", "detalleMedida":"SAMPLE_TEXT"}""")).asJSON
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_medida_url"))).exitHereIfFailed
             .pause(10)

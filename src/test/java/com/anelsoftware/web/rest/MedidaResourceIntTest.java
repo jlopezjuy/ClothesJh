@@ -131,6 +131,12 @@ public class MedidaResourceIntTest {
     private static final Double DEFAULT_LARGO_PANTALON = 1D;
     private static final Double UPDATED_LARGO_PANTALON = 2D;
 
+    private static final String DEFAULT_OBSERVACION = "AAAAAAAAAA";
+    private static final String UPDATED_OBSERVACION = "BBBBBBBBBB";
+
+    private static final String DEFAULT_DETALLE_MEDIDA = "AAAAAAAAAA";
+    private static final String UPDATED_DETALLE_MEDIDA = "BBBBBBBBBB";
+
     @Autowired
     private MedidaRepository medidaRepository;
 
@@ -202,7 +208,9 @@ public class MedidaResourceIntTest {
             .anchoPinzaPantalon(DEFAULT_ANCHO_PINZA_PANTALON)
             .anchoRodillaPantalon(DEFAULT_ANCHO_RODILLA_PANTALON)
             .botaPantalon(DEFAULT_BOTA_PANTALON)
-            .largoPantalon(DEFAULT_LARGO_PANTALON);
+            .largoPantalon(DEFAULT_LARGO_PANTALON)
+            .observacion(DEFAULT_OBSERVACION)
+            .detalleMedida(DEFAULT_DETALLE_MEDIDA);
         // Add required entity
         Cliente cliente = ClienteResourceIntTest.createEntity(em);
         em.persist(cliente);
@@ -261,6 +269,8 @@ public class MedidaResourceIntTest {
         assertThat(testMedida.getAnchoRodillaPantalon()).isEqualTo(DEFAULT_ANCHO_RODILLA_PANTALON);
         assertThat(testMedida.getBotaPantalon()).isEqualTo(DEFAULT_BOTA_PANTALON);
         assertThat(testMedida.getLargoPantalon()).isEqualTo(DEFAULT_LARGO_PANTALON);
+        assertThat(testMedida.getObservacion()).isEqualTo(DEFAULT_OBSERVACION);
+        assertThat(testMedida.getDetalleMedida()).isEqualTo(DEFAULT_DETALLE_MEDIDA);
     }
 
     @Test
@@ -341,7 +351,9 @@ public class MedidaResourceIntTest {
             .andExpect(jsonPath("$.[*].anchoPinzaPantalon").value(hasItem(DEFAULT_ANCHO_PINZA_PANTALON.doubleValue())))
             .andExpect(jsonPath("$.[*].anchoRodillaPantalon").value(hasItem(DEFAULT_ANCHO_RODILLA_PANTALON.doubleValue())))
             .andExpect(jsonPath("$.[*].botaPantalon").value(hasItem(DEFAULT_BOTA_PANTALON.doubleValue())))
-            .andExpect(jsonPath("$.[*].largoPantalon").value(hasItem(DEFAULT_LARGO_PANTALON.doubleValue())));
+            .andExpect(jsonPath("$.[*].largoPantalon").value(hasItem(DEFAULT_LARGO_PANTALON.doubleValue())))
+            .andExpect(jsonPath("$.[*].observacion").value(hasItem(DEFAULT_OBSERVACION.toString())))
+            .andExpect(jsonPath("$.[*].detalleMedida").value(hasItem(DEFAULT_DETALLE_MEDIDA.toString())));
     }
 
     @Test
@@ -383,7 +395,9 @@ public class MedidaResourceIntTest {
             .andExpect(jsonPath("$.anchoPinzaPantalon").value(DEFAULT_ANCHO_PINZA_PANTALON.doubleValue()))
             .andExpect(jsonPath("$.anchoRodillaPantalon").value(DEFAULT_ANCHO_RODILLA_PANTALON.doubleValue()))
             .andExpect(jsonPath("$.botaPantalon").value(DEFAULT_BOTA_PANTALON.doubleValue()))
-            .andExpect(jsonPath("$.largoPantalon").value(DEFAULT_LARGO_PANTALON.doubleValue()));
+            .andExpect(jsonPath("$.largoPantalon").value(DEFAULT_LARGO_PANTALON.doubleValue()))
+            .andExpect(jsonPath("$.observacion").value(DEFAULT_OBSERVACION.toString()))
+            .andExpect(jsonPath("$.detalleMedida").value(DEFAULT_DETALLE_MEDIDA.toString()));
     }
 
     @Test
@@ -432,7 +446,9 @@ public class MedidaResourceIntTest {
             .anchoPinzaPantalon(UPDATED_ANCHO_PINZA_PANTALON)
             .anchoRodillaPantalon(UPDATED_ANCHO_RODILLA_PANTALON)
             .botaPantalon(UPDATED_BOTA_PANTALON)
-            .largoPantalon(UPDATED_LARGO_PANTALON);
+            .largoPantalon(UPDATED_LARGO_PANTALON)
+            .observacion(UPDATED_OBSERVACION)
+            .detalleMedida(UPDATED_DETALLE_MEDIDA);
         MedidaDTO medidaDTO = medidaMapper.toDto(updatedMedida);
 
         restMedidaMockMvc.perform(put("/api/medidas")
@@ -473,6 +489,8 @@ public class MedidaResourceIntTest {
         assertThat(testMedida.getAnchoRodillaPantalon()).isEqualTo(UPDATED_ANCHO_RODILLA_PANTALON);
         assertThat(testMedida.getBotaPantalon()).isEqualTo(UPDATED_BOTA_PANTALON);
         assertThat(testMedida.getLargoPantalon()).isEqualTo(UPDATED_LARGO_PANTALON);
+        assertThat(testMedida.getObservacion()).isEqualTo(UPDATED_OBSERVACION);
+        assertThat(testMedida.getDetalleMedida()).isEqualTo(UPDATED_DETALLE_MEDIDA);
     }
 
     @Test

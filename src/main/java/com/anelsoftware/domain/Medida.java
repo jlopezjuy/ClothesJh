@@ -117,6 +117,12 @@ public class Medida implements Serializable {
     @Column(name = "largo_pantalon")
     private Double largoPantalon;
 
+    @Column(name = "observacion")
+    private String observacion;
+
+    @Column(name = "detalle_medida")
+    private String detalleMedida;
+
     @ManyToOne(optional = false)
     @NotNull
     private Cliente cliente;
@@ -506,6 +512,32 @@ public class Medida implements Serializable {
         this.largoPantalon = largoPantalon;
     }
 
+    public String getObservacion() {
+        return observacion;
+    }
+
+    public Medida observacion(String observacion) {
+        this.observacion = observacion;
+        return this;
+    }
+
+    public void setObservacion(String observacion) {
+        this.observacion = observacion;
+    }
+
+    public String getDetalleMedida() {
+        return detalleMedida;
+    }
+
+    public Medida detalleMedida(String detalleMedida) {
+        this.detalleMedida = detalleMedida;
+        return this;
+    }
+
+    public void setDetalleMedida(String detalleMedida) {
+        this.detalleMedida = detalleMedida;
+    }
+
     public Cliente getCliente() {
         return cliente;
     }
@@ -572,6 +604,8 @@ public class Medida implements Serializable {
             ", anchoRodillaPantalon='" + getAnchoRodillaPantalon() + "'" +
             ", botaPantalon='" + getBotaPantalon() + "'" +
             ", largoPantalon='" + getLargoPantalon() + "'" +
+            ", observacion='" + getObservacion() + "'" +
+            ", detalleMedida='" + getDetalleMedida() + "'" +
             "}";
     }
 }

@@ -138,6 +138,14 @@
                 <constraints nullable="true" />
             </column>
 
+            <column name="observacion" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="detalle_medida" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
             <column name="cliente_id" type="bigint">
                 <constraints nullable="false" />
             </column>

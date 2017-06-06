@@ -42,6 +42,8 @@ export class Medida {
         public anchoRodillaPantalon?: number,
         public botaPantalon?: number,
         public largoPantalon?: number,
+        public observacion?: string,
+        public detalleMedida?: string,
         public clienteId?: number,
     ) {
     }
