@@ -40,6 +40,7 @@ export class EncargoDialogComponent implements OnInit {
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
         this.clienteService.query()
             .subscribe((res: ResponseWrapper) => { this.clientes = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+        this.encargo.fechaEncargo = new Date();
     }
     clear() {
         this.activeModal.dismiss('cancel');
@@ -110,6 +111,7 @@ export class EncargoPopupComponent implements OnInit, OnDestroy {
                     .open(EncargoDialogComponent);
             }
         });
+
     }
 
     ngOnDestroy() {

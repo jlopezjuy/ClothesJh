@@ -1,104 +1,140 @@
 <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
 
     <div class="modal-header">
-        <h4 class="modal-title" id="myEncargoLabel" jhiTranslate="clothesApp.encargo.home.createOrEditLabel">Create or edit a Encargo</h4>
+        <h4 class="modal-title" id="myEncargoLabel" jhiTranslate="clothesApp.encargo.home.createOrEditLabel">Create or
+            edit a Encargo</h4>
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
-                (click)="clear()">&times;</button>
+                (click)="clear()">&times;
+        </button>
     </div>
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
-        <div class="form-group" [hidden]="!encargo.id">
-            <label for="id" jhiTranslate="global.field.id">ID</label>
-            <input type="text" class="form-control" id="id" name="id"
-                   [(ngModel)]="encargo.id" readonly />
-        </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="clothesApp.encargo.importeTotal" for="field_importeTotal">Importe Total</label>
-            <input type="number" class="form-control" name="importeTotal" id="field_importeTotal"
-                [(ngModel)]="encargo.importeTotal"
-            required />
-            <div [hidden]="!(editForm.controls.importeTotal?.dirty && editForm.controls.importeTotal?.invalid)">
+
+        <div class="row">
+            <div class="form-group col col-xs-6">
+                <label jhiTranslate="clothesApp.encargo.cliente" for="field_cliente">Cliente</label>
+                <select class="form-control" id="field_cliente" name="cliente" [(ngModel)]="encargo.clienteId" required>
+                    <option [ngValue]="clienteOption.id"
+                            *ngFor="let clienteOption of clientes; trackBy: trackClienteById">{{clienteOption.nombre}} - {{clienteOption.apellido}}
+                    </option>
+                </select>
+            </div>
+            <div [hidden]="!(editForm.controls.cliente?.dirty && editForm.controls.cliente?.invalid)">
                 <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.importeTotal?.errors?.required" jhiTranslate="entity.validation.required">
-                   This field is required.
-                </small>
-                <small class="form-text text-danger"
-                    [hidden]="!editForm.controls.importeTotal?.errors?.number" jhiTranslate="entity.validation.number">
-                    This field should be a number.
+                       [hidden]="!editForm.controls.cliente?.errors?.required"
+                       jhiTranslate="entity.validation.required">
+                    This field is required.
                 </small>
             </div>
+            <div class="form-group col col-xs-6" [hidden]="!encargo.id">
+                <label for="id" jhiTranslate="global.field.id">ID</label>
+                <input type="text" class="form-control" id="id" name="id"
+                       [(ngModel)]="encargo.id" readonly/>
+            </div>
         </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="clothesApp.encargo.fechaEncargo" for="field_fechaEncargo">Fecha Encargo</label>
-            <div class="input-group">
-                <input id="field_fechaEncargo" type="text" class="form-control" name="fechaEncargo" ngbDatepicker  #fechaEncargoDp="ngbDatepicker" [(ngModel)]="encargo.fechaEncargo"
-                required/>
-                <span class="input-group-btn">
-                    <button type="button" class="btn btn-default" (click)="fechaEncargoDp.toggle()"><i class="fa fa-calendar"></i></button>
+        <div class="row">
+            <div class="form-group col col-xs-6">
+                <label class="form-control-label" jhiTranslate="clothesApp.encargo.fechaEncargo"
+                       for="field_fechaEncargo">Fecha Encargo</label>
+                <div class="input-group">
+                    <input id="field_fechaEncargo" type="text" class="form-control" name="fechaEncargo" ngbDatepicker
+                           #fechaEncargoDp="ngbDatepicker" [(ngModel)]="encargo.fechaEncargo"
+                           required/>
+                    <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" (click)="fechaEncargoDp.toggle()"><i
+                        class="fa fa-calendar"></i></button>
                 </span>
+                </div>
+                <div [hidden]="!(editForm.controls.fechaEncargo?.dirty && editForm.controls.fechaEncargo?.invalid)">
+                    <small class="form-text text-danger"
+                           [hidden]="!editForm.controls.fechaEncargo?.errors?.required"
+                           jhiTranslate="entity.validation.required">
+                        This field is required.
+                    </small>
+                </div>
             </div>
-            <div [hidden]="!(editForm.controls.fechaEncargo?.dirty && editForm.controls.fechaEncargo?.invalid)">
-                <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.fechaEncargo?.errors?.required" jhiTranslate="entity.validation.required">
-                   This field is required.
-                </small>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="clothesApp.encargo.fechaEntrega" for="field_fechaEntrega">Fecha Entrega</label>
-            <div class="input-group">
-                <input id="field_fechaEntrega" type="text" class="form-control" name="fechaEntrega" ngbDatepicker  #fechaEntregaDp="ngbDatepicker" [(ngModel)]="encargo.fechaEntrega"
-                />
-                <span class="input-group-btn">
-                    <button type="button" class="btn btn-default" (click)="fechaEntregaDp.toggle()"><i class="fa fa-calendar"></i></button>
+            <div class="form-group col col-xs-6">
+                <label class="form-control-label" jhiTranslate="clothesApp.encargo.fechaEntrega"
+                       for="field_fechaEntrega">Fecha Entrega</label>
+                <div class="input-group">
+                    <input id="field_fechaEntrega" type="text" class="form-control" name="fechaEntrega" ngbDatepicker
+                           #fechaEntregaDp="ngbDatepicker" [(ngModel)]="encargo.fechaEntrega"
+                    />
+                    <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" (click)="fechaEntregaDp.toggle()"><i
+                        class="fa fa-calendar"></i></button>
                 </span>
+                </div>
             </div>
         </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="clothesApp.encargo.detalleVestido" for="field_detalleVestido">Detalle Vestido</label>
-            <input type="text" class="form-control" name="detalleVestido" id="field_detalleVestido"
-                [(ngModel)]="encargo.detalleVestido"
-            required />
-            <div [hidden]="!(editForm.controls.detalleVestido?.dirty && editForm.controls.detalleVestido?.invalid)">
-                <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.detalleVestido?.errors?.required" jhiTranslate="entity.validation.required">
-                   This field is required.
-                </small>
+        <div class="row">
+            <div class="form-group col col-xs-12">
+                <label class="form-control-label" jhiTranslate="clothesApp.encargo.detalleVestido"
+                       for="field_detalleVestido">Detalle Vestido</label>
+                <textarea rows="4" cols="50" class="form-control" name="detalleVestido" id="field_detalleVestido"
+                       [(ngModel)]="encargo.detalleVestido"
+                       required>
+                </textarea>
+                <div [hidden]="!(editForm.controls.detalleVestido?.dirty && editForm.controls.detalleVestido?.invalid)">
+                    <small class="form-text text-danger"
+                           [hidden]="!editForm.controls.detalleVestido?.errors?.required"
+                           jhiTranslate="entity.validation.required">
+                        This field is required.
+                    </small>
+                </div>
             </div>
         </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="clothesApp.encargo.estado" for="field_estado">Estado</label>
-            <select class="form-control" name="estado" [(ngModel)]="encargo.estado" id="field_estado" >
-                <option value="ENCARGADO" jhiTranslate="clothesApp.Estado.ENCARGADO">ENCARGADO</option>
-                <option value="CORTADO" jhiTranslate="clothesApp.Estado.CORTADO">CORTADO</option>
-                <option value="PROBADO" jhiTranslate="clothesApp.Estado.PROBADO">PROBADO</option>
-                <option value="ENTREGADO" jhiTranslate="clothesApp.Estado.ENTREGADO">ENTREGADO</option>
-                <option value="CANCELADO" jhiTranslate="clothesApp.Estado.CANCELADO">CANCELADO</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="clothesApp.encargo.tipoEncargo" for="field_tipoEncargo">Tipo Encargo</label>
-            <select class="form-control" name="tipoEncargo" [(ngModel)]="encargo.tipoEncargo" id="field_tipoEncargo" >
-                <option value="QUINCE" jhiTranslate="clothesApp.TipoEncargo.QUINCE">QUINCE</option>
-                <option value="NOVIA" jhiTranslate="clothesApp.TipoEncargo.NOVIA">NOVIA</option>
-                <option value="MADRINA" jhiTranslate="clothesApp.TipoEncargo.MADRINA">MADRINA</option>
-                <option value="FIESTA" jhiTranslate="clothesApp.TipoEncargo.FIESTA">FIESTA</option>
-                <option value="POLICIA" jhiTranslate="clothesApp.TipoEncargo.POLICIA">POLICIA</option>
-            </select>
+        <div class="row">
+            <div class="form-group col col-xs-6">
+                <label class="form-control-label" jhiTranslate="clothesApp.encargo.estado"
+                       for="field_estado">Estado</label>
+                <select class="form-control" name="estado" [(ngModel)]="encargo.estado" id="field_estado">
+                    <option value="ENCARGADO" jhiTranslate="clothesApp.Estado.ENCARGADO">ENCARGADO</option>
+                    <option value="CORTADO" jhiTranslate="clothesApp.Estado.CORTADO">CORTADO</option>
+                    <option value="PROBADO" jhiTranslate="clothesApp.Estado.PROBADO">PROBADO</option>
+                    <option value="ENTREGADO" jhiTranslate="clothesApp.Estado.ENTREGADO">ENTREGADO</option>
+                    <option value="CANCELADO" jhiTranslate="clothesApp.Estado.CANCELADO">CANCELADO</option>
+                </select>
+            </div>
+
+            <div class="form-group col col-xs-6">
+                <label class="form-control-label" jhiTranslate="clothesApp.encargo.tipoEncargo" for="field_tipoEncargo">Tipo
+                    Encargo</label>
+                <select class="form-control" name="tipoEncargo" [(ngModel)]="encargo.tipoEncargo"
+                        id="field_tipoEncargo">
+                    <option value="QUINCE" jhiTranslate="clothesApp.TipoEncargo.QUINCE">QUINCE</option>
+                    <option value="NOVIA" jhiTranslate="clothesApp.TipoEncargo.NOVIA">NOVIA</option>
+                    <option value="MADRINA" jhiTranslate="clothesApp.TipoEncargo.MADRINA">MADRINA</option>
+                    <option value="FIESTA" jhiTranslate="clothesApp.TipoEncargo.FIESTA">FIESTA</option>
+                    <option value="POLICIA" jhiTranslate="clothesApp.TipoEncargo.POLICIA">POLICIA</option>
+                </select>
+            </div>
+
         </div>
 
-        <div class="form-group">
-            <label jhiTranslate="clothesApp.encargo.cliente" for="field_cliente">Cliente</label>
-            <select class="form-control" id="field_cliente" name="cliente" [(ngModel)]="encargo.clienteId"  required>
-                <option [ngValue]="clienteOption.id" *ngFor="let clienteOption of clientes; trackBy: trackClienteById">{{clienteOption.nombre}}</option>
-            </select>
+        <div class="row">
+            <div class="form-group col col-xs-6">
+                <label class="form-control-label" jhiTranslate="clothesApp.encargo.importeTotal"
+                       for="field_importeTotal">Importe Total</label>
+                <input type="number" class="form-control" name="importeTotal" id="field_importeTotal"
+                       [(ngModel)]="encargo.importeTotal"
+                       required/>
+                <div [hidden]="!(editForm.controls.importeTotal?.dirty && editForm.controls.importeTotal?.invalid)">
+                    <small class="form-text text-danger"
+                           [hidden]="!editForm.controls.importeTotal?.errors?.required"
+                           jhiTranslate="entity.validation.required">
+                        This field is required.
+                    </small>
+                    <small class="form-text text-danger"
+                           [hidden]="!editForm.controls.importeTotal?.errors?.number"
+                           jhiTranslate="entity.validation.number">
+                        This field should be a number.
+                    </small>
+                </div>
+            </div>
         </div>
-        <div [hidden]="!(editForm.controls.cliente?.dirty && editForm.controls.cliente?.invalid)">
-            <small class="form-text text-danger"
-                [hidden]="!editForm.controls.cliente?.errors?.required" jhiTranslate="entity.validation.required">
-                This field is required.
-            </small>
-        </div>
+
+
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">

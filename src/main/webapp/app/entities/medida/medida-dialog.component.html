@@ -283,21 +283,22 @@
                        [(ngModel)]="medida.largoPantalon"
                 />
             </div>
-        </div>
-
-        <div class="row">
-            <div class="form-group">
-                <label class="form-control-label" jhiTranslate="clothesApp.medida.observacion" for="field_observacion">Observacion</label>
-                <input type="text" class="form-control" name="observacion" id="field_observacion"
-                       [(ngModel)]="medida.observacion"
-                />
-            </div>
-            <div class="form-group">
+            <div class="form-group col col-xs-6">
                 <label class="form-control-label" jhiTranslate="clothesApp.medida.detalleMedida"
                        for="field_detalleMedida">Detalle Medida</label>
                 <input type="text" class="form-control" name="detalleMedida" id="field_detalleMedida"
                        [(ngModel)]="medida.detalleMedida"/>
             </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col col-xs-6">
+                <label class="form-control-label" jhiTranslate="clothesApp.medida.observacion" for="field_observacion">Observacion</label>
+                <input type="text" class="form-control" name="observacion" id="field_observacion"
+                       [(ngModel)]="medida.observacion"
+                />
+            </div>
+
         </div>
     </div>
     <div class="modal-footer">
