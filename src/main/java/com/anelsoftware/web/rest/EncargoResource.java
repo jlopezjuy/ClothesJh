@@ -1,13 +1,10 @@
 package com.anelsoftware.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
-import com.anelsoftware.domain.Encargo;
-
-import com.anelsoftware.repository.EncargoRepository;
+import com.anelsoftware.service.EncargoService;
 import com.anelsoftware.web.rest.util.HeaderUtil;
 import com.anelsoftware.web.rest.util.PaginationUtil;
 import com.anelsoftware.service.dto.EncargoDTO;
-import com.anelsoftware.service.mapper.EncargoMapper;
 import io.swagger.annotations.ApiParam;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -37,13 +34,10 @@ public class EncargoResource {
 
     private static final String ENTITY_NAME = "encargo";
 
-    private final EncargoRepository encargoRepository;
+    private final EncargoService encargoService;
 
-    private final EncargoMapper encargoMapper;
-
-    public EncargoResource(EncargoRepository encargoRepository, EncargoMapper encargoMapper) {
-        this.encargoRepository = encargoRepository;
-        this.encargoMapper = encargoMapper;
+    public EncargoResource(EncargoService encargoService) {
+        this.encargoService = encargoService;
     }
 
     /**
@@ -60,9 +54,7 @@ public class EncargoResource {
         if (encargoDTO.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new encargo cannot already have an ID")).body(null);
         }
-        Encargo encargo = encargoMapper.toEntity(encargoDTO);
-        encargo = encargoRepository.save(encargo);
-        EncargoDTO result = encargoMapper.toDto(encargo);
+        EncargoDTO result = encargoService.save(encargoDTO);
         return ResponseEntity.created(new URI("/api/encargos/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -84,9 +76,7 @@ public class EncargoResource {
         if (encargoDTO.getId() == null) {
             return createEncargo(encargoDTO);
         }
-        Encargo encargo = encargoMapper.toEntity(encargoDTO);
-        encargo = encargoRepository.save(encargo);
-        EncargoDTO result = encargoMapper.toDto(encargo);
+        EncargoDTO result = encargoService.save(encargoDTO);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, encargoDTO.getId().toString()))
             .body(result);
@@ -102,9 +92,9 @@ public class EncargoResource {
     @Timed
     public ResponseEntity<List<EncargoDTO>> getAllEncargos(@ApiParam Pageable pageable) {
         log.debug("REST request to get a page of Encargos");
-        Page<Encargo> page = encargoRepository.findAll(pageable);
+        Page<EncargoDTO> page = encargoService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/encargos");
-        return new ResponseEntity<>(encargoMapper.toDto(page.getContent()), headers, HttpStatus.OK);
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
     /**
@@ -117,8 +107,7 @@ public class EncargoResource {
     @Timed
     public ResponseEntity<EncargoDTO> getEncargo(@PathVariable Long id) {
         log.debug("REST request to get Encargo : {}", id);
-        Encargo encargo = encargoRepository.findOne(id);
-        EncargoDTO encargoDTO = encargoMapper.toDto(encargo);
+        EncargoDTO encargoDTO = encargoService.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(encargoDTO));
     }
 
@@ -132,7 +121,7 @@ public class EncargoResource {
     @Timed
     public ResponseEntity<Void> deleteEncargo(@PathVariable Long id) {
         log.debug("REST request to delete Encargo : {}", id);
-        encargoRepository.delete(id);
+        encargoService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 }

@@ -61,5 +61,5 @@
     "entityTableName": "cliente",
     "dto": "mapstruct",
     "pagination": "pager",
-    "service": "no"
+    "service": "serviceImpl"
 }

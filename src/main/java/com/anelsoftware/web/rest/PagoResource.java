@@ -1,13 +1,10 @@
 package com.anelsoftware.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
-import com.anelsoftware.domain.Pago;
-
-import com.anelsoftware.repository.PagoRepository;
+import com.anelsoftware.service.PagoService;
 import com.anelsoftware.web.rest.util.HeaderUtil;
 import com.anelsoftware.web.rest.util.PaginationUtil;
 import com.anelsoftware.service.dto.PagoDTO;
-import com.anelsoftware.service.mapper.PagoMapper;
 import io.swagger.annotations.ApiParam;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -37,13 +34,10 @@ public class PagoResource {
 
     private static final String ENTITY_NAME = "pago";
 
-    private final PagoRepository pagoRepository;
+    private final PagoService pagoService;
 
-    private final PagoMapper pagoMapper;
-
-    public PagoResource(PagoRepository pagoRepository, PagoMapper pagoMapper) {
-        this.pagoRepository = pagoRepository;
-        this.pagoMapper = pagoMapper;
+    public PagoResource(PagoService pagoService) {
+        this.pagoService = pagoService;
     }
 
     /**
@@ -60,9 +54,7 @@ public class PagoResource {
         if (pagoDTO.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new pago cannot already have an ID")).body(null);
         }
-        Pago pago = pagoMapper.toEntity(pagoDTO);
-        pago = pagoRepository.save(pago);
-        PagoDTO result = pagoMapper.toDto(pago);
+        PagoDTO result = pagoService.save(pagoDTO);
         return ResponseEntity.created(new URI("/api/pagos/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -84,9 +76,7 @@ public class PagoResource {
         if (pagoDTO.getId() == null) {
             return createPago(pagoDTO);
         }
-        Pago pago = pagoMapper.toEntity(pagoDTO);
-        pago = pagoRepository.save(pago);
-        PagoDTO result = pagoMapper.toDto(pago);
+        PagoDTO result = pagoService.save(pagoDTO);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, pagoDTO.getId().toString()))
             .body(result);
@@ -102,9 +92,9 @@ public class PagoResource {
     @Timed
     public ResponseEntity<List<PagoDTO>> getAllPagos(@ApiParam Pageable pageable) {
         log.debug("REST request to get a page of Pagos");
-        Page<Pago> page = pagoRepository.findAll(pageable);
+        Page<PagoDTO> page = pagoService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/pagos");
-        return new ResponseEntity<>(pagoMapper.toDto(page.getContent()), headers, HttpStatus.OK);
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
     /**
@@ -117,8 +107,7 @@ public class PagoResource {
     @Timed
     public ResponseEntity<PagoDTO> getPago(@PathVariable Long id) {
         log.debug("REST request to get Pago : {}", id);
-        Pago pago = pagoRepository.findOne(id);
-        PagoDTO pagoDTO = pagoMapper.toDto(pago);
+        PagoDTO pagoDTO = pagoService.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(pagoDTO));
     }
 
@@ -132,7 +121,7 @@ public class PagoResource {
     @Timed
     public ResponseEntity<Void> deletePago(@PathVariable Long id) {
         log.debug("REST request to delete Pago : {}", id);
-        pagoRepository.delete(id);
+        pagoService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 }

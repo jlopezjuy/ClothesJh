@@ -1,13 +1,10 @@
 package com.anelsoftware.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
-import com.anelsoftware.domain.ModeloEncargo;
-
-import com.anelsoftware.repository.ModeloEncargoRepository;
+import com.anelsoftware.service.ModeloEncargoService;
 import com.anelsoftware.web.rest.util.HeaderUtil;
 import com.anelsoftware.web.rest.util.PaginationUtil;
 import com.anelsoftware.service.dto.ModeloEncargoDTO;
-import com.anelsoftware.service.mapper.ModeloEncargoMapper;
 import io.swagger.annotations.ApiParam;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -37,13 +34,10 @@ public class ModeloEncargoResource {
 
     private static final String ENTITY_NAME = "modeloEncargo";
 
-    private final ModeloEncargoRepository modeloEncargoRepository;
+    private final ModeloEncargoService modeloEncargoService;
 
-    private final ModeloEncargoMapper modeloEncargoMapper;
-
-    public ModeloEncargoResource(ModeloEncargoRepository modeloEncargoRepository, ModeloEncargoMapper modeloEncargoMapper) {
-        this.modeloEncargoRepository = modeloEncargoRepository;
-        this.modeloEncargoMapper = modeloEncargoMapper;
+    public ModeloEncargoResource(ModeloEncargoService modeloEncargoService) {
+        this.modeloEncargoService = modeloEncargoService;
     }
 
     /**
@@ -60,9 +54,7 @@ public class ModeloEncargoResource {
         if (modeloEncargoDTO.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new modeloEncargo cannot already have an ID")).body(null);
         }
-        ModeloEncargo modeloEncargo = modeloEncargoMapper.toEntity(modeloEncargoDTO);
-        modeloEncargo = modeloEncargoRepository.save(modeloEncargo);
-        ModeloEncargoDTO result = modeloEncargoMapper.toDto(modeloEncargo);
+        ModeloEncargoDTO result = modeloEncargoService.save(modeloEncargoDTO);
         return ResponseEntity.created(new URI("/api/modelo-encargos/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -84,9 +76,7 @@ public class ModeloEncargoResource {
         if (modeloEncargoDTO.getId() == null) {
             return createModeloEncargo(modeloEncargoDTO);
         }
-        ModeloEncargo modeloEncargo = modeloEncargoMapper.toEntity(modeloEncargoDTO);
-        modeloEncargo = modeloEncargoRepository.save(modeloEncargo);
-        ModeloEncargoDTO result = modeloEncargoMapper.toDto(modeloEncargo);
+        ModeloEncargoDTO result = modeloEncargoService.save(modeloEncargoDTO);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, modeloEncargoDTO.getId().toString()))
             .body(result);
@@ -102,9 +92,24 @@ public class ModeloEncargoResource {
     @Timed
     public ResponseEntity<List<ModeloEncargoDTO>> getAllModeloEncargos(@ApiParam Pageable pageable) {
         log.debug("REST request to get a page of ModeloEncargos");
-        Page<ModeloEncargo> page = modeloEncargoRepository.findAll(pageable);
+        Page<ModeloEncargoDTO> page = modeloEncargoService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/modelo-encargos");
-        return new ResponseEntity<>(modeloEncargoMapper.toDto(page.getContent()), headers, HttpStatus.OK);
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
+    /**
+        * GET  /modelo-encargos : get all the modeloEncargos.
+        *
+        * @param pageable the pagination information
+     * @return the ResponseEntity with status 200 (OK) and the list of modeloEncargos in body
+     */
+    @GetMapping("/modelo-encargos/encargo/{encargoId}")
+    @Timed
+    public ResponseEntity<List<ModeloEncargoDTO>> getAllModeloByEncargos(@ApiParam Pageable pageable, @PathVariable Long encargoId) {
+        log.debug("REST request to get a page of ModeloEncargos");
+        Page<ModeloEncargoDTO> page = modeloEncargoService.findAllByEncargoId(pageable, encargoId);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/modelo-encargos");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
     /**
@@ -117,8 +122,7 @@ public class ModeloEncargoResource {
     @Timed
     public ResponseEntity<ModeloEncargoDTO> getModeloEncargo(@PathVariable Long id) {
         log.debug("REST request to get ModeloEncargo : {}", id);
-        ModeloEncargo modeloEncargo = modeloEncargoRepository.findOne(id);
-        ModeloEncargoDTO modeloEncargoDTO = modeloEncargoMapper.toDto(modeloEncargo);
+        ModeloEncargoDTO modeloEncargoDTO = modeloEncargoService.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(modeloEncargoDTO));
     }
 
@@ -132,7 +136,7 @@ public class ModeloEncargoResource {
     @Timed
     public ResponseEntity<Void> deleteModeloEncargo(@PathVariable Long id) {
         log.debug("REST request to delete ModeloEncargo : {}", id);
-        modeloEncargoRepository.delete(id);
+        modeloEncargoService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 }

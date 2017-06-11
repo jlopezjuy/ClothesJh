@@ -74,5 +74,5 @@
     "entityTableName": "encargo",
     "dto": "mapstruct",
     "pagination": "pager",
-    "service": "no"
+    "service": "serviceImpl"
 }

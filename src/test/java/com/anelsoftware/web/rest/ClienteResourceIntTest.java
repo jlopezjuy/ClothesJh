@@ -4,6 +4,7 @@ import com.anelsoftware.ClothesApp;
 
 import com.anelsoftware.domain.Cliente;
 import com.anelsoftware.repository.ClienteRepository;
+import com.anelsoftware.service.ClienteService;
 import com.anelsoftware.service.dto.ClienteDTO;
 import com.anelsoftware.service.mapper.ClienteMapper;
 import com.anelsoftware.web.rest.errors.ExceptionTranslator;
@@ -67,6 +68,9 @@ public class ClienteResourceIntTest {
     private ClienteMapper clienteMapper;
 
     @Autowired
+    private ClienteService clienteService;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -85,7 +89,7 @@ public class ClienteResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        ClienteResource clienteResource = new ClienteResource(clienteRepository, clienteMapper);
+        ClienteResource clienteResource = new ClienteResource(clienteService);
         this.restClienteMockMvc = MockMvcBuilders.standaloneSetup(clienteResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

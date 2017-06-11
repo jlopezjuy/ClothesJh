@@ -1,13 +1,10 @@
 package com.anelsoftware.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
-import com.anelsoftware.domain.Medida;
-
-import com.anelsoftware.repository.MedidaRepository;
+import com.anelsoftware.service.MedidaService;
 import com.anelsoftware.web.rest.util.HeaderUtil;
 import com.anelsoftware.web.rest.util.PaginationUtil;
 import com.anelsoftware.service.dto.MedidaDTO;
-import com.anelsoftware.service.mapper.MedidaMapper;
 import io.swagger.annotations.ApiParam;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -37,13 +34,10 @@ public class MedidaResource {
 
     private static final String ENTITY_NAME = "medida";
 
-    private final MedidaRepository medidaRepository;
+    private final MedidaService medidaService;
 
-    private final MedidaMapper medidaMapper;
-
-    public MedidaResource(MedidaRepository medidaRepository, MedidaMapper medidaMapper) {
-        this.medidaRepository = medidaRepository;
-        this.medidaMapper = medidaMapper;
+    public MedidaResource(MedidaService medidaService) {
+        this.medidaService = medidaService;
     }
 
     /**
@@ -60,9 +54,7 @@ public class MedidaResource {
         if (medidaDTO.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new medida cannot already have an ID")).body(null);
         }
-        Medida medida = medidaMapper.toEntity(medidaDTO);
-        medida = medidaRepository.save(medida);
-        MedidaDTO result = medidaMapper.toDto(medida);
+        MedidaDTO result = medidaService.save(medidaDTO);
         return ResponseEntity.created(new URI("/api/medidas/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -84,9 +76,7 @@ public class MedidaResource {
         if (medidaDTO.getId() == null) {
             return createMedida(medidaDTO);
         }
-        Medida medida = medidaMapper.toEntity(medidaDTO);
-        medida = medidaRepository.save(medida);
-        MedidaDTO result = medidaMapper.toDto(medida);
+        MedidaDTO result = medidaService.save(medidaDTO);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, medidaDTO.getId().toString()))
             .body(result);
@@ -102,9 +92,24 @@ public class MedidaResource {
     @Timed
     public ResponseEntity<List<MedidaDTO>> getAllMedidas(@ApiParam Pageable pageable) {
         log.debug("REST request to get a page of Medidas");
-        Page<Medida> page = medidaRepository.findAll(pageable);
+        Page<MedidaDTO> page = medidaService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/medidas");
-        return new ResponseEntity<>(medidaMapper.toDto(page.getContent()), headers, HttpStatus.OK);
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
+    /**
+     * GET  /medidas : get all the medidas by Encargo.
+     *
+     * @param pageable the pagination information
+     * @return the ResponseEntity with status 200 (OK) and the list of medidas in body
+     */
+    @GetMapping("/medidas/encargo/{encargoId}")
+    @Timed
+    public ResponseEntity<List<MedidaDTO>> getAllMedidasEncargo(@ApiParam Pageable pageable, @PathVariable Long encargoId) {
+        log.debug("REST request to get a page of Medidas");
+        Page<MedidaDTO> page = medidaService.findAllByEncargoId(pageable, encargoId);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/medidas");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
     /**
@@ -117,8 +122,7 @@ public class MedidaResource {
     @Timed
     public ResponseEntity<MedidaDTO> getMedida(@PathVariable Long id) {
         log.debug("REST request to get Medida : {}", id);
-        Medida medida = medidaRepository.findOne(id);
-        MedidaDTO medidaDTO = medidaMapper.toDto(medida);
+        MedidaDTO medidaDTO = medidaService.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(medidaDTO));
     }
 
@@ -132,7 +136,7 @@ public class MedidaResource {
     @Timed
     public ResponseEntity<Void> deleteMedida(@PathVariable Long id) {
         log.debug("REST request to delete Medida : {}", id);
-        medidaRepository.delete(id);
+        medidaService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 }

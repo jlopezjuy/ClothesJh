@@ -41,5 +41,5 @@
     "entityTableName": "pago",
     "dto": "mapstruct",
     "pagination": "pager",
-    "service": "no"
+    "service": "serviceImpl"
 }

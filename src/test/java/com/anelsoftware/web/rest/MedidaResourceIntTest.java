@@ -5,6 +5,7 @@ import com.anelsoftware.ClothesApp;
 import com.anelsoftware.domain.Medida;
 import com.anelsoftware.domain.Encargo;
 import com.anelsoftware.repository.MedidaRepository;
+import com.anelsoftware.service.MedidaService;
 import com.anelsoftware.service.dto.MedidaDTO;
 import com.anelsoftware.service.mapper.MedidaMapper;
 import com.anelsoftware.web.rest.errors.ExceptionTranslator;
@@ -141,6 +142,9 @@ public class MedidaResourceIntTest {
     private MedidaMapper medidaMapper;
 
     @Autowired
+    private MedidaService medidaService;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -159,7 +163,7 @@ public class MedidaResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        MedidaResource medidaResource = new MedidaResource(medidaRepository, medidaMapper);
+        MedidaResource medidaResource = new MedidaResource(medidaService);
         this.restMedidaMockMvc = MockMvcBuilders.standaloneSetup(medidaResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

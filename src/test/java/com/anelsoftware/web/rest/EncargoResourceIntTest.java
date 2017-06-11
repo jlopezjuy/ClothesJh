@@ -5,6 +5,7 @@ import com.anelsoftware.ClothesApp;
 import com.anelsoftware.domain.Encargo;
 import com.anelsoftware.domain.Cliente;
 import com.anelsoftware.repository.EncargoRepository;
+import com.anelsoftware.service.EncargoService;
 import com.anelsoftware.service.dto.EncargoDTO;
 import com.anelsoftware.service.mapper.EncargoMapper;
 import com.anelsoftware.web.rest.errors.ExceptionTranslator;
@@ -73,6 +74,9 @@ public class EncargoResourceIntTest {
     private EncargoMapper encargoMapper;
 
     @Autowired
+    private EncargoService encargoService;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -91,7 +95,7 @@ public class EncargoResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        EncargoResource encargoResource = new EncargoResource(encargoRepository, encargoMapper);
+        EncargoResource encargoResource = new EncargoResource(encargoService);
         this.restEncargoMockMvc = MockMvcBuilders.standaloneSetup(encargoResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

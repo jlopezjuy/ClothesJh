@@ -50,5 +50,5 @@
     "entityTableName": "modelo_encargo",
     "dto": "mapstruct",
     "pagination": "pager",
-    "service": "no"
+    "service": "serviceImpl"
 }
