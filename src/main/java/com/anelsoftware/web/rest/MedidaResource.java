@@ -1,10 +1,13 @@
 package com.anelsoftware.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
-import com.anelsoftware.service.MedidaService;
+import com.anelsoftware.domain.Medida;
+
+import com.anelsoftware.repository.MedidaRepository;
 import com.anelsoftware.web.rest.util.HeaderUtil;
 import com.anelsoftware.web.rest.util.PaginationUtil;
 import com.anelsoftware.service.dto.MedidaDTO;
+import com.anelsoftware.service.mapper.MedidaMapper;
 import io.swagger.annotations.ApiParam;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -34,10 +37,13 @@ public class MedidaResource {
 
     private static final String ENTITY_NAME = "medida";
 
-    private final MedidaService medidaService;
+    private final MedidaRepository medidaRepository;
 
-    public MedidaResource(MedidaService medidaService) {
-        this.medidaService = medidaService;
+    private final MedidaMapper medidaMapper;
+
+    public MedidaResource(MedidaRepository medidaRepository, MedidaMapper medidaMapper) {
+        this.medidaRepository = medidaRepository;
+        this.medidaMapper = medidaMapper;
     }
 
     /**
@@ -54,7 +60,9 @@ public class MedidaResource {
         if (medidaDTO.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new medida cannot already have an ID")).body(null);
         }
-        MedidaDTO result = medidaService.save(medidaDTO);
+        Medida medida = medidaMapper.toEntity(medidaDTO);
+        medida = medidaRepository.save(medida);
+        MedidaDTO result = medidaMapper.toDto(medida);
         return ResponseEntity.created(new URI("/api/medidas/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -66,7 +74,7 @@ public class MedidaResource {
      * @param medidaDTO the medidaDTO to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated medidaDTO,
      * or with status 400 (Bad Request) if the medidaDTO is not valid,
-     * or with status 500 (Internal Server Error) if the medidaDTO couldnt be updated
+     * or with status 500 (Internal Server Error) if the medidaDTO couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/medidas")
@@ -76,7 +84,9 @@ public class MedidaResource {
         if (medidaDTO.getId() == null) {
             return createMedida(medidaDTO);
         }
-        MedidaDTO result = medidaService.save(medidaDTO);
+        Medida medida = medidaMapper.toEntity(medidaDTO);
+        medida = medidaRepository.save(medida);
+        MedidaDTO result = medidaMapper.toDto(medida);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, medidaDTO.getId().toString()))
             .body(result);
@@ -92,25 +102,9 @@ public class MedidaResource {
     @Timed
     public ResponseEntity<List<MedidaDTO>> getAllMedidas(@ApiParam Pageable pageable) {
         log.debug("REST request to get a page of Medidas");
-        Page<MedidaDTO> page = medidaService.findAll(pageable);
+        Page<Medida> page = medidaRepository.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/medidas");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
-    }
-
-    /**
-     * GET  /medidas : get all the medidas.
-     *
-     * @param pageable the pagination information
-     * @param clienteId id of Client to filter
-     * @return the ResponseEntity with status 200 (OK) and the list of medidas in body
-     */
-    @GetMapping("/medidasCliente/{clienteId}")
-    @Timed
-    public ResponseEntity<List<MedidaDTO>> getAllMedidasByCliente(@ApiParam Pageable pageable, @PathVariable Long clienteId) {
-        log.debug("REST request to get a page of Medidas");
-        Page<MedidaDTO> page = medidaService.findAllByCliente(pageable, clienteId);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/medidas");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+        return new ResponseEntity<>(medidaMapper.toDto(page.getContent()), headers, HttpStatus.OK);
     }
 
     /**
@@ -123,7 +117,8 @@ public class MedidaResource {
     @Timed
     public ResponseEntity<MedidaDTO> getMedida(@PathVariable Long id) {
         log.debug("REST request to get Medida : {}", id);
-        MedidaDTO medidaDTO = medidaService.findOne(id);
+        Medida medida = medidaRepository.findOne(id);
+        MedidaDTO medidaDTO = medidaMapper.toDto(medida);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(medidaDTO));
     }
 
@@ -137,8 +132,7 @@ public class MedidaResource {
     @Timed
     public ResponseEntity<Void> deleteMedida(@PathVariable Long id) {
         log.debug("REST request to delete Medida : {}", id);
-        medidaService.delete(id);
+        medidaRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
-
 }

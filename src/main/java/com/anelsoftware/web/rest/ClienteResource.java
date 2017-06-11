@@ -1,10 +1,13 @@
 package com.anelsoftware.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
-import com.anelsoftware.service.ClienteService;
+import com.anelsoftware.domain.Cliente;
+
+import com.anelsoftware.repository.ClienteRepository;
 import com.anelsoftware.web.rest.util.HeaderUtil;
 import com.anelsoftware.web.rest.util.PaginationUtil;
 import com.anelsoftware.service.dto.ClienteDTO;
+import com.anelsoftware.service.mapper.ClienteMapper;
 import io.swagger.annotations.ApiParam;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -34,10 +37,13 @@ public class ClienteResource {
 
     private static final String ENTITY_NAME = "cliente";
 
-    private final ClienteService clienteService;
+    private final ClienteRepository clienteRepository;
 
-    public ClienteResource(ClienteService clienteService) {
-        this.clienteService = clienteService;
+    private final ClienteMapper clienteMapper;
+
+    public ClienteResource(ClienteRepository clienteRepository, ClienteMapper clienteMapper) {
+        this.clienteRepository = clienteRepository;
+        this.clienteMapper = clienteMapper;
     }
 
     /**
@@ -54,7 +60,9 @@ public class ClienteResource {
         if (clienteDTO.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new cliente cannot already have an ID")).body(null);
         }
-        ClienteDTO result = clienteService.save(clienteDTO);
+        Cliente cliente = clienteMapper.toEntity(clienteDTO);
+        cliente = clienteRepository.save(cliente);
+        ClienteDTO result = clienteMapper.toDto(cliente);
         return ResponseEntity.created(new URI("/api/clientes/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -66,7 +74,7 @@ public class ClienteResource {
      * @param clienteDTO the clienteDTO to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated clienteDTO,
      * or with status 400 (Bad Request) if the clienteDTO is not valid,
-     * or with status 500 (Internal Server Error) if the clienteDTO couldnt be updated
+     * or with status 500 (Internal Server Error) if the clienteDTO couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/clientes")
@@ -76,7 +84,9 @@ public class ClienteResource {
         if (clienteDTO.getId() == null) {
             return createCliente(clienteDTO);
         }
-        ClienteDTO result = clienteService.save(clienteDTO);
+        Cliente cliente = clienteMapper.toEntity(clienteDTO);
+        cliente = clienteRepository.save(cliente);
+        ClienteDTO result = clienteMapper.toDto(cliente);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, clienteDTO.getId().toString()))
             .body(result);
@@ -92,9 +102,9 @@ public class ClienteResource {
     @Timed
     public ResponseEntity<List<ClienteDTO>> getAllClientes(@ApiParam Pageable pageable) {
         log.debug("REST request to get a page of Clientes");
-        Page<ClienteDTO> page = clienteService.findAll(pageable);
+        Page<Cliente> page = clienteRepository.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/clientes");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+        return new ResponseEntity<>(clienteMapper.toDto(page.getContent()), headers, HttpStatus.OK);
     }
 
     /**
@@ -107,7 +117,8 @@ public class ClienteResource {
     @Timed
     public ResponseEntity<ClienteDTO> getCliente(@PathVariable Long id) {
         log.debug("REST request to get Cliente : {}", id);
-        ClienteDTO clienteDTO = clienteService.findOne(id);
+        Cliente cliente = clienteRepository.findOne(id);
+        ClienteDTO clienteDTO = clienteMapper.toDto(cliente);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(clienteDTO));
     }
 
@@ -121,8 +132,7 @@ public class ClienteResource {
     @Timed
     public ResponseEntity<Void> deleteCliente(@PathVariable Long id) {
         log.debug("REST request to delete Cliente : {}", id);
-        clienteService.delete(id);
+        clienteRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
-
 }

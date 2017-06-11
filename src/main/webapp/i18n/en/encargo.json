@@ -21,7 +21,10 @@
             "detalleVestido": "Detalle Vestido",
             "estado": "Estado",
             "tipoEncargo": "Tipo Encargo",
+            "tipoVestido": "Tipo Vestido",
+            "medida": "Medida",
             "pago": "Pago",
+            "modeloEncargo": "Modelo Encargo",
             "cliente": "Cliente"
         }
     }

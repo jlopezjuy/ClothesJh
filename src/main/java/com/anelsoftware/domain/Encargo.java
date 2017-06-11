@@ -17,6 +17,8 @@ import com.anelsoftware.domain.enumeration.Estado;
 
 import com.anelsoftware.domain.enumeration.TipoEncargo;
 
+import com.anelsoftware.domain.enumeration.TipoVestido;
+
 /**
  * Class Encargo.
  * @author anelsoftware
@@ -56,10 +58,24 @@ public class Encargo implements Serializable {
     @Column(name = "tipo_encargo")
     private TipoEncargo tipoEncargo;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "tipo_vestido")
+    private TipoVestido tipoVestido;
+
+    @OneToMany(mappedBy = "encargo")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Medida> medidas = new HashSet<>();
+
     @OneToMany(mappedBy = "encargo")
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Pago> pagos = new HashSet<>();
+
+    @OneToMany(mappedBy = "encargo")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<ModeloEncargo> modeloEncargos = new HashSet<>();
 
     @ManyToOne(optional = false)
     @NotNull
@@ -151,6 +167,44 @@ public class Encargo implements Serializable {
         this.tipoEncargo = tipoEncargo;
     }
 
+    public TipoVestido getTipoVestido() {
+        return tipoVestido;
+    }
+
+    public Encargo tipoVestido(TipoVestido tipoVestido) {
+        this.tipoVestido = tipoVestido;
+        return this;
+    }
+
+    public void setTipoVestido(TipoVestido tipoVestido) {
+        this.tipoVestido = tipoVestido;
+    }
+
+    public Set<Medida> getMedidas() {
+        return medidas;
+    }
+
+    public Encargo medidas(Set<Medida> medidas) {
+        this.medidas = medidas;
+        return this;
+    }
+
+    public Encargo addMedida(Medida medida) {
+        this.medidas.add(medida);
+        medida.setEncargo(this);
+        return this;
+    }
+
+    public Encargo removeMedida(Medida medida) {
+        this.medidas.remove(medida);
+        medida.setEncargo(null);
+        return this;
+    }
+
+    public void setMedidas(Set<Medida> medidas) {
+        this.medidas = medidas;
+    }
+
     public Set<Pago> getPagos() {
         return pagos;
     }
@@ -174,6 +228,31 @@ public class Encargo implements Serializable {
 
     public void setPagos(Set<Pago> pagos) {
         this.pagos = pagos;
+    }
+
+    public Set<ModeloEncargo> getModeloEncargos() {
+        return modeloEncargos;
+    }
+
+    public Encargo modeloEncargos(Set<ModeloEncargo> modeloEncargos) {
+        this.modeloEncargos = modeloEncargos;
+        return this;
+    }
+
+    public Encargo addModeloEncargo(ModeloEncargo modeloEncargo) {
+        this.modeloEncargos.add(modeloEncargo);
+        modeloEncargo.setEncargo(this);
+        return this;
+    }
+
+    public Encargo removeModeloEncargo(ModeloEncargo modeloEncargo) {
+        this.modeloEncargos.remove(modeloEncargo);
+        modeloEncargo.setEncargo(null);
+        return this;
+    }
+
+    public void setModeloEncargos(Set<ModeloEncargo> modeloEncargos) {
+        this.modeloEncargos = modeloEncargos;
     }
 
     public Cliente getCliente() {
@@ -219,6 +298,7 @@ public class Encargo implements Serializable {
             ", detalleVestido='" + getDetalleVestido() + "'" +
             ", estado='" + getEstado() + "'" +
             ", tipoEncargo='" + getTipoEncargo() + "'" +
+            ", tipoVestido='" + getTipoVestido() + "'" +
             "}";
     }
 }

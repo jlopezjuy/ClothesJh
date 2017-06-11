@@ -1,0 +1,27 @@
+{
+    "clothesApp": {
+        "modeloEncargo" : {
+            "home": {
+                "title": "Modelo Encargos",
+                "createLabel": "Crear nuevo Modelo Encargo",
+                "createOrEditLabel": "Crear o editar Modelo Encargo"
+            },
+            "created": "Un nuevo Modelo Encargo ha sido creado con el identificador {{ param }}",
+            "updated": "Un Modelo Encargo ha sido actualizado con el identificador {{ param }}",
+            "deleted": "Un Modelo Encargo ha sido eliminado con el identificador {{ param }}",
+            "delete": {
+                "question": "¿Seguro que quiere eliminar Modelo Encargo {{ id }}?"
+            },
+            "detail": {
+                "title": "Modelo Encargo"
+            },
+            "imagen": "Imagen",
+            "nombreModelo": "Nombre Modelo",
+            "colorVestido": "Color Vestido",
+            "bordado": "Bordado",
+            "descripcion": "Descripcion",
+            "observacion": "Observacion",
+            "encargo": "Encargo"
+        }
+    }
+}

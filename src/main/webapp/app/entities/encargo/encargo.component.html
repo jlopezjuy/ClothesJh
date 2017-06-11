@@ -23,6 +23,7 @@
             <th jhiSortBy="detalleVestido"><span jhiTranslate="clothesApp.encargo.detalleVestido">Detalle Vestido</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="estado"><span jhiTranslate="clothesApp.encargo.estado">Estado</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="tipoEncargo"><span jhiTranslate="clothesApp.encargo.tipoEncargo">Tipo Encargo</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="tipoVestido"><span jhiTranslate="clothesApp.encargo.tipoVestido">Tipo Vestido</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="clienteNombre"><span jhiTranslate="clothesApp.encargo.cliente">Cliente</span> <span class="fa fa-sort"></span></th>
             <th></th>
             </tr>
@@ -36,6 +37,7 @@
                 <td>{{encargo.detalleVestido}}</td>
                 <td jhiTranslate="{{'clothesApp.Estado.' + encargo.estado}}">{{encargo.estado}}</td>
                 <td jhiTranslate="{{'clothesApp.TipoEncargo.' + encargo.tipoEncargo}}">{{encargo.tipoEncargo}}</td>
+                <td jhiTranslate="{{'clothesApp.TipoVestido.' + encargo.tipoVestido}}">{{encargo.tipoVestido}}</td>
                 <td>
                     <div *ngIf="encargo.clienteId">
                         <a [routerLink]="['../cliente', encargo.clienteId  ]" >{{encargo.clienteNombre}}</a>

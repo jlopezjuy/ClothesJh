@@ -32,11 +32,8 @@ describe('Component Tests', () => {
                     PagoService,
                     EventManager
                 ]
-            }).overrideComponent(PagoDetailComponent, {
-                set: {
-                    template: ''
-                }
-            }).compileComponents();
+            }).overrideTemplate(PagoDetailComponent, '')
+            .compileComponents();
         }));
 
         beforeEach(() => {

@@ -3,9 +3,8 @@ package com.anelsoftware.web.rest;
 import com.anelsoftware.ClothesApp;
 
 import com.anelsoftware.domain.Medida;
-import com.anelsoftware.domain.Cliente;
+import com.anelsoftware.domain.Encargo;
 import com.anelsoftware.repository.MedidaRepository;
-import com.anelsoftware.service.MedidaService;
 import com.anelsoftware.service.dto.MedidaDTO;
 import com.anelsoftware.service.mapper.MedidaMapper;
 import com.anelsoftware.web.rest.errors.ExceptionTranslator;
@@ -35,6 +34,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.anelsoftware.domain.enumeration.TipoFalda;
+import com.anelsoftware.domain.enumeration.TipoMedida;
 /**
  * Test class for the MedidaResource REST controller.
  *
@@ -107,6 +107,9 @@ public class MedidaResourceIntTest {
     private static final TipoFalda DEFAULT_TIPO_FALDA = TipoFalda.TUBO;
     private static final TipoFalda UPDATED_TIPO_FALDA = TipoFalda.RECTA;
 
+    private static final TipoMedida DEFAULT_TIPO_MEDIDA = TipoMedida.AMBO_HOMBRE;
+    private static final TipoMedida UPDATED_TIPO_MEDIDA = TipoMedida.AMBO_MUJER;
+
     private static final LocalDate DEFAULT_FECHA_MEDIDA = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_FECHA_MEDIDA = LocalDate.now(ZoneId.systemDefault());
 
@@ -131,20 +134,11 @@ public class MedidaResourceIntTest {
     private static final Double DEFAULT_LARGO_PANTALON = 1D;
     private static final Double UPDATED_LARGO_PANTALON = 2D;
 
-    private static final String DEFAULT_OBSERVACION = "AAAAAAAAAA";
-    private static final String UPDATED_OBSERVACION = "BBBBBBBBBB";
-
-    private static final String DEFAULT_DETALLE_MEDIDA = "AAAAAAAAAA";
-    private static final String UPDATED_DETALLE_MEDIDA = "BBBBBBBBBB";
-
     @Autowired
     private MedidaRepository medidaRepository;
 
     @Autowired
     private MedidaMapper medidaMapper;
-
-    @Autowired
-    private MedidaService medidaService;
 
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
@@ -165,7 +159,7 @@ public class MedidaResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        MedidaResource medidaResource = new MedidaResource(medidaService);
+        MedidaResource medidaResource = new MedidaResource(medidaRepository, medidaMapper);
         this.restMedidaMockMvc = MockMvcBuilders.standaloneSetup(medidaResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -201,6 +195,7 @@ public class MedidaResourceIntTest {
             .posicionCadera(DEFAULT_POSICION_CADERA)
             .largoFalda(DEFAULT_LARGO_FALDA)
             .tipoFalda(DEFAULT_TIPO_FALDA)
+            .tipoMedida(DEFAULT_TIPO_MEDIDA)
             .fechaMedida(DEFAULT_FECHA_MEDIDA)
             .anchoEspalda(DEFAULT_ANCHO_ESPALDA)
             .anchoManga(DEFAULT_ANCHO_MANGA)
@@ -208,14 +203,12 @@ public class MedidaResourceIntTest {
             .anchoPinzaPantalon(DEFAULT_ANCHO_PINZA_PANTALON)
             .anchoRodillaPantalon(DEFAULT_ANCHO_RODILLA_PANTALON)
             .botaPantalon(DEFAULT_BOTA_PANTALON)
-            .largoPantalon(DEFAULT_LARGO_PANTALON)
-            .observacion(DEFAULT_OBSERVACION)
-            .detalleMedida(DEFAULT_DETALLE_MEDIDA);
+            .largoPantalon(DEFAULT_LARGO_PANTALON);
         // Add required entity
-        Cliente cliente = ClienteResourceIntTest.createEntity(em);
-        em.persist(cliente);
+        Encargo encargo = EncargoResourceIntTest.createEntity(em);
+        em.persist(encargo);
         em.flush();
-        medida.setCliente(cliente);
+        medida.setEncargo(encargo);
         return medida;
     }
 
@@ -261,6 +254,7 @@ public class MedidaResourceIntTest {
         assertThat(testMedida.getPosicionCadera()).isEqualTo(DEFAULT_POSICION_CADERA);
         assertThat(testMedida.getLargoFalda()).isEqualTo(DEFAULT_LARGO_FALDA);
         assertThat(testMedida.getTipoFalda()).isEqualTo(DEFAULT_TIPO_FALDA);
+        assertThat(testMedida.getTipoMedida()).isEqualTo(DEFAULT_TIPO_MEDIDA);
         assertThat(testMedida.getFechaMedida()).isEqualTo(DEFAULT_FECHA_MEDIDA);
         assertThat(testMedida.getAnchoEspalda()).isEqualTo(DEFAULT_ANCHO_ESPALDA);
         assertThat(testMedida.getAnchoManga()).isEqualTo(DEFAULT_ANCHO_MANGA);
@@ -269,8 +263,6 @@ public class MedidaResourceIntTest {
         assertThat(testMedida.getAnchoRodillaPantalon()).isEqualTo(DEFAULT_ANCHO_RODILLA_PANTALON);
         assertThat(testMedida.getBotaPantalon()).isEqualTo(DEFAULT_BOTA_PANTALON);
         assertThat(testMedida.getLargoPantalon()).isEqualTo(DEFAULT_LARGO_PANTALON);
-        assertThat(testMedida.getObservacion()).isEqualTo(DEFAULT_OBSERVACION);
-        assertThat(testMedida.getDetalleMedida()).isEqualTo(DEFAULT_DETALLE_MEDIDA);
     }
 
     @Test
@@ -291,6 +283,25 @@ public class MedidaResourceIntTest {
         // Validate the Alice in the database
         List<Medida> medidaList = medidaRepository.findAll();
         assertThat(medidaList).hasSize(databaseSizeBeforeCreate);
+    }
+
+    @Test
+    @Transactional
+    public void checkTipoMedidaIsRequired() throws Exception {
+        int databaseSizeBeforeTest = medidaRepository.findAll().size();
+        // set the field null
+        medida.setTipoMedida(null);
+
+        // Create the Medida, which fails.
+        MedidaDTO medidaDTO = medidaMapper.toDto(medida);
+
+        restMedidaMockMvc.perform(post("/api/medidas")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(medidaDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Medida> medidaList = medidaRepository.findAll();
+        assertThat(medidaList).hasSize(databaseSizeBeforeTest);
     }
 
     @Test
@@ -344,6 +355,7 @@ public class MedidaResourceIntTest {
             .andExpect(jsonPath("$.[*].posicionCadera").value(hasItem(DEFAULT_POSICION_CADERA.doubleValue())))
             .andExpect(jsonPath("$.[*].largoFalda").value(hasItem(DEFAULT_LARGO_FALDA.doubleValue())))
             .andExpect(jsonPath("$.[*].tipoFalda").value(hasItem(DEFAULT_TIPO_FALDA.toString())))
+            .andExpect(jsonPath("$.[*].tipoMedida").value(hasItem(DEFAULT_TIPO_MEDIDA.toString())))
             .andExpect(jsonPath("$.[*].fechaMedida").value(hasItem(DEFAULT_FECHA_MEDIDA.toString())))
             .andExpect(jsonPath("$.[*].anchoEspalda").value(hasItem(DEFAULT_ANCHO_ESPALDA.doubleValue())))
             .andExpect(jsonPath("$.[*].anchoManga").value(hasItem(DEFAULT_ANCHO_MANGA.doubleValue())))
@@ -351,9 +363,7 @@ public class MedidaResourceIntTest {
             .andExpect(jsonPath("$.[*].anchoPinzaPantalon").value(hasItem(DEFAULT_ANCHO_PINZA_PANTALON.doubleValue())))
             .andExpect(jsonPath("$.[*].anchoRodillaPantalon").value(hasItem(DEFAULT_ANCHO_RODILLA_PANTALON.doubleValue())))
             .andExpect(jsonPath("$.[*].botaPantalon").value(hasItem(DEFAULT_BOTA_PANTALON.doubleValue())))
-            .andExpect(jsonPath("$.[*].largoPantalon").value(hasItem(DEFAULT_LARGO_PANTALON.doubleValue())))
-            .andExpect(jsonPath("$.[*].observacion").value(hasItem(DEFAULT_OBSERVACION.toString())))
-            .andExpect(jsonPath("$.[*].detalleMedida").value(hasItem(DEFAULT_DETALLE_MEDIDA.toString())));
+            .andExpect(jsonPath("$.[*].largoPantalon").value(hasItem(DEFAULT_LARGO_PANTALON.doubleValue())));
     }
 
     @Test
@@ -388,6 +398,7 @@ public class MedidaResourceIntTest {
             .andExpect(jsonPath("$.posicionCadera").value(DEFAULT_POSICION_CADERA.doubleValue()))
             .andExpect(jsonPath("$.largoFalda").value(DEFAULT_LARGO_FALDA.doubleValue()))
             .andExpect(jsonPath("$.tipoFalda").value(DEFAULT_TIPO_FALDA.toString()))
+            .andExpect(jsonPath("$.tipoMedida").value(DEFAULT_TIPO_MEDIDA.toString()))
             .andExpect(jsonPath("$.fechaMedida").value(DEFAULT_FECHA_MEDIDA.toString()))
             .andExpect(jsonPath("$.anchoEspalda").value(DEFAULT_ANCHO_ESPALDA.doubleValue()))
             .andExpect(jsonPath("$.anchoManga").value(DEFAULT_ANCHO_MANGA.doubleValue()))
@@ -395,9 +406,7 @@ public class MedidaResourceIntTest {
             .andExpect(jsonPath("$.anchoPinzaPantalon").value(DEFAULT_ANCHO_PINZA_PANTALON.doubleValue()))
             .andExpect(jsonPath("$.anchoRodillaPantalon").value(DEFAULT_ANCHO_RODILLA_PANTALON.doubleValue()))
             .andExpect(jsonPath("$.botaPantalon").value(DEFAULT_BOTA_PANTALON.doubleValue()))
-            .andExpect(jsonPath("$.largoPantalon").value(DEFAULT_LARGO_PANTALON.doubleValue()))
-            .andExpect(jsonPath("$.observacion").value(DEFAULT_OBSERVACION.toString()))
-            .andExpect(jsonPath("$.detalleMedida").value(DEFAULT_DETALLE_MEDIDA.toString()));
+            .andExpect(jsonPath("$.largoPantalon").value(DEFAULT_LARGO_PANTALON.doubleValue()));
     }
 
     @Test
@@ -439,6 +448,7 @@ public class MedidaResourceIntTest {
             .posicionCadera(UPDATED_POSICION_CADERA)
             .largoFalda(UPDATED_LARGO_FALDA)
             .tipoFalda(UPDATED_TIPO_FALDA)
+            .tipoMedida(UPDATED_TIPO_MEDIDA)
             .fechaMedida(UPDATED_FECHA_MEDIDA)
             .anchoEspalda(UPDATED_ANCHO_ESPALDA)
             .anchoManga(UPDATED_ANCHO_MANGA)
@@ -446,9 +456,7 @@ public class MedidaResourceIntTest {
             .anchoPinzaPantalon(UPDATED_ANCHO_PINZA_PANTALON)
             .anchoRodillaPantalon(UPDATED_ANCHO_RODILLA_PANTALON)
             .botaPantalon(UPDATED_BOTA_PANTALON)
-            .largoPantalon(UPDATED_LARGO_PANTALON)
-            .observacion(UPDATED_OBSERVACION)
-            .detalleMedida(UPDATED_DETALLE_MEDIDA);
+            .largoPantalon(UPDATED_LARGO_PANTALON);
         MedidaDTO medidaDTO = medidaMapper.toDto(updatedMedida);
 
         restMedidaMockMvc.perform(put("/api/medidas")
@@ -481,6 +489,7 @@ public class MedidaResourceIntTest {
         assertThat(testMedida.getPosicionCadera()).isEqualTo(UPDATED_POSICION_CADERA);
         assertThat(testMedida.getLargoFalda()).isEqualTo(UPDATED_LARGO_FALDA);
         assertThat(testMedida.getTipoFalda()).isEqualTo(UPDATED_TIPO_FALDA);
+        assertThat(testMedida.getTipoMedida()).isEqualTo(UPDATED_TIPO_MEDIDA);
         assertThat(testMedida.getFechaMedida()).isEqualTo(UPDATED_FECHA_MEDIDA);
         assertThat(testMedida.getAnchoEspalda()).isEqualTo(UPDATED_ANCHO_ESPALDA);
         assertThat(testMedida.getAnchoManga()).isEqualTo(UPDATED_ANCHO_MANGA);
@@ -489,8 +498,6 @@ public class MedidaResourceIntTest {
         assertThat(testMedida.getAnchoRodillaPantalon()).isEqualTo(UPDATED_ANCHO_RODILLA_PANTALON);
         assertThat(testMedida.getBotaPantalon()).isEqualTo(UPDATED_BOTA_PANTALON);
         assertThat(testMedida.getLargoPantalon()).isEqualTo(UPDATED_LARGO_PANTALON);
-        assertThat(testMedida.getObservacion()).isEqualTo(UPDATED_OBSERVACION);
-        assertThat(testMedida.getDetalleMedida()).isEqualTo(UPDATED_DETALLE_MEDIDA);
     }
 
     @Test

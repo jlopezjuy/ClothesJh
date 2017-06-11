@@ -3,9 +3,7 @@ package com.anelsoftware.web.rest;
 import com.anelsoftware.ClothesApp;
 
 import com.anelsoftware.domain.Cliente;
-import com.anelsoftware.domain.Empresa;
 import com.anelsoftware.repository.ClienteRepository;
-import com.anelsoftware.service.ClienteService;
 import com.anelsoftware.service.dto.ClienteDTO;
 import com.anelsoftware.service.mapper.ClienteMapper;
 import com.anelsoftware.web.rest.errors.ExceptionTranslator;
@@ -69,9 +67,6 @@ public class ClienteResourceIntTest {
     private ClienteMapper clienteMapper;
 
     @Autowired
-    private ClienteService clienteService;
-
-    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -90,7 +85,7 @@ public class ClienteResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        ClienteResource clienteResource = new ClienteResource(clienteService);
+        ClienteResource clienteResource = new ClienteResource(clienteRepository, clienteMapper);
         this.restClienteMockMvc = MockMvcBuilders.standaloneSetup(clienteResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -112,11 +107,6 @@ public class ClienteResourceIntTest {
             .email(DEFAULT_EMAIL)
             .domicilio(DEFAULT_DOMICILIO)
             .colegio(DEFAULT_COLEGIO);
-        // Add required entity
-        Empresa empresa = EmpresaResourceIntTest.createEntity(em);
-        em.persist(empresa);
-        em.flush();
-        cliente.setEmpresa(empresa);
         return cliente;
     }
 

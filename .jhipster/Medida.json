@@ -4,9 +4,9 @@
         {
             "relationshipType": "many-to-one",
             "relationshipValidateRules": "required",
-            "relationshipName": "cliente",
-            "otherEntityName": "cliente",
-            "otherEntityField": "nombre"
+            "relationshipName": "encargo",
+            "otherEntityName": "encargo",
+            "otherEntityField": "id"
         }
     ],
     "fields": [
@@ -96,6 +96,14 @@
             "fieldValues": "TUBO,RECTA,TAJO,EVASE,CORTEA,CAMPANA,PLATO,GAJOS"
         },
         {
+            "fieldName": "tipoMedida",
+            "fieldType": "TipoMedida",
+            "fieldValues": "AMBO_HOMBRE,AMBO_MUJER,CHALECO,PANTALON_HOMBRE,PANTALON_MUJER,POLLERA,VESTIDO,CORSET",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
             "fieldName": "fechaMedida",
             "fieldType": "LocalDate",
             "fieldValidateRules": [
@@ -129,20 +137,12 @@
         {
             "fieldName": "largoPantalon",
             "fieldType": "Double"
-        },
-        {
-            "fieldName": "observacion",
-            "fieldType": "String"
-        },
-        {
-            "fieldName": "detalleMedida",
-            "fieldType": "String"
         }
     ],
-    "changelogDate": "20170604152016",
-    "dto": "mapstruct",
-    "service": "serviceImpl",
+    "changelogDate": "20170611191620",
+    "javadoc": "Class Medida.\n@author anelsoftware",
     "entityTableName": "medida",
+    "dto": "mapstruct",
     "pagination": "pager",
-    "javadoc": "Class Medida.\n@author anelsoftware"
+    "service": "no"
 }

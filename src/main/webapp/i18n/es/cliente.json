@@ -22,10 +22,7 @@
             "email": "Email",
             "domicilio": "Domicilio",
             "colegio": "Colegio",
-            "modelo": "Modelo",
-            "medida": "Medida",
-            "encargo": "Encargo",
-            "empresa": "Empresa"
+            "encargo": "Encargo"
         }
     }
 }

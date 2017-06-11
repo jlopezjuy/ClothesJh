@@ -32,11 +32,8 @@ describe('Component Tests', () => {
                     EncargoService,
                     EventManager
                 ]
-            }).overrideComponent(EncargoDetailComponent, {
-                set: {
-                    template: ''
-                }
-            }).compileComponents();
+            }).overrideTemplate(EncargoDetailComponent, '')
+            .compileComponents();
         }));
 
         beforeEach(() => {

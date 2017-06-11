@@ -3,8 +3,20 @@
     "relationships": [
         {
             "relationshipType": "one-to-many",
+            "relationshipName": "medida",
+            "otherEntityName": "medida",
+            "otherEntityRelationshipName": "encargo"
+        },
+        {
+            "relationshipType": "one-to-many",
             "relationshipName": "pago",
             "otherEntityName": "pago",
+            "otherEntityRelationshipName": "encargo"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "modeloEncargo",
+            "otherEntityName": "modeloEncargo",
             "otherEntityRelationshipName": "encargo"
         },
         {
@@ -49,13 +61,18 @@
         {
             "fieldName": "tipoEncargo",
             "fieldType": "TipoEncargo",
-            "fieldValues": "QUINCE,NOVIA,MADRINA,FIESTA,POLICIA"
+            "fieldValues": "QUINCE,NOVIA,MADRINA,FIESTA,POLICIA,COMUNION,CONFIRMACION,PAISANA"
+        },
+        {
+            "fieldName": "tipoVestido",
+            "fieldType": "TipoVestido",
+            "fieldValues": "DOS_PIEZAS,UNA_PIEZA,SIRENA,CORTE_A"
         }
     ],
-    "changelogDate": "20170604152017",
+    "changelogDate": "20170611191621",
     "javadoc": "Class Encargo.\n@author anelsoftware",
     "entityTableName": "encargo",
     "dto": "mapstruct",
     "pagination": "pager",
-    "service": "serviceImpl"
+    "service": "no"
 }

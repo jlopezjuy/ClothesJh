@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { EventManager } from 'ng-jhipster';
+import { AlertService, EventManager } from 'ng-jhipster';
 
 import { Medida } from './medida.model';
 import { MedidaPopupService } from './medida-popup.service';
@@ -19,6 +19,7 @@ export class MedidaDeleteDialogComponent {
     constructor(
         private medidaService: MedidaService,
         public activeModal: NgbActiveModal,
+        private alertService: AlertService,
         private eventManager: EventManager
     ) {
     }
@@ -35,6 +36,7 @@ export class MedidaDeleteDialogComponent {
             });
             this.activeModal.dismiss(true);
         });
+        this.alertService.success('clothesApp.medida.deleted', { param : id }, null);
     }
 }
 

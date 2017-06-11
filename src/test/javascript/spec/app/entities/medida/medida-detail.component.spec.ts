@@ -32,11 +32,8 @@ describe('Component Tests', () => {
                     MedidaService,
                     EventManager
                 ]
-            }).overrideComponent(MedidaDetailComponent, {
-                set: {
-                    template: ''
-                }
-            }).compileComponents();
+            }).overrideTemplate(MedidaDetailComponent, '')
+            .compileComponents();
         }));
 
         beforeEach(() => {

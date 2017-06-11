@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { EventManager } from 'ng-jhipster';
+import { AlertService, EventManager } from 'ng-jhipster';
 
 import { Pago } from './pago.model';
 import { PagoPopupService } from './pago-popup.service';
@@ -19,6 +19,7 @@ export class PagoDeleteDialogComponent {
     constructor(
         private pagoService: PagoService,
         public activeModal: NgbActiveModal,
+        private alertService: AlertService,
         private eventManager: EventManager
     ) {
     }
@@ -35,6 +36,7 @@ export class PagoDeleteDialogComponent {
             });
             this.activeModal.dismiss(true);
         });
+        this.alertService.success('clothesApp.pago.deleted', { param : id }, null);
     }
 }
 

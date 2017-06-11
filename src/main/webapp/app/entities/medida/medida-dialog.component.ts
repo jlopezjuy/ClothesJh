@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
@@ -9,7 +9,7 @@ import { EventManager, AlertService } from 'ng-jhipster';
 import { Medida } from './medida.model';
 import { MedidaPopupService } from './medida-popup.service';
 import { MedidaService } from './medida.service';
-import { Cliente, ClienteService } from '../cliente';
+import { Encargo, EncargoService } from '../encargo';
 import { ResponseWrapper } from '../../shared';
 
 @Component({
@@ -22,15 +22,14 @@ export class MedidaDialogComponent implements OnInit {
     authorities: any[];
     isSaving: boolean;
 
-    clientes: Cliente[];
+    encargos: Encargo[];
     fechaMedidaDp: any;
 
     constructor(
         public activeModal: NgbActiveModal,
         private alertService: AlertService,
-        private activatedRoute: ActivatedRoute,
         private medidaService: MedidaService,
-        private clienteService: ClienteService,
+        private encargoService: EncargoService,
         private eventManager: EventManager
     ) {
     }
@@ -38,9 +37,10 @@ export class MedidaDialogComponent implements OnInit {
     ngOnInit() {
         this.isSaving = false;
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
-        this.clienteService.query()
-            .subscribe((res: ResponseWrapper) => { this.clientes = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+        this.encargoService.query()
+            .subscribe((res: ResponseWrapper) => { this.encargos = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
+
     clear() {
         this.activeModal.dismiss('cancel');
     }
@@ -49,24 +49,24 @@ export class MedidaDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.medida.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.medidaService.update(this.medida));
+                this.medidaService.update(this.medida), false);
         } else {
-            this.activatedRoute.params.forEach((params:Params) => {
-                let idCliente = params['clienteId'];
-                console.log("Cliente id: " + idCliente);
-                this.medida.clienteId = idCliente;
-            });
             this.subscribeToSaveResponse(
-                this.medidaService.create(this.medida));
+                this.medidaService.create(this.medida), true);
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<Medida>) {
+    private subscribeToSaveResponse(result: Observable<Medida>, isCreated: boolean) {
         result.subscribe((res: Medida) =>
-            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: Medida) {
+    private onSaveSuccess(result: Medida, isCreated: boolean) {
+        this.alertService.success(
+            isCreated ? 'clothesApp.medida.created'
+            : 'clothesApp.medida.updated',
+            { param : result.id }, null);
+
         this.eventManager.broadcast({ name: 'medidaListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);
@@ -86,7 +86,7 @@ export class MedidaDialogComponent implements OnInit {
         this.alertService.error(error.message, null, null);
     }
 
-    trackClienteById(index: number, item: Cliente) {
+    trackEncargoById(index: number, item: Encargo) {
         return item.id;
     }
 }

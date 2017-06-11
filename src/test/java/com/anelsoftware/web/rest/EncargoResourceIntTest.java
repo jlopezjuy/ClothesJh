@@ -5,7 +5,6 @@ import com.anelsoftware.ClothesApp;
 import com.anelsoftware.domain.Encargo;
 import com.anelsoftware.domain.Cliente;
 import com.anelsoftware.repository.EncargoRepository;
-import com.anelsoftware.service.EncargoService;
 import com.anelsoftware.service.dto.EncargoDTO;
 import com.anelsoftware.service.mapper.EncargoMapper;
 import com.anelsoftware.web.rest.errors.ExceptionTranslator;
@@ -36,6 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.anelsoftware.domain.enumeration.Estado;
 import com.anelsoftware.domain.enumeration.TipoEncargo;
+import com.anelsoftware.domain.enumeration.TipoVestido;
 /**
  * Test class for the EncargoResource REST controller.
  *
@@ -63,14 +63,14 @@ public class EncargoResourceIntTest {
     private static final TipoEncargo DEFAULT_TIPO_ENCARGO = TipoEncargo.QUINCE;
     private static final TipoEncargo UPDATED_TIPO_ENCARGO = TipoEncargo.NOVIA;
 
+    private static final TipoVestido DEFAULT_TIPO_VESTIDO = TipoVestido.DOS_PIEZAS;
+    private static final TipoVestido UPDATED_TIPO_VESTIDO = TipoVestido.UNA_PIEZA;
+
     @Autowired
     private EncargoRepository encargoRepository;
 
     @Autowired
     private EncargoMapper encargoMapper;
-
-    @Autowired
-    private EncargoService encargoService;
 
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
@@ -91,7 +91,7 @@ public class EncargoResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        EncargoResource encargoResource = new EncargoResource(encargoService);
+        EncargoResource encargoResource = new EncargoResource(encargoRepository, encargoMapper);
         this.restEncargoMockMvc = MockMvcBuilders.standaloneSetup(encargoResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -111,7 +111,8 @@ public class EncargoResourceIntTest {
             .fechaEntrega(DEFAULT_FECHA_ENTREGA)
             .detalleVestido(DEFAULT_DETALLE_VESTIDO)
             .estado(DEFAULT_ESTADO)
-            .tipoEncargo(DEFAULT_TIPO_ENCARGO);
+            .tipoEncargo(DEFAULT_TIPO_ENCARGO)
+            .tipoVestido(DEFAULT_TIPO_VESTIDO);
         // Add required entity
         Cliente cliente = ClienteResourceIntTest.createEntity(em);
         em.persist(cliente);
@@ -147,6 +148,7 @@ public class EncargoResourceIntTest {
         assertThat(testEncargo.getDetalleVestido()).isEqualTo(DEFAULT_DETALLE_VESTIDO);
         assertThat(testEncargo.getEstado()).isEqualTo(DEFAULT_ESTADO);
         assertThat(testEncargo.getTipoEncargo()).isEqualTo(DEFAULT_TIPO_ENCARGO);
+        assertThat(testEncargo.getTipoVestido()).isEqualTo(DEFAULT_TIPO_VESTIDO);
     }
 
     @Test
@@ -242,7 +244,8 @@ public class EncargoResourceIntTest {
             .andExpect(jsonPath("$.[*].fechaEntrega").value(hasItem(DEFAULT_FECHA_ENTREGA.toString())))
             .andExpect(jsonPath("$.[*].detalleVestido").value(hasItem(DEFAULT_DETALLE_VESTIDO.toString())))
             .andExpect(jsonPath("$.[*].estado").value(hasItem(DEFAULT_ESTADO.toString())))
-            .andExpect(jsonPath("$.[*].tipoEncargo").value(hasItem(DEFAULT_TIPO_ENCARGO.toString())));
+            .andExpect(jsonPath("$.[*].tipoEncargo").value(hasItem(DEFAULT_TIPO_ENCARGO.toString())))
+            .andExpect(jsonPath("$.[*].tipoVestido").value(hasItem(DEFAULT_TIPO_VESTIDO.toString())));
     }
 
     @Test
@@ -261,7 +264,8 @@ public class EncargoResourceIntTest {
             .andExpect(jsonPath("$.fechaEntrega").value(DEFAULT_FECHA_ENTREGA.toString()))
             .andExpect(jsonPath("$.detalleVestido").value(DEFAULT_DETALLE_VESTIDO.toString()))
             .andExpect(jsonPath("$.estado").value(DEFAULT_ESTADO.toString()))
-            .andExpect(jsonPath("$.tipoEncargo").value(DEFAULT_TIPO_ENCARGO.toString()));
+            .andExpect(jsonPath("$.tipoEncargo").value(DEFAULT_TIPO_ENCARGO.toString()))
+            .andExpect(jsonPath("$.tipoVestido").value(DEFAULT_TIPO_VESTIDO.toString()));
     }
 
     @Test
@@ -287,7 +291,8 @@ public class EncargoResourceIntTest {
             .fechaEntrega(UPDATED_FECHA_ENTREGA)
             .detalleVestido(UPDATED_DETALLE_VESTIDO)
             .estado(UPDATED_ESTADO)
-            .tipoEncargo(UPDATED_TIPO_ENCARGO);
+            .tipoEncargo(UPDATED_TIPO_ENCARGO)
+            .tipoVestido(UPDATED_TIPO_VESTIDO);
         EncargoDTO encargoDTO = encargoMapper.toDto(updatedEncargo);
 
         restEncargoMockMvc.perform(put("/api/encargos")
@@ -305,6 +310,7 @@ public class EncargoResourceIntTest {
         assertThat(testEncargo.getDetalleVestido()).isEqualTo(UPDATED_DETALLE_VESTIDO);
         assertThat(testEncargo.getEstado()).isEqualTo(UPDATED_ESTADO);
         assertThat(testEncargo.getTipoEncargo()).isEqualTo(UPDATED_TIPO_ENCARGO);
+        assertThat(testEncargo.getTipoVestido()).isEqualTo(UPDATED_TIPO_VESTIDO);
     }
 
     @Test

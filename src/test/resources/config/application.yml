@@ -77,18 +77,18 @@ jhipster:
         queue-capacity: 10000
     # To test logstash appender
     logging:
-            logstash:
-                enabled: true
-                host: localhost
-                port: 5000
-                queue-size: 512
+        logstash:
+            enabled: true
+            host: localhost
+            port: 5000
+            queue-size: 512
     mail:
         from: test@localhost
         base-url: http://127.0.0.1:8080
     security:
         authentication:
             jwt:
-                secret: 5a87de6bd299efcdc08e6117083aadcf392102a0
+                secret: ea5a215a7d9077ae1bf06918faf3b1374f4d88bf
                 # Token is valid 24 hours
                 token-validity-in-seconds: 86400
     metrics: # DropWizard Metrics configuration, used by MetricsConfiguration

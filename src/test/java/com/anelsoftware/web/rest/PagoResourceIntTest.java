@@ -5,7 +5,6 @@ import com.anelsoftware.ClothesApp;
 import com.anelsoftware.domain.Pago;
 import com.anelsoftware.domain.Encargo;
 import com.anelsoftware.repository.PagoRepository;
-import com.anelsoftware.service.PagoService;
 import com.anelsoftware.service.dto.PagoDTO;
 import com.anelsoftware.service.mapper.PagoMapper;
 import com.anelsoftware.web.rest.errors.ExceptionTranslator;
@@ -62,9 +61,6 @@ public class PagoResourceIntTest {
     private PagoMapper pagoMapper;
 
     @Autowired
-    private PagoService pagoService;
-
-    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -83,7 +79,7 @@ public class PagoResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        PagoResource pagoResource = new PagoResource(pagoService);
+        PagoResource pagoResource = new PagoResource(pagoRepository, pagoMapper);
         this.restPagoMockMvc = MockMvcBuilders.standaloneSetup(pagoResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

@@ -1,10 +1,4 @@
 
-entity Empresa{
-	nombre String required,
-    domicilio String required,
-    telefono String required,
-    categoria String required
-}
 
 /**
  * Class Cliente.
@@ -19,15 +13,19 @@ entity Cliente{
 	domicilio String required,
 	colegio String required
 }
+
+
 /**
- * Class Modelo.
+ * Class ModeloEncargo.
  * @author anelsoftware
  */
-entity Modelo{
+entity ModeloEncargo{
 	imagen ImageBlob required,
     nombreModelo String required,
     colorVestido String required,
-    observacion String required
+    bordado Boolean,
+    descripcion String,
+    observacion String
 }
 /**
  * Class Medida.
@@ -55,6 +53,7 @@ entity Medida{
     posicionCadera Double,
     largoFalda Double,
     tipoFalda TipoFalda,
+    tipoMedida TipoMedida required,
     fechaMedida LocalDate required,
     anchoHombro Double,
     anchoEspalda Double,
@@ -76,7 +75,8 @@ entity Encargo{
     fechaEntrega LocalDate,
     detalleVestido String required,
     estado Estado,
-    tipoEncargo TipoEncargo
+    tipoEncargo TipoEncargo,
+    tipoVestido TipoVestido
 }
 /**
  * Class Pago.
@@ -94,11 +94,22 @@ enum Estado {
 }
 
 enum TipoEncargo{
-	QUINCE, NOVIA, MADRINA, FIESTA, POLICIA
+	QUINCE, NOVIA, MADRINA, FIESTA, POLICIA, COMUNION, CONFIRMACION,
+    PAISANA
+}
+
+enum TipoVestido{
+	DOS_PIEZAS, UNA_PIEZA, SIRENA, CORTE_A
 }
 
 enum TipoFalda{
 	TUBO, RECTA, TAJO, EVASE, CORTEA, CAMPANA, PLATO, GAJOS 
+}
+
+enum TipoMedida{
+	AMBO_HOMBRE, AMBO_MUJER, CHALECO,
+    PANTALON_HOMBRE, PANTALON_MUJER, 
+    POLLERA, VESTIDO, CORSET
 }
 
 
@@ -106,25 +117,16 @@ enum TipoFalda{
   * Relacion Una empresa tiene uno o muchos usuarios
   */
 relationship OneToMany {
-	Empresa{cliente(nombre)} to Cliente{empresa(nombre) required},
-    Cliente{modelo(nombre)} to Modelo{cliente(nombre) required},
-    Cliente{medida(nombre)} to Medida{cliente(nombre) required},
+    Encargo{medida(nombre)} to Medida{encargo required},
     Cliente{encargo(nombre)} to Encargo{cliente(nombre) required},
-    Encargo{pago} to Pago{encargo required}
+    Encargo{pago(fechaPago)} to Pago{encargo required},
+    Encargo{modeloEncargo(nombreModelo)} to ModeloEncargo{encargo required}
 }
-
-relationship ManyToOne {
-    Empresa{user(email)} to User{Empresa(nombre)}
-}
-
 
 paginate Cliente with pager
-paginate Empresa with pager
 paginate Encargo with pager
-paginate Modelo with pager
 paginate Medida with pager
 paginate Pago with pager
+paginate ModeloEncargo with pager
 
 dto all with mapstruct
-
-service all with serviceImpl

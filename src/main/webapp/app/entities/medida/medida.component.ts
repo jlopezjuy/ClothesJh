@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
 import { EventManager, ParseLinks, PaginationUtil, JhiLanguageService, AlertService } from 'ng-jhipster';
 
@@ -28,7 +28,6 @@ currentAccount: any;
     predicate: any;
     previousPage: any;
     reverse: any;
-    clienteId: number;
 
     constructor(
         private medidaService: MedidaService,
@@ -51,17 +50,13 @@ currentAccount: any;
     }
 
     loadAll() {
-        this.activatedRoute.params.forEach((params:Params) => {
-            this.clienteId = params['id'];
-            console.log("Load all Cliente id: " + this.clienteId);
-            this.medidaService.query({
-                page: this.page - 1,
-                size: this.itemsPerPage,
-                sort: this.sort()}, this.clienteId).subscribe(
-                (res: ResponseWrapper) => this.onSuccess(res.json, res.headers),
-                (res: ResponseWrapper) => this.onError(res.json)
-            );
-        });
+        this.medidaService.query({
+            page: this.page - 1,
+            size: this.itemsPerPage,
+            sort: this.sort()}).subscribe(
+            (res: ResponseWrapper) => this.onSuccess(res.json, res.headers),
+            (res: ResponseWrapper) => this.onError(res.json)
+        );
     }
     loadPage(page: number) {
         if (page !== this.previousPage) {
@@ -124,9 +119,5 @@ currentAccount: any;
     }
     private onError(error) {
         this.alertService.error(error.message, null, null);
-    }
-
-    previousState() {
-        window.history.back();
     }
 }

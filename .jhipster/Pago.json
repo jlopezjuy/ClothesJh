@@ -36,10 +36,10 @@
             ]
         }
     ],
-    "changelogDate": "20170604152018",
+    "changelogDate": "20170611191622",
     "javadoc": "Class Pago.\n@author anelsoftware",
     "entityTableName": "pago",
     "dto": "mapstruct",
     "pagination": "pager",
-    "service": "serviceImpl"
+    "service": "no"
 }

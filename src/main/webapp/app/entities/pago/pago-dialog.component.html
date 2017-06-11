@@ -25,8 +25,7 @@
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="clothesApp.pago.importe" for="field_importe">Importe</label>
             <input type="number" class="form-control" name="importe" id="field_importe"
-                [(ngModel)]="pago.importe"
-            required />
+                [(ngModel)]="pago.importe" required />
             <div [hidden]="!(editForm.controls.importe?.dirty && editForm.controls.importe?.invalid)">
                 <small class="form-text text-danger"
                    [hidden]="!editForm.controls.importe?.errors?.required" jhiTranslate="entity.validation.required">
@@ -41,8 +40,7 @@
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="clothesApp.pago.detalle" for="field_detalle">Detalle</label>
             <input type="text" class="form-control" name="detalle" id="field_detalle"
-                [(ngModel)]="pago.detalle"
-            required />
+                [(ngModel)]="pago.detalle" required />
             <div [hidden]="!(editForm.controls.detalle?.dirty && editForm.controls.detalle?.invalid)">
                 <small class="form-text text-danger"
                    [hidden]="!editForm.controls.detalle?.errors?.required" jhiTranslate="entity.validation.required">
@@ -53,8 +51,7 @@
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="clothesApp.pago.numeroRecibo" for="field_numeroRecibo">Numero Recibo</label>
             <input type="number" class="form-control" name="numeroRecibo" id="field_numeroRecibo"
-                [(ngModel)]="pago.numeroRecibo"
-            required />
+                [(ngModel)]="pago.numeroRecibo" required />
             <div [hidden]="!(editForm.controls.numeroRecibo?.dirty && editForm.controls.numeroRecibo?.invalid)">
                 <small class="form-text text-danger"
                    [hidden]="!editForm.controls.numeroRecibo?.errors?.required" jhiTranslate="entity.validation.required">

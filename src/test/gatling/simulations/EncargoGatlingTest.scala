@@ -68,7 +68,7 @@ class EncargoGatlingTest extends Simulation {
             .exec(http("Create new encargo")
             .post("/api/encargos")
             .headers(headers_http_authenticated)
-            .body(StringBody("""{"id":null, "importeTotal":null, "fechaEncargo":"2020-01-01T00:00:00.000Z", "fechaEntrega":"2020-01-01T00:00:00.000Z", "detalleVestido":"SAMPLE_TEXT", "estado":null, "tipoEncargo":null}""")).asJSON
+            .body(StringBody("""{"id":null, "importeTotal":null, "fechaEncargo":"2020-01-01T00:00:00.000Z", "fechaEntrega":"2020-01-01T00:00:00.000Z", "detalleVestido":"SAMPLE_TEXT", "estado":null, "tipoEncargo":null, "tipoVestido":null}""")).asJSON
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_encargo_url"))).exitHereIfFailed
             .pause(10)

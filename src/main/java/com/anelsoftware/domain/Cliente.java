@@ -58,21 +58,7 @@ public class Cliente implements Serializable {
     @OneToMany(mappedBy = "cliente")
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Modelo> modelos = new HashSet<>();
-
-    @OneToMany(mappedBy = "cliente")
-    @JsonIgnore
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Medida> medidas = new HashSet<>();
-
-    @OneToMany(mappedBy = "cliente")
-    @JsonIgnore
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Encargo> encargos = new HashSet<>();
-
-    @ManyToOne(optional = false)
-    @NotNull
-    private Empresa empresa;
 
     public Long getId() {
         return id;
@@ -173,56 +159,6 @@ public class Cliente implements Serializable {
         this.colegio = colegio;
     }
 
-    public Set<Modelo> getModelos() {
-        return modelos;
-    }
-
-    public Cliente modelos(Set<Modelo> modelos) {
-        this.modelos = modelos;
-        return this;
-    }
-
-    public Cliente addModelo(Modelo modelo) {
-        this.modelos.add(modelo);
-        modelo.setCliente(this);
-        return this;
-    }
-
-    public Cliente removeModelo(Modelo modelo) {
-        this.modelos.remove(modelo);
-        modelo.setCliente(null);
-        return this;
-    }
-
-    public void setModelos(Set<Modelo> modelos) {
-        this.modelos = modelos;
-    }
-
-    public Set<Medida> getMedidas() {
-        return medidas;
-    }
-
-    public Cliente medidas(Set<Medida> medidas) {
-        this.medidas = medidas;
-        return this;
-    }
-
-    public Cliente addMedida(Medida medida) {
-        this.medidas.add(medida);
-        medida.setCliente(this);
-        return this;
-    }
-
-    public Cliente removeMedida(Medida medida) {
-        this.medidas.remove(medida);
-        medida.setCliente(null);
-        return this;
-    }
-
-    public void setMedidas(Set<Medida> medidas) {
-        this.medidas = medidas;
-    }
-
     public Set<Encargo> getEncargos() {
         return encargos;
     }
@@ -246,19 +182,6 @@ public class Cliente implements Serializable {
 
     public void setEncargos(Set<Encargo> encargos) {
         this.encargos = encargos;
-    }
-
-    public Empresa getEmpresa() {
-        return empresa;
-    }
-
-    public Cliente empresa(Empresa empresa) {
-        this.empresa = empresa;
-        return this;
-    }
-
-    public void setEmpresa(Empresa empresa) {
-        this.empresa = empresa;
     }
 
     @Override

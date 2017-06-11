@@ -36,6 +36,7 @@
             "posicionCadera": "Posicion Cadera",
             "largoFalda": "Largo Falda",
             "tipoFalda": "Tipo Falda",
+            "tipoMedida": "Tipo Medida",
             "fechaMedida": "Fecha Medida",
             "anchoEspalda": "Ancho Espalda",
             "anchoManga": "Ancho Manga",
@@ -44,9 +45,7 @@
             "anchoRodillaPantalon": "Ancho Rodilla Pantalon",
             "botaPantalon": "Bota Pantalon",
             "largoPantalon": "Largo Pantalon",
-            "observacion": "Observacion",
-            "detalleMedida": "Detalle Medida",
-            "cliente": "Cliente"
+            "encargo": "Encargo"
         }
     }
 }

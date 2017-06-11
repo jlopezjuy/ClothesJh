@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Encargo } from './encargo.model';
 import { EncargoService } from './encargo.service';
+
 @Injectable()
 export class EncargoPopupService {
     private isOpen = false;

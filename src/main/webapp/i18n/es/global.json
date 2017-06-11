@@ -7,9 +7,8 @@
             "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
             "entities": {
                 "main": "Entidades",
-                "empresa": "Empresa",
                 "cliente": "Cliente",
-                "modelo": "Modelo",
+                "modeloEncargo": "Modelo Encargo",
                 "medida": "Medida",
                 "encargo": "Encargo",
                 "pago": "Pago",
@@ -89,7 +88,8 @@
         },
         "ribbon": {
             "dev":"Development"
-        }
+        },
+        "item-count": "Monstrando {{first}} - {{second}} de {{total}} artículos."
     },
     "entity": {
         "action": {
@@ -101,9 +101,7 @@
             "edit": "Editar",
             "open": "Open",
             "save": "Guardar",
-            "view": "Vista",
-            "model": "Modelos",
-            "medida": "Medidas"
+            "view": "Vista"
         },
         "detail": {
             "field": "Campo",

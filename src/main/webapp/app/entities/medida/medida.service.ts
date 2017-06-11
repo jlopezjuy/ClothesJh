@@ -10,14 +10,10 @@ import { ResponseWrapper, createRequestOption } from '../../shared';
 export class MedidaService {
 
     private resourceUrl = 'api/medidas';
-    private resourceUrlCliente = 'api/medidasCliente';
-    private clienteId:number;
 
     constructor(private http: Http, private dateUtils: DateUtils) { }
 
     create(medida: Medida): Observable<Medida> {
-        console.log("cliente id en servicio: " + this.clienteId);
-        medida.clienteId = this.clienteId;
         const copy = this.convert(medida);
         return this.http.post(this.resourceUrl, copy).map((res: Response) => {
             const jsonResponse = res.json();
@@ -43,10 +39,9 @@ export class MedidaService {
         });
     }
 
-    query(req?: any, idCliente?:number): Observable<ResponseWrapper> {
-        this.clienteId = idCliente;
+    query(req?: any): Observable<ResponseWrapper> {
         const options = createRequestOption(req);
-        return this.http.get(`${this.resourceUrlCliente}/${idCliente}`, options)
+        return this.http.get(this.resourceUrl, options)
             .map((res: Response) => this.convertResponse(res));
     }
 
@@ -59,7 +54,7 @@ export class MedidaService {
         for (let i = 0; i < jsonResponse.length; i++) {
             this.convertItemFromServer(jsonResponse[i]);
         }
-        return new ResponseWrapper(res.headers, jsonResponse);
+        return new ResponseWrapper(res.headers, jsonResponse, res.status);
     }
 
     private convertItemFromServer(entity: any) {
