@@ -9,8 +9,10 @@ import { EncargoDetailComponent } from './encargo-detail.component';
 import { EncargoPopupComponent } from './encargo-dialog.component';
 import { EncargoDeletePopupComponent } from './encargo-delete-dialog.component';
 import { ModeloComponent } from '../modelo/modelo.component';
+import { MedidaComponent } from '../medida/medida.component';
 
 import { Principal } from '../../shared';
+
 
 
 @Injectable()
@@ -58,6 +60,17 @@ export const encargoRoute: Routes = [
         data: {
             authorities: ['ROLE_USER'],
             pageTitle: 'clothesApp.modelo.home.title'
+        },
+        canActivate: [UserRouteAccessService]
+    }, {
+        path: 'encargoMedida/:encargoId',
+        component: MedidaComponent,
+        resolve: {
+            'pagingParams': EncargoResolvePagingParams
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'clothesApp.medida.home.title'
         },
         canActivate: [UserRouteAccessService]
     }
