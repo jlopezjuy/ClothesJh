@@ -39,7 +39,7 @@ export class Encargo {
         public tipoVestido?: TipoVestido,
         public medidaId?: number,
         public pagoId?: number,
-        public modeloEncargoId?: number,
+        public modeloId?: number,
         public clienteId?: number,
     ) {
     }

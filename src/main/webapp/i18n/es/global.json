@@ -8,7 +8,7 @@
             "entities": {
                 "main": "Entidades",
                 "cliente": "Cliente",
-                "modeloEncargo": "Modelo Encargo",
+                "modelo": "Modelo",
                 "medida": "Medida",
                 "encargo": "Encargo",
                 "pago": "Pago",

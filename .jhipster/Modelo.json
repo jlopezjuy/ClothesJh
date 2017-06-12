@@ -11,34 +11,43 @@
     ],
     "fields": [
         {
-            "fieldName": "fechaPago",
-            "fieldType": "LocalDate"
-        },
-        {
-            "fieldName": "importe",
-            "fieldType": "Double",
+            "fieldName": "imagen",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "image",
             "fieldValidateRules": [
                 "required"
             ]
         },
         {
-            "fieldName": "detalle",
+            "fieldName": "nombreModelo",
             "fieldType": "String",
             "fieldValidateRules": [
                 "required"
             ]
         },
         {
-            "fieldName": "numeroRecibo",
-            "fieldType": "Integer",
+            "fieldName": "colorVestido",
+            "fieldType": "String",
             "fieldValidateRules": [
                 "required"
             ]
+        },
+        {
+            "fieldName": "bordado",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "descripcion",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "observacion",
+            "fieldType": "String"
         }
     ],
-    "changelogDate": "20170611211925",
-    "javadoc": "Class Pago.\n@author anelsoftware",
-    "entityTableName": "pago",
+    "changelogDate": "20170611211922",
+    "javadoc": "Class Modelo.\n@author anelsoftware",
+    "entityTableName": "modelo",
     "dto": "mapstruct",
     "pagination": "pager",
     "service": "serviceImpl"

@@ -15,8 +15,8 @@
         },
         {
             "relationshipType": "one-to-many",
-            "relationshipName": "modeloEncargo",
-            "otherEntityName": "modeloEncargo",
+            "relationshipName": "modelo",
+            "otherEntityName": "modelo",
             "otherEntityRelationshipName": "encargo"
         },
         {
@@ -69,7 +69,7 @@
             "fieldValues": "DOS_PIEZAS,UNA_PIEZA,SIRENA,CORTE_A"
         }
     ],
-    "changelogDate": "20170611191621",
+    "changelogDate": "20170611211924",
     "javadoc": "Class Encargo.\n@author anelsoftware",
     "entityTableName": "encargo",
     "dto": "mapstruct",

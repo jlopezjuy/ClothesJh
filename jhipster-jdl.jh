@@ -16,10 +16,10 @@ entity Cliente{
 
 
 /**
- * Class ModeloEncargo.
+ * Class Modelo.
  * @author anelsoftware
  */
-entity ModeloEncargo{
+entity Modelo{
 	imagen ImageBlob required,
     nombreModelo String required,
     colorVestido String required,
@@ -120,14 +120,10 @@ relationship OneToMany {
     Encargo{medida(nombre)} to Medida{encargo required},
     Cliente{encargo(nombre)} to Encargo{cliente(nombre) required},
     Encargo{pago(fechaPago)} to Pago{encargo required},
-    Encargo{modeloEncargo(nombreModelo)} to ModeloEncargo{encargo required}
+    Encargo{modelo(nombreModelo)} to Modelo{encargo required}
 }
 
-paginate Cliente with pager
-paginate Encargo with pager
-paginate Medida with pager
-paginate Pago with pager
-paginate ModeloEncargo with pager
+paginate all with pager
 
 dto all with mapstruct
 

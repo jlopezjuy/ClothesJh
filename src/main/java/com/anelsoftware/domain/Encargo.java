@@ -75,7 +75,7 @@ public class Encargo implements Serializable {
     @OneToMany(mappedBy = "encargo")
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<ModeloEncargo> modeloEncargos = new HashSet<>();
+    private Set<Modelo> modelos = new HashSet<>();
 
     @ManyToOne(optional = false)
     @NotNull
@@ -230,29 +230,29 @@ public class Encargo implements Serializable {
         this.pagos = pagos;
     }
 
-    public Set<ModeloEncargo> getModeloEncargos() {
-        return modeloEncargos;
+    public Set<Modelo> getModelos() {
+        return modelos;
     }
 
-    public Encargo modeloEncargos(Set<ModeloEncargo> modeloEncargos) {
-        this.modeloEncargos = modeloEncargos;
+    public Encargo modelos(Set<Modelo> modelos) {
+        this.modelos = modelos;
         return this;
     }
 
-    public Encargo addModeloEncargo(ModeloEncargo modeloEncargo) {
-        this.modeloEncargos.add(modeloEncargo);
-        modeloEncargo.setEncargo(this);
+    public Encargo addModelo(Modelo modelo) {
+        this.modelos.add(modelo);
+        modelo.setEncargo(this);
         return this;
     }
 
-    public Encargo removeModeloEncargo(ModeloEncargo modeloEncargo) {
-        this.modeloEncargos.remove(modeloEncargo);
-        modeloEncargo.setEncargo(null);
+    public Encargo removeModelo(Modelo modelo) {
+        this.modelos.remove(modelo);
+        modelo.setEncargo(null);
         return this;
     }
 
-    public void setModeloEncargos(Set<ModeloEncargo> modeloEncargos) {
-        this.modeloEncargos = modeloEncargos;
+    public void setModelos(Set<Modelo> modelos) {
+        this.modelos = modelos;
     }
 
     public Cliente getCliente() {

@@ -1,7 +1,7 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { ClothesClienteModule } from './cliente/cliente.module';
-import { ClothesModeloEncargoModule } from './modelo-encargo/modelo-encargo.module';
+import { ClothesModeloModule } from './modelo/modelo.module';
 import { ClothesMedidaModule } from './medida/medida.module';
 import { ClothesEncargoModule } from './encargo/encargo.module';
 import { ClothesPagoModule } from './pago/pago.module';
@@ -10,7 +10,7 @@ import { ClothesPagoModule } from './pago/pago.module';
 @NgModule({
     imports: [
         ClothesClienteModule,
-        ClothesModeloEncargoModule,
+        ClothesModeloModule,
         ClothesMedidaModule,
         ClothesEncargoModule,
         ClothesPagoModule,

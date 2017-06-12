@@ -16,7 +16,7 @@ public interface EncargoMapper extends EntityMapper <EncargoDTO, Encargo> {
     EncargoDTO toDto(Encargo encargo); 
     @Mapping(target = "medidas", ignore = true)
     @Mapping(target = "pagos", ignore = true)
-    @Mapping(target = "modeloEncargos", ignore = true)
+    @Mapping(target = "modelos", ignore = true)
 
     @Mapping(source = "clienteId", target = "cliente")
     Encargo toEntity(EncargoDTO encargoDTO); 
