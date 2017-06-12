@@ -52,9 +52,9 @@ currentAccount: any;
     }
 
     loadAll() {
-        this.activatedRoute.params.forEach((params:Params) => {
+        this.activatedRoute.params.forEach((params: Params) => {
             this.encargoId = params['encargoId'];
-            console.log("Load all Cliente id: " + this.encargoId);
+            console.log('Load all Cliente id: ' + this.encargoId);
             this.modeloService.query({
                 page: this.page - 1,
                 size: this.itemsPerPage,

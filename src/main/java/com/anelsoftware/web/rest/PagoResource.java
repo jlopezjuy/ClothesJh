@@ -98,6 +98,21 @@ public class PagoResource {
     }
 
     /**
+     * GET  /pagos : get all the pagos.
+     *
+     * @param pageable the pagination information
+     * @return the ResponseEntity with status 200 (OK) and the list of pagos in body
+     */
+    @GetMapping("/pagos/encargo/{encargoId}")
+    @Timed
+    public ResponseEntity<List<PagoDTO>> getAllPagosEncargo(@ApiParam Pageable pageable,@PathVariable Long encargoId) {
+        log.debug("REST request to get a page of Pagos");
+        Page<PagoDTO> page = pagoService.findAllByEncargoId(pageable, encargoId);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/pagos");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
+    /**
      * GET  /pagos/:id : get the "id" pago.
      *
      * @param id the id of the pagoDTO to retrieve

@@ -103,7 +103,8 @@
             "save": "Save",
             "view": "View",
             "model": "Model",
-            "measure": "Measure"
+            "measure": "Measure",
+            "pay": "Pay"
         },
         "detail": {
             "field": "Field",

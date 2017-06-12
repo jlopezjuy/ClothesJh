@@ -103,7 +103,8 @@
             "save": "Guardar",
             "view": "Vista",
             "model": "Modelo",
-            "measure": "Medida"
+            "measure": "Medida",
+            "pay": "Pago"
         },
         "detail": {
             "field": "Campo",

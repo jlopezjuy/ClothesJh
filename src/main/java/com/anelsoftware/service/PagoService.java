@@ -39,4 +39,12 @@ public interface PagoService {
      *  @param id the id of the entity
      */
     void delete(Long id);
+
+    /**
+     *
+     * @param pageable
+     * @param encargoId
+     * @return
+     */
+    Page<PagoDTO> findAllByEncargoId(Pageable pageable, Long encargoId);
 }

@@ -1,5 +1,7 @@
 package com.anelsoftware.service.impl;
 
+import com.anelsoftware.domain.Encargo;
+import com.anelsoftware.repository.EncargoRepository;
 import com.anelsoftware.service.PagoService;
 import com.anelsoftware.domain.Pago;
 import com.anelsoftware.repository.PagoRepository;
@@ -23,12 +25,14 @@ public class PagoServiceImpl implements PagoService{
     private final Logger log = LoggerFactory.getLogger(PagoServiceImpl.class);
 
     private final PagoRepository pagoRepository;
+    private final EncargoRepository encargoRepository;
 
     private final PagoMapper pagoMapper;
 
-    public PagoServiceImpl(PagoRepository pagoRepository, PagoMapper pagoMapper) {
+    public PagoServiceImpl(PagoRepository pagoRepository, PagoMapper pagoMapper, EncargoRepository encargoRepository) {
         this.pagoRepository = pagoRepository;
         this.pagoMapper = pagoMapper;
+        this.encargoRepository = encargoRepository;
     }
 
     /**
@@ -82,5 +86,18 @@ public class PagoServiceImpl implements PagoService{
     public void delete(Long id) {
         log.debug("Request to delete Pago : {}", id);
         pagoRepository.delete(id);
+    }
+
+    /**
+     * @param pageable
+     * @param encargoId
+     * @return
+     */
+    @Override
+    public Page<PagoDTO> findAllByEncargoId(Pageable pageable, Long encargoId) {
+        log.debug("Request to get all Pagos");
+        Encargo encargo = encargoRepository.findOne(encargoId);
+        return pagoRepository.findAllByEncargo(pageable, encargo)
+            .map(pagoMapper::toDto);
     }
 }

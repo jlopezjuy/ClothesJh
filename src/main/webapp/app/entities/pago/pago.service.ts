@@ -10,10 +10,13 @@ import { ResponseWrapper, createRequestOption } from '../../shared';
 export class PagoService {
 
     private resourceUrl = 'api/pagos';
+    private resourceUrlEncargo = 'api/pagos/encargo';
+    private encargoId: number;
 
     constructor(private http: Http, private dateUtils: DateUtils) { }
 
     create(pago: Pago): Observable<Pago> {
+        pago.encargoId = this.encargoId;
         const copy = this.convert(pago);
         return this.http.post(this.resourceUrl, copy).map((res: Response) => {
             const jsonResponse = res.json();
@@ -39,9 +42,10 @@ export class PagoService {
         });
     }
 
-    query(req?: any): Observable<ResponseWrapper> {
+    query(req?: any, encargoId?: number): Observable<ResponseWrapper> {
+        this.encargoId = encargoId;
         const options = createRequestOption(req);
-        return this.http.get(this.resourceUrl, options)
+        return this.http.get(`${this.resourceUrlEncargo}/${encargoId}`, options)
             .map((res: Response) => this.convertResponse(res));
     }
 
