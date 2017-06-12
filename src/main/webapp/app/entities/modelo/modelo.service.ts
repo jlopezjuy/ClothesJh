@@ -9,10 +9,12 @@ import { ResponseWrapper, createRequestOption } from '../../shared';
 export class ModeloService {
 
     private resourceUrl = 'api/modelos';
-
+    private resourceUrlEncargo = 'api/modelos/encargo';
+    private encargoId: number;
     constructor(private http: Http) { }
 
     create(modelo: Modelo): Observable<Modelo> {
+        modelo.encargoId = this.encargoId;
         const copy = this.convert(modelo);
         return this.http.post(this.resourceUrl, copy).map((res: Response) => {
             return res.json();
@@ -32,9 +34,10 @@ export class ModeloService {
         });
     }
 
-    query(req?: any): Observable<ResponseWrapper> {
+    query(req?: any, encargoId?: number): Observable<ResponseWrapper> {
+        this.encargoId = encargoId;
         const options = createRequestOption(req);
-        return this.http.get(this.resourceUrl, options)
+        return this.http.get(`${this.resourceUrlEncargo}/${encargoId}`, options)
             .map((res: Response) => this.convertResponse(res));
     }
 

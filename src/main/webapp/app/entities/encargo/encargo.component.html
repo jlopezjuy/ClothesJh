@@ -32,8 +32,8 @@
             <tr *ngFor="let encargo of encargos ;trackBy: trackId">
                 <td><a [routerLink]="['../encargo', encargo.id ]">{{encargo.id}}</a></td>
                 <td>{{encargo.importeTotal}}</td>
-                <td>{{encargo.fechaEncargo | date:'mediumDate'}}</td>
-                <td>{{encargo.fechaEntrega | date:'mediumDate'}}</td>
+                <td>{{encargo.fechaEncargo | date:'dd/MM/yyyy'}}</td>
+                <td>{{encargo.fechaEntrega | date:'dd/MM/yyyy'}}</td>
                 <td>{{encargo.detalleVestido}}</td>
                 <td jhiTranslate="{{'clothesApp.Estado.' + encargo.estado}}">{{encargo.estado}}</td>
                 <td jhiTranslate="{{'clothesApp.TipoEncargo.' + encargo.tipoEncargo}}">{{encargo.tipoEncargo}}</td>
@@ -50,6 +50,12 @@
                                 class="btn btn-info btn-sm">
                             <span class="fa fa-eye"></span>
                             <span class="hidden-md-down" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/encargoModelo', encargo.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.model">Modelo</span>
                         </button>
                         <button type="submit"
                                 [routerLink]="['/', { outlets: { popup: 'encargo/'+ encargo.id + '/edit'} }]"

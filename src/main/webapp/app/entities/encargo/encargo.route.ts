@@ -8,8 +8,10 @@ import { EncargoComponent } from './encargo.component';
 import { EncargoDetailComponent } from './encargo-detail.component';
 import { EncargoPopupComponent } from './encargo-dialog.component';
 import { EncargoDeletePopupComponent } from './encargo-delete-dialog.component';
+import { ModeloComponent } from '../modelo/modelo.component';
 
 import { Principal } from '../../shared';
+
 
 @Injectable()
 export class EncargoResolvePagingParams implements Resolve<any> {
@@ -45,6 +47,17 @@ export const encargoRoute: Routes = [
         data: {
             authorities: ['ROLE_USER'],
             pageTitle: 'clothesApp.encargo.home.title'
+        },
+        canActivate: [UserRouteAccessService]
+    }, {
+        path: 'encargoModelo/:encargoId',
+        component: ModeloComponent,
+        resolve: {
+            'pagingParams': EncargoResolvePagingParams
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'clothesApp.modelo.home.title'
         },
         canActivate: [UserRouteAccessService]
     }

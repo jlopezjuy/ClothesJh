@@ -101,7 +101,8 @@
             "edit": "Editar",
             "open": "Open",
             "save": "Guardar",
-            "view": "Vista"
+            "view": "Vista",
+            "model" "Modelo"
         },
         "detail": {
             "field": "Campo",
