@@ -19,7 +19,8 @@
             "formaPago": "Forma Pago",
             "importeTotal": "Importe Total",
             "detalleFactPres": "Detalle Fact Pres",
-            "cliente": "Cliente"
+            "cliente": "Cliente",
+            "producto": "Producto"
         }
     }
 }

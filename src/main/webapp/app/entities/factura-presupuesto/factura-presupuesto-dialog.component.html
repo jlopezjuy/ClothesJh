@@ -1,65 +1,161 @@
-<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+<form name="editForm" role="form" novalidate #editForm="ngForm">
 
     <div class="modal-header">
-        <h4 class="modal-title" id="myFacturaPresupuestoLabel" jhiTranslate="clothesApp.facturaPresupuesto.home.createOrEditLabel">Create or edit a Factura Presupuesto</h4>
+        <h4 class="modal-title" id="myFacturaPresupuestoLabel"
+            jhiTranslate="clothesApp.facturaPresupuesto.home.createOrEditLabel">Create or edit a Factura
+            Presupuesto</h4>
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
-                (click)="clear()">&times;</button>
+                (click)="clear()">&times;
+        </button>
     </div>
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
-        <div class="form-group" [hidden]="!facturaPresupuesto.id">
-            <label for="id" jhiTranslate="global.field.id">ID</label>
-            <input type="text" class="form-control" id="id" name="id"
-                   [(ngModel)]="facturaPresupuesto.id" readonly />
+
+        <div class="row">
+            <div class="form-group col col-sm-4" [hidden]="!facturaPresupuesto.id">
+                <label for="id" jhiTranslate="global.field.id">ID</label>
+                <input type="text" class="form-control" id="id" name="id"
+                       [(ngModel)]="facturaPresupuesto.id" readonly/>
+            </div>
         </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="clothesApp.facturaPresupuesto.fecha" for="field_fecha">Fecha</label>
-            <div class="input-group">
-                <input id="field_fecha" type="text" class="form-control" name="fecha" ngbDatepicker  #fechaDp="ngbDatepicker" [(ngModel)]="facturaPresupuesto.fecha"
-                required/>
-                <span class="input-group-btn">
-                    <button type="button" class="btn btn-default" (click)="fechaDp.toggle()"><i class="fa fa-calendar"></i></button>
+        <div class="row">
+            <div class="form-group col col-sm-4">
+                <label class="form-control-label" jhiTranslate="clothesApp.facturaPresupuesto.fecha" for="field_fecha">Fecha</label>
+                <div class="input-group">
+                    <input id="field_fecha" type="text" class="form-control" name="fecha" ngbDatepicker
+                           #fechaDp="ngbDatepicker" [(ngModel)]="facturaPresupuesto.fecha"
+                           required/>
+                    <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" (click)="fechaDp.toggle()"><i
+                        class="fa fa-calendar"></i></button>
                 </span>
-            </div>
-            <div [hidden]="!(editForm.controls.fecha?.dirty && editForm.controls.fecha?.invalid)">
-                <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.fecha?.errors?.required" jhiTranslate="entity.validation.required">
-                   This field is required.
-                </small>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="clothesApp.facturaPresupuesto.formaPago" for="field_formaPago">Forma Pago</label>
-            <select class="form-control" name="formaPago" [(ngModel)]="facturaPresupuesto.formaPago" id="field_formaPago"  required>
-                <option value="CONTADO" jhiTranslate="clothesApp.FormaPago.CONTADO">CONTADO</option>
-                <option value="TARJETA" jhiTranslate="clothesApp.FormaPago.TARJETA">TARJETA</option>
-            </select>
-            <div [hidden]="!(editForm.controls.formaPago?.dirty && editForm.controls.formaPago?.invalid)">
-                <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.formaPago?.errors?.required" jhiTranslate="entity.validation.required">
-                   This field is required.
-                </small>
+                </div>
+                <div [hidden]="!(editForm.controls.fecha?.dirty && editForm.controls.fecha?.invalid)">
+                    <small class="form-text text-danger"
+                           [hidden]="!editForm.controls.fecha?.errors?.required"
+                           jhiTranslate="entity.validation.required">
+                        This field is required.
+                    </small>
+                </div>
             </div>
         </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="clothesApp.facturaPresupuesto.importeTotal" for="field_importeTotal">Importe Total</label>
-            <input type="number" class="form-control" name="importeTotal" id="field_importeTotal"
-                [(ngModel)]="facturaPresupuesto.importeTotal"  />
+        <div class="row">
+            <div class="form-group col col-sm-6">
+                <label class="form-control-label" jhiTranslate="clothesApp.facturaPresupuesto.formaPago"
+                       for="field_formaPago">Forma Pago</label>
+                <select class="form-control" name="formaPago" [(ngModel)]="facturaPresupuesto.formaPago"
+                        id="field_formaPago" required>
+                    <option value="CONTADO" jhiTranslate="clothesApp.FormaPago.CONTADO">CONTADO</option>
+                    <option value="TARJETA" jhiTranslate="clothesApp.FormaPago.TARJETA">TARJETA</option>
+                </select>
+                <div [hidden]="!(editForm.controls.formaPago?.dirty && editForm.controls.formaPago?.invalid)">
+                    <small class="form-text text-danger"
+                           [hidden]="!editForm.controls.formaPago?.errors?.required"
+                           jhiTranslate="entity.validation.required">
+                        This field is required.
+                    </small>
+                </div>
+            </div>
+            <div class="form-group col col-sm-6">
+                <label jhiTranslate="clothesApp.facturaPresupuesto.cliente" for="field_cliente">Cliente</label>
+                <select class="form-control" id="field_cliente" name="cliente"
+                        [(ngModel)]="facturaPresupuesto.clienteId">
+                    <option [ngValue]="null"></option>
+                    <option [ngValue]="clienteOption.id"
+                            *ngFor="let clienteOption of clientes; trackBy: trackClienteById">{{clienteOption.nombre}}
+                    </option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col col-sm-4">
+                <label jhiTranslate="clothesApp.facturaPresupuesto.producto" for="field_producto">Producto</label>
+                <select class="form-control" id="field_producto" name="producto"
+                        [(ngModel)]="productoIdSelec">
+                    <option [ngValue]="null"></option>
+                    <option [ngValue]="productoOption.id"
+                            *ngFor="let productoOption of productos; trackBy: trackProductoById">{{productoOption.nombre}}
+                    </option>
+                </select>
+            </div>
+            <div class="form-group col col-sm-4">
+                <label>Cantidad</label>
+                <input id="cantidadSelec" type="text" class="form-control" name="cantidadSelec" [(ngModel)]="cantidadSelec"/>
+            </div>
+
+            <div class="form-group col col-sm-4">
+                <label>&nbsp;</label>
+                <input type="button" (click)="addToList()" class="btn btn-info" value="Agregar">
+            </div>
         </div>
 
-        <div class="form-group">
-            <label jhiTranslate="clothesApp.facturaPresupuesto.cliente" for="field_cliente">Cliente</label>
-            <select class="form-control" id="field_cliente" name="cliente" [(ngModel)]="facturaPresupuesto.clienteId" >
-                <option [ngValue]="null"></option>
-                <option [ngValue]="clienteOption.id" *ngFor="let clienteOption of clientes; trackBy: trackClienteById">{{clienteOption.nombre}}</option>
-            </select>
+        <div class="row">
+            <div class="form-group col col-sm-12">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Descripcion</th>
+                        <th>Precio Unitario</th>
+                        <th>Cantidad</th>
+                        <th>Total</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let producto of productos ;trackBy: trackId">
+                        <td>{{producto.id}}</td>
+                        <td>{{producto.descripcion}}</td>
+                        <td>{{producto.precioVenta}}</td>
+                        <td>{{producto.cantidadSeleccionada}}</td>
+                        <td>{{producto.totalFila}}</td>
+                        <td class="text-right">
+                            <div class="btn-group flex-btn-group-container">
+                                <button type="submit"
+                                        [routerLink]="['../factura-presupuesto', facturaPresupuesto.id ]"
+                                        class="btn btn-info btn-sm">
+                                    <span class="fa fa-eye"></span>
+                                    <span class="hidden-md-down" jhiTranslate="entity.action.view">View</span>
+                                </button>
+                                <button type="submit"
+                                        [routerLink]="['/', { outlets: { popup: 'factura-presupuesto/'+ facturaPresupuesto.id + '/edit'} }]"
+                                        replaceUrl="true"
+                                        class="btn btn-primary btn-sm">
+                                    <span class="fa fa-pencil"></span>
+                                    <span class="hidden-md-down" jhiTranslate="entity.action.edit">Edit</span>
+                                </button>
+                                <button type="submit"
+                                        [routerLink]="['/', { outlets: { popup: 'factura-presupuesto/'+ facturaPresupuesto.id + '/delete'} }]"
+                                        replaceUrl="true"
+                                        class="btn btn-danger btn-sm">
+                                    <span class="fa fa-remove"></span>
+                                    <span class="hidden-md-down" jhiTranslate="entity.action.delete">Delete</span>
+                                </button>
+                            </div>
+                        </td>
+
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
+
+        <div class="row">
+            <div class="form-group col col-sm-4">
+                <label class="form-control-label" jhiTranslate="clothesApp.facturaPresupuesto.importeTotal"
+                       for="field_importeTotal">Importe Total</label>
+                <input type="number" class="form-control" name="importeTotal" id="field_importeTotal"
+                       [(ngModel)]="facturaPresupuesto.importeTotal"/>
+            </div>
+        </div>
+
     </div>
+
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">
             <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
         </button>
-        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+        <button (ngSubmit)="save()" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
             <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
         </button>
     </div>

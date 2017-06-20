@@ -43,6 +43,9 @@ export class Producto {
         public imagen?: any,
         public detalleFactPresId?: number,
         public proveedorId?: number,
+        // transient
+        public cantidadSeleccionada?: number,
+        public totalFila?: number,
     ) {
     }
 }
