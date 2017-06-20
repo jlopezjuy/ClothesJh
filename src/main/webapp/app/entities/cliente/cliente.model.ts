@@ -9,6 +9,7 @@ export class Cliente {
         public domicilio?: string,
         public colegio?: string,
         public encargoId?: number,
+        public facturaPresupuestoId?: number,
     ) {
     }
 }
