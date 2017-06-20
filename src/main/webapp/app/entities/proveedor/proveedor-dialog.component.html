@@ -1,0 +1,98 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myProveedorLabel" jhiTranslate="clothesApp.proveedor.home.createOrEditLabel">Create or edit a Proveedor</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!proveedor.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="proveedor.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="clothesApp.proveedor.nombre" for="field_nombre">Nombre</label>
+            <input type="text" class="form-control" name="nombre" id="field_nombre"
+                [(ngModel)]="proveedor.nombre" required />
+            <div [hidden]="!(editForm.controls.nombre?.dirty && editForm.controls.nombre?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.nombre?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="clothesApp.proveedor.domicilio" for="field_domicilio">Domicilio</label>
+            <input type="text" class="form-control" name="domicilio" id="field_domicilio"
+                [(ngModel)]="proveedor.domicilio" required />
+            <div [hidden]="!(editForm.controls.domicilio?.dirty && editForm.controls.domicilio?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.domicilio?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="clothesApp.proveedor.telefono" for="field_telefono">Telefono</label>
+            <input type="text" class="form-control" name="telefono" id="field_telefono"
+                [(ngModel)]="proveedor.telefono" required />
+            <div [hidden]="!(editForm.controls.telefono?.dirty && editForm.controls.telefono?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.telefono?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="clothesApp.proveedor.cuilCuit" for="field_cuilCuit">Cuil Cuit</label>
+            <input type="text" class="form-control" name="cuilCuit" id="field_cuilCuit"
+                [(ngModel)]="proveedor.cuilCuit" required />
+            <div [hidden]="!(editForm.controls.cuilCuit?.dirty && editForm.controls.cuilCuit?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.cuilCuit?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="clothesApp.proveedor.email" for="field_email">Email</label>
+            <input type="text" class="form-control" name="email" id="field_email"
+                [(ngModel)]="proveedor.email" required />
+            <div [hidden]="!(editForm.controls.email?.dirty && editForm.controls.email?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.email?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="clothesApp.proveedor.celular" for="field_celular">Celular</label>
+            <input type="text" class="form-control" name="celular" id="field_celular"
+                [(ngModel)]="proveedor.celular" required />
+            <div [hidden]="!(editForm.controls.celular?.dirty && editForm.controls.celular?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.celular?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label jhiTranslate="clothesApp.proveedor.producto" for="field_producto">Producto</label>
+            <select class="form-control" id="field_producto" name="producto" [(ngModel)]="proveedor.productoId" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="productoOption.id" *ngFor="let productoOption of productos; trackBy: trackProductoById">{{productoOption.id}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>
