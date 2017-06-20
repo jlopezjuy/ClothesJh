@@ -1,0 +1,49 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myDetalleFactPresLabel" jhiTranslate="clothesApp.detalleFactPres.home.createOrEditLabel">Create or edit a Detalle Fact Pres</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!detalleFactPres.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="detalleFactPres.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="clothesApp.detalleFactPres.cantidad" for="field_cantidad">Cantidad</label>
+            <input type="number" class="form-control" name="cantidad" id="field_cantidad"
+                [(ngModel)]="detalleFactPres.cantidad"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="clothesApp.detalleFactPres.predio" for="field_predio">Predio</label>
+            <input type="number" class="form-control" name="predio" id="field_predio"
+                [(ngModel)]="detalleFactPres.predio"  />
+        </div>
+
+        <div class="form-group">
+            <label jhiTranslate="clothesApp.detalleFactPres.facturaPresupuesto" for="field_facturaPresupuesto">Factura Presupuesto</label>
+            <select class="form-control" id="field_facturaPresupuesto" name="facturaPresupuesto" [(ngModel)]="detalleFactPres.facturaPresupuestoId" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="facturaPresupuestoOption.id" *ngFor="let facturaPresupuestoOption of facturapresupuestos; trackBy: trackFacturaPresupuestoById">{{facturaPresupuestoOption.id}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label jhiTranslate="clothesApp.detalleFactPres.producto" for="field_producto">Producto</label>
+            <select class="form-control" id="field_producto" name="producto" [(ngModel)]="detalleFactPres.productoId" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="productoOption.id" *ngFor="let productoOption of productos; trackBy: trackProductoById">{{productoOption.id}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

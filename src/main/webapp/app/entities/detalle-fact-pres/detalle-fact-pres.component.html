@@ -1,0 +1,79 @@
+<div>
+    <h2>
+        <span jhiTranslate="clothesApp.detalleFactPres.home.title">Detalle Fact Pres</span>
+        <button class="btn btn-primary float-right create-detalle-fact-pres" [routerLink]="['/', { outlets: { popup: ['detalle-fact-pres-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span  jhiTranslate="clothesApp.detalleFactPres.home.createLabel">
+            Create new Detalle Fact Pres
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="detalleFactPres">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="cantidad"><span jhiTranslate="clothesApp.detalleFactPres.cantidad">Cantidad</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="predio"><span jhiTranslate="clothesApp.detalleFactPres.predio">Predio</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="facturaPresupuestoId"><span jhiTranslate="clothesApp.detalleFactPres.facturaPresupuesto">Factura Presupuesto</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="productoId"><span jhiTranslate="clothesApp.detalleFactPres.producto">Producto</span> <span class="fa fa-sort"></span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let detalleFactPres of detalleFactPres ;trackBy: trackId">
+                <td><a [routerLink]="['../detalle-fact-pres', detalleFactPres.id ]">{{detalleFactPres.id}}</a></td>
+                <td>{{detalleFactPres.cantidad}}</td>
+                <td>{{detalleFactPres.predio}}</td>
+                <td>
+                    <div *ngIf="detalleFactPres.facturaPresupuestoId">
+                        <a [routerLink]="['../factura-presupuesto', detalleFactPres.facturaPresupuestoId  ]" >{{detalleFactPres.facturaPresupuestoId}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="detalleFactPres.productoId">
+                        <a [routerLink]="['../producto', detalleFactPres.productoId  ]" >{{detalleFactPres.productoId}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../detalle-fact-pres', detalleFactPres.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'detalle-fact-pres/'+ detalleFactPres.id + '/edit'} }]"
+                                replaceUrl="true"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'detalle-fact-pres/'+ detalleFactPres.id + '/delete'} }]"
+                                replaceUrl="true"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+        <!-- Pager is not implemented yet, so this is normal pagination instead -->
+        <div *ngIf="detalleFactPres && detalleFactPres.length">
+            <div class="row justify-content-center">
+                <jhi-item-count [page]="page" [total]="queryCount" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+            </div>
+            <div class="row justify-content-center">
+                <ngb-pagination [collectionSize]="totalItems" [(page)]="page"  (pageChange)="loadPage(page)"></ngb-pagination>
+            </div>
+        </div>
+</div>
