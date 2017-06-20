@@ -8,6 +8,9 @@ import { EncargoComponent } from './encargo.component';
 import { EncargoDetailComponent } from './encargo-detail.component';
 import { EncargoPopupComponent } from './encargo-dialog.component';
 import { EncargoDeletePopupComponent } from './encargo-delete-dialog.component';
+import { ModeloComponent } from '../modelo/modelo.component';
+import { MedidaComponent } from '../medida/medida.component';
+import { PagoComponent } from '../pago/pago.component';
 
 @Injectable()
 export class EncargoResolvePagingParams implements Resolve<any> {
