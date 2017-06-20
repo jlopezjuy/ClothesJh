@@ -19,11 +19,6 @@
             <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="nombre"><span jhiTranslate="clothesApp.producto.nombre">Nombre</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="descripcion"><span jhiTranslate="clothesApp.producto.descripcion">Descripcion</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="cantidad"><span jhiTranslate="clothesApp.producto.cantidad">Cantidad</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="codigoOrigen"><span jhiTranslate="clothesApp.producto.codigoOrigen">Codigo Origen</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="precioCompra"><span jhiTranslate="clothesApp.producto.precioCompra">Precio Compra</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="precioVenta"><span jhiTranslate="clothesApp.producto.precioVenta">Precio Venta</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="margenGanancia"><span jhiTranslate="clothesApp.producto.margenGanancia">Margen Ganancia</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="talle"><span jhiTranslate="clothesApp.producto.talle">Talle</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="categoria"><span jhiTranslate="clothesApp.producto.categoria">Categoria</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="ubicacion"><span jhiTranslate="clothesApp.producto.ubicacion">Ubicacion</span> <span class="fa fa-sort"></span></th>
@@ -37,11 +32,6 @@
                 <td><a [routerLink]="['../producto', producto.id ]">{{producto.id}}</a></td>
                 <td>{{producto.nombre}}</td>
                 <td>{{producto.descripcion}}</td>
-                <td>{{producto.cantidad}}</td>
-                <td>{{producto.codigoOrigen}}</td>
-                <td>{{producto.precioCompra}}</td>
-                <td>{{producto.precioVenta}}</td>
-                <td>{{producto.margenGanancia}}</td>
                 <td jhiTranslate="{{'clothesApp.Talla.' + producto.talle}}">{{producto.talle}}</td>
                 <td jhiTranslate="{{'clothesApp.TipoProducto.' + producto.categoria}}">{{producto.categoria}}</td>
                 <td jhiTranslate="{{'clothesApp.Ubicacion.' + producto.ubicacion}}">{{producto.ubicacion}}</td>

@@ -77,9 +77,14 @@ export class ProductoDialogComponent implements OnInit {
             this.subscribeToSaveResponse(
                 this.productoService.update(this.producto), false);
         } else {
+            this.calculoFinal();
             this.subscribeToSaveResponse(
                 this.productoService.create(this.producto), true);
         }
+    }
+
+    private calculoFinal() {
+        this.producto.margenGanancia = this.producto.cantidad * (this.producto.precioVenta - this.producto.precioCompra);
     }
 
     private subscribeToSaveResponse(result: Observable<Producto>, isCreated: boolean) {

@@ -1,76 +1,163 @@
-
-<div *ngIf="producto">
-    <h2><span jhiTranslate="clothesApp.producto.detail.title">Producto</span> {{producto.id}}</h2>
+<div *ngIf="producto" class="card text-center">
+    <div class="card text-center">
+        <h2><span jhiTranslate="clothesApp.producto.detail.title">Producto</span> {{producto.id}}</h2>
+    </div>
     <hr>
     <jhi-alert-error></jhi-alert-error>
-    <dl class="row-md jh-entity-details">
-        <dt><span jhiTranslate="clothesApp.producto.nombre">Nombre</span></dt>
-        <dd>
-            <span>{{producto.nombre}}</span>
-        </dd>
-        <dt><span jhiTranslate="clothesApp.producto.descripcion">Descripcion</span></dt>
-        <dd>
-            <span>{{producto.descripcion}}</span>
-        </dd>
-        <dt><span jhiTranslate="clothesApp.producto.cantidad">Cantidad</span></dt>
-        <dd>
-            <span>{{producto.cantidad}}</span>
-        </dd>
-        <dt><span jhiTranslate="clothesApp.producto.codigoOrigen">Codigo Origen</span></dt>
-        <dd>
-            <span>{{producto.codigoOrigen}}</span>
-        </dd>
-        <dt><span jhiTranslate="clothesApp.producto.precioCompra">Precio Compra</span></dt>
-        <dd>
-            <span>{{producto.precioCompra}}</span>
-        </dd>
-        <dt><span jhiTranslate="clothesApp.producto.precioVenta">Precio Venta</span></dt>
-        <dd>
-            <span>{{producto.precioVenta}}</span>
-        </dd>
-        <dt><span jhiTranslate="clothesApp.producto.margenGanancia">Margen Ganancia</span></dt>
-        <dd>
-            <span>{{producto.margenGanancia}}</span>
-        </dd>
-        <dt><span jhiTranslate="clothesApp.producto.talle">Talle</span></dt>
-        <dd>
-            <span jhiTranslate="{{'clothesApp.Talla.' + producto.talle}}">{{producto.talle}}</span>
-        </dd>
-        <dt><span jhiTranslate="clothesApp.producto.categoria">Categoria</span></dt>
-        <dd>
-            <span jhiTranslate="{{'clothesApp.TipoProducto.' + producto.categoria}}">{{producto.categoria}}</span>
-        </dd>
-        <dt><span jhiTranslate="clothesApp.producto.ubicacion">Ubicacion</span></dt>
-        <dd>
-            <span jhiTranslate="{{'clothesApp.Ubicacion.' + producto.ubicacion}}">{{producto.ubicacion}}</span>
-        </dd>
-        <dt><span jhiTranslate="clothesApp.producto.imagen">Imagen</span></dt>
-        <dd>
+    <div class="card-block">
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="card text-center">
+                        <div class="card-header card-inverse card-info mb-3">
+                            <span jhiTranslate="clothesApp.producto.nombre">Nombre</span>
+                        </div>
+                        <div class="card-block">
+                            <span>{{producto.nombre}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="card text-center">
+                        <div class="card-header card-inverse card-info mb-3">
+                            <span jhiTranslate="clothesApp.producto.descripcion">Descripcion</span>
+                        </div>
+                        <div class="card-block">
+                            <span>{{producto.descripcion}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="card text-center">
+                        <div class="card-header card-inverse card-info mb-3">
+                            <span jhiTranslate="clothesApp.producto.cantidad">Cantidad</span>
+                        </div>
+                        <div class="card-block">
+                            <span>{{producto.cantidad}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="card text-center">
+                        <div class="card-header card-inverse card-info mb-3">
+                            <span jhiTranslate="clothesApp.producto.codigoOrigen">Codigo Origen</span>
+                        </div>
+                        <div class="card-block">
+                            <span>{{producto.codigoOrigen}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="card text-center">
+                        <div class="card-header card-inverse card-info mb-3">
+                            <span jhiTranslate="clothesApp.producto.precioCompra">Precio Compra</span>
+                        </div>
+                        <div class="card-block">
+                            <span>{{producto.precioCompra}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="card text-center">
+                        <div class="card-header card-inverse card-info mb-3">
+                            <span jhiTranslate="clothesApp.producto.precioVenta">Precio Venta</span>
+                        </div>
+                        <div class="card-block">
+                            <span>{{producto.precioVenta}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="card text-center">
+                        <div class="card-header card-inverse card-info mb-3">
+                            <span jhiTranslate="clothesApp.producto.margenGanancia">Margen Ganancia</span>
+                        </div>
+                        <div class="card-block">
+                            <span>{{producto.margenGanancia}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="card text-center">
+                        <div class="card-header card-inverse card-info mb-3">
+                            <span jhiTranslate="clothesApp.producto.talle">Talle</span>
+                        </div>
+                        <div class="card-block">
+                            <span jhiTranslate="{{'clothesApp.Talla.' + producto.talle}}">{{producto.talle}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="card text-center">
+                        <div class="card-header card-inverse card-info mb-3">
+                            <span jhiTranslate="clothesApp.producto.categoria">Categoria</span>
+                        </div>
+                        <div class="card-block">
+                            <span jhiTranslate="{{'clothesApp.TipoProducto.' + producto.categoria}}">{{producto.categoria}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="card text-center">
+                        <div class="card-header card-inverse card-info mb-3">
+                            <span jhiTranslate="clothesApp.producto.ubicacion">Ubicacion</span>
+                        </div>
+                        <div class="card-block">
+                            <span jhiTranslate="{{'clothesApp.Ubicacion.' + producto.ubicacion}}">{{producto.ubicacion}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="card text-center">
+                        <div class="card-header card-inverse card-info mb-3">
+                            <span jhiTranslate="clothesApp.producto.proveedor">Proveedor</span>
+                        </div>
+                        <div class="card-block">
+                            <div *ngIf="producto.proveedorId">
+                                <a [routerLink]="['/proveedor', producto.proveedorId]">{{producto.proveedorNombre}}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        <div class="card">
+            <span jhiTranslate="clothesApp.producto.imagen">Imagen</span>
             <div *ngIf="producto.imagen">
                 <a (click)="openFile(producto.imagenContentType, producto.imagen)">
-                    <img [src]="'data:' + producto.imagenContentType + ';base64,' + producto.imagen" style="max-width: 100%;" alt="producto image"/>
+                    <img [src]="'data:' + producto.imagenContentType + ';base64,' + producto.imagen"
+                         style="max-width: 100%;" alt="producto image"/>
                 </a>
-                {{producto.imagenContentType}}, {{byteSize(producto.imagen)}}
+                <div class="card-block">
+                    <p class="card-text">{{producto.imagenContentType}}, {{byteSize(producto.imagen)}}</p>
+                </div>
             </div>
-        </dd>
-        <dt><span jhiTranslate="clothesApp.producto.proveedor">Proveedor</span></dt>
-        <dd>
-            <div *ngIf="producto.proveedorId">
-                <a [routerLink]="['/proveedor', producto.proveedorId]">{{producto.proveedorNombre}}</a>
-            </div>
-        </dd>
-    </dl>
+        </div>
+    </div>
+</div>
 
-    <button type="submit"
-            (click)="previousState()"
-            class="btn btn-info">
-        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
-    </button>
+<button type="submit"
+        (click)="previousState()"
+        class="btn btn-info">
+    <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+</button>
 
-    <button type="button"
-            [routerLink]="['/', { outlets: { popup: 'producto/'+ producto.id + '/edit'} }]"
-            replaceUrl="true"
-            class="btn btn-primary">
-        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
-    </button>
+<button type="button"
+        [routerLink]="['/', { outlets: { popup: 'producto/'+ producto.id + '/edit'} }]"
+        replaceUrl="true"
+        class="btn btn-primary">
+    <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+</button>
 </div>
