@@ -15,7 +15,6 @@ import { Producto } from '../producto/producto.model';
 import { ProductoService } from '../producto/producto.service';
 import { DetalleFactPres } from '../detalle-fact-pres/detalle-fact-pres.model';
 import { DetalleFactPresService } from '../detalle-fact-pres/detalle-fact-pres.service';
-ngToast
 
 @Component({
     selector: 'jhi-factura-presupuesto-dialog',
@@ -29,9 +28,11 @@ export class FacturaPresupuestoDialogComponent implements OnInit {
     cantidadSelec: number;
     authorities: any[];
     isSaving: boolean;
+    fechaHoy: any;
 
     clientes: Cliente[];
     productos: Producto[];
+    productosList: Producto[] = [];
     fechaDp: any;
 
     constructor(
@@ -52,6 +53,9 @@ export class FacturaPresupuestoDialogComponent implements OnInit {
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
         this.clienteService.query().subscribe((res: ResponseWrapper) => { this.clientes = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
         this.productoService.query().subscribe((res: ResponseWrapper) => { this.productos = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+        this.facturaPresupuesto = new FacturaPresupuesto(null, new Date(), null, null, null, null);
+        this.fechaHoy = new Date();
+        this.fechaDp = new Date();
     }
 
     clear() {
@@ -72,17 +76,31 @@ export class FacturaPresupuestoDialogComponent implements OnInit {
 
     addToList() {
         console.log('entro al add to list');
-        this.productoService.find(this.productoIdSelec).subscribe((producto) => {
-            this.productoModalRef(producto);
-        });
+        if (undefined !== this.cantidadSelec || null !== this.cantidadSelec) {
+            this.productoService.find(this.productoIdSelec).subscribe((producto) => {
+                this.productoModalRef(producto);
+            });
+        } else {
+            this.alertService.error('clothesApp.facturaPresupuesto.errorProducto', null, null);
+        }
     }
 
     productoModalRef(producto: Producto) {
-        console.log(producto);
         if (null !== producto || undefined !== producto) {
-            producto.cantidadSeleccionada = this.cantidadSelec;
-            producto.totalFila = producto.precioVenta * producto.cantidadSeleccionada;
-            this.productos.push(producto);
+            console.log('Cantidad seleccionada: ' , this.cantidadSelec);
+            if (undefined === this.cantidadSelec || null === this.cantidadSelec) {
+                this.alertService.error('clothesApp.facturaPresupuesto.errorCantidad', { param : producto.nombre }, null);
+            } else {
+                producto.cantidadSeleccionada = this.cantidadSelec;
+                producto.totalFila = producto.precioVenta * producto.cantidadSeleccionada;
+                this.productosList.push(producto);
+                if (undefined === this.facturaPresupuesto.importeTotal || null === this.facturaPresupuesto.importeTotal) {
+                    this.facturaPresupuesto.importeTotal = 0;
+                }
+                this.facturaPresupuesto.importeTotal = this.facturaPresupuesto.importeTotal + producto.totalFila;
+                this.productoIdSelec = null;
+                this.cantidadSelec = null;
+            }
         }
     }
 

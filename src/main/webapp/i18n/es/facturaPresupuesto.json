@@ -7,6 +7,8 @@
                 "createOrEditLabel": "Crear o editar Factura Presupuesto"
             },
             "created": "Un nuevo Factura Presupuesto ha sido creado con el identificador {{ param }}",
+            "errorProducto": "Debe seleccionar un producto",
+            "errorCantidad": "Debe ingresar una cantidad para el producto {{ param }}",
             "updated": "Un Factura Presupuesto ha sido actualizado con el identificador {{ param }}",
             "deleted": "Un Factura Presupuesto ha sido eliminado con el identificador {{ param }}",
             "delete": {
