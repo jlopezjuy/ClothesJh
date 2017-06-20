@@ -172,12 +172,13 @@ relationship OneToMany {
     Encargo{medida(nombre)} to Medida{encargo required},
     Cliente{encargo(nombre)} to Encargo{cliente(nombre) required},
     Encargo{pago(fechaPago)} to Pago{encargo required},
+    Proveedor{producto(nombre)} to Producto{proveedor(nombre)},
     Encargo{modelo(nombreModelo)} to Modelo{encargo required},
     Cliente{facturaPresupuesto} to FacturaPresupuesto{cliente(nombre)},
     FacturaPresupuesto{detalleFactPres} to DetalleFactPres{facturaPresupuesto},
-    Producto{detalleFactPres} to DetalleFactPres{producto},
-    Producto{proveedor(nombre)} to Proveedor{producto}
+    Producto{detalleFactPres} to DetalleFactPres{producto(nombre)}
 }
+
 
 paginate all with pager
 

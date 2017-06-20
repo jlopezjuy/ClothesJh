@@ -34,7 +34,7 @@
             <label jhiTranslate="clothesApp.detalleFactPres.producto" for="field_producto">Producto</label>
             <select class="form-control" id="field_producto" name="producto" [(ngModel)]="detalleFactPres.productoId" >
                 <option [ngValue]="null"></option>
-                <option [ngValue]="productoOption.id" *ngFor="let productoOption of productos; trackBy: trackProductoById">{{productoOption.id}}</option>
+                <option [ngValue]="productoOption.id" *ngFor="let productoOption of productos; trackBy: trackProductoById">{{productoOption.nombre}}</option>
             </select>
         </div>
     </div>

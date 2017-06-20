@@ -20,7 +20,7 @@
             <th jhiSortBy="cantidad"><span jhiTranslate="clothesApp.detalleFactPres.cantidad">Cantidad</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="predio"><span jhiTranslate="clothesApp.detalleFactPres.predio">Predio</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="facturaPresupuestoId"><span jhiTranslate="clothesApp.detalleFactPres.facturaPresupuesto">Factura Presupuesto</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="productoId"><span jhiTranslate="clothesApp.detalleFactPres.producto">Producto</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="productoNombre"><span jhiTranslate="clothesApp.detalleFactPres.producto">Producto</span> <span class="fa fa-sort"></span></th>
             <th></th>
             </tr>
             </thead>
@@ -36,7 +36,7 @@
                 </td>
                 <td>
                     <div *ngIf="detalleFactPres.productoId">
-                        <a [routerLink]="['../producto', detalleFactPres.productoId  ]" >{{detalleFactPres.productoId}}</a>
+                        <a [routerLink]="['../producto', detalleFactPres.productoId  ]" >{{detalleFactPres.productoNombre}}</a>
                     </div>
                 </td>
                 <td class="text-right">

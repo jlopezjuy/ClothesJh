@@ -48,6 +48,10 @@ public class ProductoDTO implements Serializable {
     private byte[] imagen;
     private String imagenContentType;
 
+    private Long proveedorId;
+
+    private String proveedorNombre;
+
     public Long getId() {
         return id;
     }
@@ -150,6 +154,22 @@ public class ProductoDTO implements Serializable {
 
     public void setImagenContentType(String imagenContentType) {
         this.imagenContentType = imagenContentType;
+    }
+
+    public Long getProveedorId() {
+        return proveedorId;
+    }
+
+    public void setProveedorId(Long proveedorId) {
+        this.proveedorId = proveedorId;
+    }
+
+    public String getProveedorNombre() {
+        return proveedorNombre;
+    }
+
+    public void setProveedorNombre(String proveedorNombre) {
+        this.proveedorNombre = proveedorNombre;
     }
 
     @Override

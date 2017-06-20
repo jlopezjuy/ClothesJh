@@ -21,7 +21,7 @@
         <dt><span jhiTranslate="clothesApp.detalleFactPres.producto">Producto</span></dt>
         <dd>
             <div *ngIf="detalleFactPres.productoId">
-                <a [routerLink]="['/producto', detalleFactPres.productoId]">{{detalleFactPres.productoId}}</a>
+                <a [routerLink]="['/producto', detalleFactPres.productoId]">{{detalleFactPres.productoNombre}}</a>
             </div>
         </dd>
     </dl>

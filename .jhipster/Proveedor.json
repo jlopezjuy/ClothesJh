@@ -2,10 +2,10 @@
     "fluentMethods": true,
     "relationships": [
         {
-            "relationshipType": "many-to-one",
+            "relationshipType": "one-to-many",
             "relationshipName": "producto",
             "otherEntityName": "producto",
-            "otherEntityField": "id"
+            "otherEntityRelationshipName": "proveedor"
         }
     ],
     "fields": [

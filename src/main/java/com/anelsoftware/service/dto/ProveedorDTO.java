@@ -32,8 +32,6 @@ public class ProveedorDTO implements Serializable {
     @NotNull
     private String celular;
 
-    private Long productoId;
-
     public Long getId() {
         return id;
     }
@@ -88,14 +86,6 @@ public class ProveedorDTO implements Serializable {
 
     public void setCelular(String celular) {
         this.celular = celular;
-    }
-
-    public Long getProductoId() {
-        return productoId;
-    }
-
-    public void setProductoId(Long productoId) {
-        this.productoId = productoId;
     }
 
     @Override

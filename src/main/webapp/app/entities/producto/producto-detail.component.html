@@ -53,6 +53,12 @@
                 {{producto.imagenContentType}}, {{byteSize(producto.imagen)}}
             </div>
         </dd>
+        <dt><span jhiTranslate="clothesApp.producto.proveedor">Proveedor</span></dt>
+        <dd>
+            <div *ngIf="producto.proveedorId">
+                <a [routerLink]="['/proveedor', producto.proveedorId]">{{producto.proveedorNombre}}</a>
+            </div>
+        </dd>
     </dl>
 
     <button type="submit"

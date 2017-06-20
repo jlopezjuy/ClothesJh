@@ -11,7 +11,7 @@
             "relationshipType": "many-to-one",
             "relationshipName": "producto",
             "otherEntityName": "producto",
-            "otherEntityField": "id"
+            "otherEntityField": "nombre"
         }
     ],
     "fields": [

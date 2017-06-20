@@ -8,10 +8,10 @@
             "otherEntityRelationshipName": "producto"
         },
         {
-            "relationshipType": "one-to-many",
+            "relationshipType": "many-to-one",
             "relationshipName": "proveedor",
             "otherEntityName": "proveedor",
-            "otherEntityRelationshipName": "producto"
+            "otherEntityField": "nombre"
         }
     ],
     "fields": [

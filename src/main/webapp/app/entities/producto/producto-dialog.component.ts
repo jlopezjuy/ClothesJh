@@ -9,6 +9,8 @@ import { JhiEventManager, JhiAlertService, JhiDataUtils } from 'ng-jhipster';
 import { Producto } from './producto.model';
 import { ProductoPopupService } from './producto-popup.service';
 import { ProductoService } from './producto.service';
+import { Proveedor, ProveedorService } from '../proveedor';
+import { ResponseWrapper } from '../../shared';
 
 @Component({
     selector: 'jhi-producto-dialog',
@@ -20,11 +22,14 @@ export class ProductoDialogComponent implements OnInit {
     authorities: any[];
     isSaving: boolean;
 
+    proveedors: Proveedor[];
+
     constructor(
         public activeModal: NgbActiveModal,
         private dataUtils: JhiDataUtils,
         private alertService: JhiAlertService,
         private productoService: ProductoService,
+        private proveedorService: ProveedorService,
         private elementRef: ElementRef,
         private eventManager: JhiEventManager
     ) {
@@ -33,6 +38,8 @@ export class ProductoDialogComponent implements OnInit {
     ngOnInit() {
         this.isSaving = false;
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
+        this.proveedorService.query()
+            .subscribe((res: ResponseWrapper) => { this.proveedors = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
 
     byteSize(field) {
@@ -103,6 +110,10 @@ export class ProductoDialogComponent implements OnInit {
 
     private onError(error) {
         this.alertService.error(error.message, null, null);
+    }
+
+    trackProveedorById(index: number, item: Proveedor) {
+        return item.id;
     }
 }
 

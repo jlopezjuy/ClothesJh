@@ -82,10 +82,8 @@ public class Producto implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<DetalleFactPres> detalleFactPres = new HashSet<>();
 
-    @OneToMany(mappedBy = "producto")
-    @JsonIgnore
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Proveedor> proveedors = new HashSet<>();
+    @ManyToOne
+    private Proveedor proveedor;
 
     public Long getId() {
         return id;
@@ -276,29 +274,17 @@ public class Producto implements Serializable {
         this.detalleFactPres = detalleFactPres;
     }
 
-    public Set<Proveedor> getProveedors() {
-        return proveedors;
+    public Proveedor getProveedor() {
+        return proveedor;
     }
 
-    public Producto proveedors(Set<Proveedor> proveedors) {
-        this.proveedors = proveedors;
+    public Producto proveedor(Proveedor proveedor) {
+        this.proveedor = proveedor;
         return this;
     }
 
-    public Producto addProveedor(Proveedor proveedor) {
-        this.proveedors.add(proveedor);
-        proveedor.setProducto(this);
-        return this;
-    }
-
-    public Producto removeProveedor(Proveedor proveedor) {
-        this.proveedors.remove(proveedor);
-        proveedor.setProducto(null);
-        return this;
-    }
-
-    public void setProveedors(Set<Proveedor> proveedors) {
-        this.proveedors = proveedors;
+    public void setProveedor(Proveedor proveedor) {
+        this.proveedor = proveedor;
     }
 
     @Override

@@ -8,13 +8,10 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity Proveedor and its DTO ProveedorDTO.
  */
-@Mapper(componentModel = "spring", uses = {ProductoMapper.class, })
+@Mapper(componentModel = "spring", uses = {})
 public interface ProveedorMapper extends EntityMapper <ProveedorDTO, Proveedor> {
-
-    @Mapping(source = "producto.id", target = "productoId")
-    ProveedorDTO toDto(Proveedor proveedor); 
-
-    @Mapping(source = "productoId", target = "producto")
+    
+    @Mapping(target = "productos", ignore = true)
     Proveedor toEntity(ProveedorDTO proveedorDTO); 
     default Proveedor fromId(Long id) {
         if (id == null) {

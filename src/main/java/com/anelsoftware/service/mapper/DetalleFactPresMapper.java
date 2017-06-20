@@ -14,6 +14,7 @@ public interface DetalleFactPresMapper extends EntityMapper <DetalleFactPresDTO,
     @Mapping(source = "facturaPresupuesto.id", target = "facturaPresupuestoId")
 
     @Mapping(source = "producto.id", target = "productoId")
+    @Mapping(source = "producto.nombre", target = "productoNombre")
     DetalleFactPresDTO toDto(DetalleFactPres detalleFactPres); 
 
     @Mapping(source = "facturaPresupuestoId", target = "facturaPresupuesto")

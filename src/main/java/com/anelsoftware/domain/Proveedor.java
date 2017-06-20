@@ -1,11 +1,14 @@
 package com.anelsoftware.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Objects;
 
 /**
@@ -46,8 +49,10 @@ public class Proveedor implements Serializable {
     @Column(name = "celular", nullable = false)
     private String celular;
 
-    @ManyToOne
-    private Producto producto;
+    @OneToMany(mappedBy = "proveedor")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Producto> productos = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -135,17 +140,29 @@ public class Proveedor implements Serializable {
         this.celular = celular;
     }
 
-    public Producto getProducto() {
-        return producto;
+    public Set<Producto> getProductos() {
+        return productos;
     }
 
-    public Proveedor producto(Producto producto) {
-        this.producto = producto;
+    public Proveedor productos(Set<Producto> productos) {
+        this.productos = productos;
         return this;
     }
 
-    public void setProducto(Producto producto) {
-        this.producto = producto;
+    public Proveedor addProducto(Producto producto) {
+        this.productos.add(producto);
+        producto.setProveedor(this);
+        return this;
+    }
+
+    public Proveedor removeProducto(Producto producto) {
+        this.productos.remove(producto);
+        producto.setProveedor(null);
+        return this;
+    }
+
+    public void setProductos(Set<Producto> productos) {
+        this.productos = productos;
     }
 
     @Override

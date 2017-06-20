@@ -28,12 +28,6 @@
         <dd>
             <span>{{proveedor.celular}}</span>
         </dd>
-        <dt><span jhiTranslate="clothesApp.proveedor.producto">Producto</span></dt>
-        <dd>
-            <div *ngIf="proveedor.productoId">
-                <a [routerLink]="['/producto', proveedor.productoId]">{{proveedor.productoId}}</a>
-            </div>
-        </dd>
     </dl>
 
     <button type="submit"

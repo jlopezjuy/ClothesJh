@@ -138,6 +138,13 @@
                 [(ngModel)]="producto.imagenContentType" />
         </div>
 
+        <div class="form-group">
+            <label jhiTranslate="clothesApp.producto.proveedor" for="field_proveedor">Proveedor</label>
+            <select class="form-control" id="field_proveedor" name="proveedor" [(ngModel)]="producto.proveedorId" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="proveedorOption.id" *ngFor="let proveedorOption of proveedors; trackBy: trackProveedorById">{{proveedorOption.nombre}}</option>
+            </select>
+        </div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">

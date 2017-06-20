@@ -28,6 +28,7 @@
             <th jhiSortBy="categoria"><span jhiTranslate="clothesApp.producto.categoria">Categoria</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="ubicacion"><span jhiTranslate="clothesApp.producto.ubicacion">Ubicacion</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="imagen"><span jhiTranslate="clothesApp.producto.imagen">Imagen</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="proveedorNombre"><span jhiTranslate="clothesApp.producto.proveedor">Proveedor</span> <span class="fa fa-sort"></span></th>
             <th></th>
             </tr>
             </thead>
@@ -49,6 +50,11 @@
                         <img [src]="'data:' + producto.imagenContentType + ';base64,' + producto.imagen" style="max-height: 30px;" alt="producto image"/>
                     </a>
                     <span *ngIf="producto.imagen">{{producto.imagenContentType}}, {{byteSize(producto.imagen)}}</span>
+                </td>
+                <td>
+                    <div *ngIf="producto.proveedorId">
+                        <a [routerLink]="['../proveedor', producto.proveedorId  ]" >{{producto.proveedorNombre}}</a>
+                    </div>
                 </td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">

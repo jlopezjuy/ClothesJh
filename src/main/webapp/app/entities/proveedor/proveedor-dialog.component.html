@@ -79,13 +79,6 @@
             </div>
         </div>
 
-        <div class="form-group">
-            <label jhiTranslate="clothesApp.proveedor.producto" for="field_producto">Producto</label>
-            <select class="form-control" id="field_producto" name="producto" [(ngModel)]="proveedor.productoId" >
-                <option [ngValue]="null"></option>
-                <option [ngValue]="productoOption.id" *ngFor="let productoOption of productos; trackBy: trackProductoById">{{productoOption.id}}</option>
-            </select>
-        </div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">

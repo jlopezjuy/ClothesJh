@@ -22,6 +22,8 @@ public class DetalleFactPresDTO implements Serializable {
 
     private Long productoId;
 
+    private String productoNombre;
+
     public Long getId() {
         return id;
     }
@@ -60,6 +62,14 @@ public class DetalleFactPresDTO implements Serializable {
 
     public void setProductoId(Long productoId) {
         this.productoId = productoId;
+    }
+
+    public String getProductoNombre() {
+        return productoNombre;
+    }
+
+    public void setProductoNombre(String productoNombre) {
+        this.productoNombre = productoNombre;
     }
 
     @Override
