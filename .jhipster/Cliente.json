@@ -6,6 +6,12 @@
             "relationshipName": "encargo",
             "otherEntityName": "encargo",
             "otherEntityRelationshipName": "cliente"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "facturaPresupuesto",
+            "otherEntityName": "facturaPresupuesto",
+            "otherEntityRelationshipName": "cliente"
         }
     ],
     "fields": [

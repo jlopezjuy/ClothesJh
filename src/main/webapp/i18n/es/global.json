@@ -12,6 +12,10 @@
                 "medida": "Medida",
                 "encargo": "Encargo",
                 "pago": "Pago",
+                "facturaPresupuesto": "Factura Presupuesto",
+                "detalleFactPres": "Detalle Fact Pres",
+                "producto": "Producto",
+                "proveedor": "Proveedor",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {
@@ -101,10 +105,7 @@
             "edit": "Editar",
             "open": "Open",
             "save": "Guardar",
-            "view": "Vista",
-            "model": "Modelo",
-            "measure": "Medida",
-            "pay": "Pago"
+            "view": "Vista"
         },
         "detail": {
             "field": "Campo",

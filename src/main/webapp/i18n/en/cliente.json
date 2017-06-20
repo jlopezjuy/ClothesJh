@@ -22,7 +22,8 @@
             "email": "Email",
             "domicilio": "Domicilio",
             "colegio": "Colegio",
-            "encargo": "Encargo"
+            "encargo": "Encargo",
+            "facturaPresupuesto": "Factura Presupuesto"
         }
     }
 }

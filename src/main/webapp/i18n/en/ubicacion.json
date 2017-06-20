@@ -1,0 +1,11 @@
+{
+    "clothesApp": {
+        "Ubicacion" : {
+            "null": "",
+            "PERCHERO": "PERCHERO",
+            "MUEBLE": "MUEBLE",
+            "REPISA": "REPISA",
+            "DEPOSITO": "DEPOSITO"
+        }
+    }
+}

@@ -1,0 +1,87 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "detalleFactPres",
+            "otherEntityName": "detalleFactPres",
+            "otherEntityRelationshipName": "producto"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "proveedor",
+            "otherEntityName": "proveedor",
+            "otherEntityRelationshipName": "producto"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "nombre",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "descripcion",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "cantidad",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "codigoOrigen",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "precioCompra",
+            "fieldType": "BigDecimal",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "precioVenta",
+            "fieldType": "BigDecimal",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "margenGanancia",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "talle",
+            "fieldType": "Talla",
+            "fieldValues": "XS,S,M,L,XL,XXL"
+        },
+        {
+            "fieldName": "categoria",
+            "fieldType": "TipoProducto",
+            "fieldValues": "CAMISA,AMBO_LISO,AMBO_RAYADO,PANTALON,SACO_SPORT,CORBATA",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "ubicacion",
+            "fieldType": "Ubicacion",
+            "fieldValues": "PERCHERO,MUEBLE,REPISA,DEPOSITO"
+        },
+        {
+            "fieldName": "imagen",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "image"
+        }
+    ],
+    "changelogDate": "20170620004359",
+    "entityTableName": "producto",
+    "dto": "mapstruct",
+    "pagination": "pager",
+    "service": "serviceImpl"
+}
