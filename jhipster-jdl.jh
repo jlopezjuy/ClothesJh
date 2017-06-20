@@ -89,6 +89,58 @@ entity Pago{
     numeroRecibo Integer required
 }
 
+entity FacturaPresupuesto {
+	fecha LocalDate required,
+    formaPago FormaPago required,
+    importeTotal BigDecimal
+}
+
+entity DetalleFactPres{
+	cantidad Integer,
+    predio BigDecimal
+}
+
+entity Producto{
+	nombre String required,
+    descripcion String,
+    cantidad Integer required,
+    codigoOrigen String,
+    precioCompra BigDecimal required,
+    precioVenta BigDecimal required,
+    margenGanancia BigDecimal,
+    talle Talla,
+	categoria TipoProducto required,
+    ubicacion Ubicacion,
+    imagen ImageBlob
+}
+
+entity Proveedor{
+	nombre String required,
+    domicilio String required,
+    telefono String required,
+    cuilCuit String required,
+    email String required,
+    telefono String required,
+    celular String required
+}
+
+enum FormaPago{
+	CONTADO, TARJETA
+}
+
+enum TipoProducto {
+    CAMISA, AMBO_LISO, AMBO_RAYADO,
+    PANTALON, SACO_SPORT, CORBATA
+}
+
+enum Ubicacion{
+	PERCHERO, MUEBLE, REPISA, DEPOSITO
+}
+
+enum Talla{
+	XS, S, M, L, XL, XXL
+}
+
 enum Estado {
 	ENCARGADO, CORTADO, PROBADO, ENTREGADO, CANCELADO
 }
@@ -120,7 +172,11 @@ relationship OneToMany {
     Encargo{medida(nombre)} to Medida{encargo required},
     Cliente{encargo(nombre)} to Encargo{cliente(nombre) required},
     Encargo{pago(fechaPago)} to Pago{encargo required},
-    Encargo{modelo(nombreModelo)} to Modelo{encargo required}
+    Encargo{modelo(nombreModelo)} to Modelo{encargo required},
+    Cliente{facturaPresupuesto} to FacturaPresupuesto{cliente(nombre)},
+    FacturaPresupuesto{detalleFactPres} to DetalleFactPres{facturaPresupuesto},
+    Producto{detalleFactPres} to DetalleFactPres{producto},
+    Producto{proveedor(nombre)} to Proveedor{producto}
 }
 
 paginate all with pager
