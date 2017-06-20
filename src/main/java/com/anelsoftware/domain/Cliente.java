@@ -60,6 +60,11 @@ public class Cliente implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Encargo> encargos = new HashSet<>();
 
+    @OneToMany(mappedBy = "cliente")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<FacturaPresupuesto> facturaPresupuestos = new HashSet<>();
+
     public Long getId() {
         return id;
     }
@@ -182,6 +187,31 @@ public class Cliente implements Serializable {
 
     public void setEncargos(Set<Encargo> encargos) {
         this.encargos = encargos;
+    }
+
+    public Set<FacturaPresupuesto> getFacturaPresupuestos() {
+        return facturaPresupuestos;
+    }
+
+    public Cliente facturaPresupuestos(Set<FacturaPresupuesto> facturaPresupuestos) {
+        this.facturaPresupuestos = facturaPresupuestos;
+        return this;
+    }
+
+    public Cliente addFacturaPresupuesto(FacturaPresupuesto facturaPresupuesto) {
+        this.facturaPresupuestos.add(facturaPresupuesto);
+        facturaPresupuesto.setCliente(this);
+        return this;
+    }
+
+    public Cliente removeFacturaPresupuesto(FacturaPresupuesto facturaPresupuesto) {
+        this.facturaPresupuestos.remove(facturaPresupuesto);
+        facturaPresupuesto.setCliente(null);
+        return this;
+    }
+
+    public void setFacturaPresupuestos(Set<FacturaPresupuesto> facturaPresupuestos) {
+        this.facturaPresupuestos = facturaPresupuestos;
     }
 
     @Override
