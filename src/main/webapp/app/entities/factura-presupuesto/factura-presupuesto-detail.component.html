@@ -1,0 +1,39 @@
+
+<div *ngIf="facturaPresupuesto">
+    <h2><span jhiTranslate="clothesApp.facturaPresupuesto.detail.title">Factura Presupuesto</span> {{facturaPresupuesto.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="clothesApp.facturaPresupuesto.fecha">Fecha</span></dt>
+        <dd>
+            <span>{{facturaPresupuesto.fecha | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span jhiTranslate="clothesApp.facturaPresupuesto.formaPago">Forma Pago</span></dt>
+        <dd>
+            <span jhiTranslate="{{'clothesApp.FormaPago.' + facturaPresupuesto.formaPago}}">{{facturaPresupuesto.formaPago}}</span>
+        </dd>
+        <dt><span jhiTranslate="clothesApp.facturaPresupuesto.importeTotal">Importe Total</span></dt>
+        <dd>
+            <span>{{facturaPresupuesto.importeTotal}}</span>
+        </dd>
+        <dt><span jhiTranslate="clothesApp.facturaPresupuesto.cliente">Cliente</span></dt>
+        <dd>
+            <div *ngIf="facturaPresupuesto.clienteId">
+                <a [routerLink]="['/cliente', facturaPresupuesto.clienteId]">{{facturaPresupuesto.clienteNombre}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'factura-presupuesto/'+ facturaPresupuesto.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

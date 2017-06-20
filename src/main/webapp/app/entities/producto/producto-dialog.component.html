@@ -1,0 +1,157 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myProductoLabel" jhiTranslate="clothesApp.producto.home.createOrEditLabel">Create or edit a Producto</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!producto.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="producto.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="clothesApp.producto.nombre" for="field_nombre">Nombre</label>
+            <input type="text" class="form-control" name="nombre" id="field_nombre"
+                [(ngModel)]="producto.nombre" required />
+            <div [hidden]="!(editForm.controls.nombre?.dirty && editForm.controls.nombre?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.nombre?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="clothesApp.producto.descripcion" for="field_descripcion">Descripcion</label>
+            <input type="text" class="form-control" name="descripcion" id="field_descripcion"
+                [(ngModel)]="producto.descripcion"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="clothesApp.producto.cantidad" for="field_cantidad">Cantidad</label>
+            <input type="number" class="form-control" name="cantidad" id="field_cantidad"
+                [(ngModel)]="producto.cantidad" required />
+            <div [hidden]="!(editForm.controls.cantidad?.dirty && editForm.controls.cantidad?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.cantidad?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.cantidad?.errors?.number" jhiTranslate="entity.validation.number">
+                    This field should be a number.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="clothesApp.producto.codigoOrigen" for="field_codigoOrigen">Codigo Origen</label>
+            <input type="text" class="form-control" name="codigoOrigen" id="field_codigoOrigen"
+                [(ngModel)]="producto.codigoOrigen"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="clothesApp.producto.precioCompra" for="field_precioCompra">Precio Compra</label>
+            <input type="number" class="form-control" name="precioCompra" id="field_precioCompra"
+                [(ngModel)]="producto.precioCompra" required />
+            <div [hidden]="!(editForm.controls.precioCompra?.dirty && editForm.controls.precioCompra?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.precioCompra?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.precioCompra?.errors?.number" jhiTranslate="entity.validation.number">
+                    This field should be a number.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="clothesApp.producto.precioVenta" for="field_precioVenta">Precio Venta</label>
+            <input type="number" class="form-control" name="precioVenta" id="field_precioVenta"
+                [(ngModel)]="producto.precioVenta" required />
+            <div [hidden]="!(editForm.controls.precioVenta?.dirty && editForm.controls.precioVenta?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.precioVenta?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.precioVenta?.errors?.number" jhiTranslate="entity.validation.number">
+                    This field should be a number.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="clothesApp.producto.margenGanancia" for="field_margenGanancia">Margen Ganancia</label>
+            <input type="number" class="form-control" name="margenGanancia" id="field_margenGanancia"
+                [(ngModel)]="producto.margenGanancia"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="clothesApp.producto.talle" for="field_talle">Talle</label>
+            <select class="form-control" name="talle" [(ngModel)]="producto.talle" id="field_talle" >
+                <option value="XS" jhiTranslate="clothesApp.Talla.XS">XS</option>
+                <option value="S" jhiTranslate="clothesApp.Talla.S">S</option>
+                <option value="M" jhiTranslate="clothesApp.Talla.M">M</option>
+                <option value="L" jhiTranslate="clothesApp.Talla.L">L</option>
+                <option value="XL" jhiTranslate="clothesApp.Talla.XL">XL</option>
+                <option value="XXL" jhiTranslate="clothesApp.Talla.XXL">XXL</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="clothesApp.producto.categoria" for="field_categoria">Categoria</label>
+            <select class="form-control" name="categoria" [(ngModel)]="producto.categoria" id="field_categoria"  required>
+                <option value="CAMISA" jhiTranslate="clothesApp.TipoProducto.CAMISA">CAMISA</option>
+                <option value="AMBO_LISO" jhiTranslate="clothesApp.TipoProducto.AMBO_LISO">AMBO_LISO</option>
+                <option value="AMBO_RAYADO" jhiTranslate="clothesApp.TipoProducto.AMBO_RAYADO">AMBO_RAYADO</option>
+                <option value="PANTALON" jhiTranslate="clothesApp.TipoProducto.PANTALON">PANTALON</option>
+                <option value="SACO_SPORT" jhiTranslate="clothesApp.TipoProducto.SACO_SPORT">SACO_SPORT</option>
+                <option value="CORBATA" jhiTranslate="clothesApp.TipoProducto.CORBATA">CORBATA</option>
+            </select>
+            <div [hidden]="!(editForm.controls.categoria?.dirty && editForm.controls.categoria?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.categoria?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="clothesApp.producto.ubicacion" for="field_ubicacion">Ubicacion</label>
+            <select class="form-control" name="ubicacion" [(ngModel)]="producto.ubicacion" id="field_ubicacion" >
+                <option value="PERCHERO" jhiTranslate="clothesApp.Ubicacion.PERCHERO">PERCHERO</option>
+                <option value="MUEBLE" jhiTranslate="clothesApp.Ubicacion.MUEBLE">MUEBLE</option>
+                <option value="REPISA" jhiTranslate="clothesApp.Ubicacion.REPISA">REPISA</option>
+                <option value="DEPOSITO" jhiTranslate="clothesApp.Ubicacion.DEPOSITO">DEPOSITO</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="clothesApp.producto.imagen" for="field_imagen">Imagen</label>
+            <div>
+                <img [src]="'data:' + producto.imagenContentType + ';base64,' + producto.imagen" style="max-height: 100px;" *ngIf="producto.imagen" alt="producto image"/>
+                <div *ngIf="producto.imagen" class="form-text text-danger clearfix">
+                    <span class="pull-left">{{producto.imagenContentType}}, {{byteSize(producto.imagen)}}</span>
+                    <button type="button" (click)="clearInputImage('imagen', 'imagenContentType', 'fileImage')" class="btn btn-default btn-xs pull-right">
+                        <span class="fa fa-times"></span>
+                    </button>
+                </div>
+                <input type="file" id="fileImage" (change)="setFileData($event, producto, 'imagen', true)" accept="image/*" jhiTranslate="entity.action.addimage"/>
+            </div>
+            <input type="hidden" class="form-control" name="imagen" id="field_imagen"
+                [(ngModel)]="producto.imagen"  />
+            <input type="hidden" class="form-control" name="imagenContentType" id="field_imagenContentType"
+                [(ngModel)]="producto.imagenContentType" />
+        </div>
+
+        <div class="form-group">
+            <label jhiTranslate="clothesApp.producto.proveedor" for="field_proveedor">Proveedor</label>
+            <select class="form-control" id="field_proveedor" name="proveedor" [(ngModel)]="producto.proveedorId" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="proveedorOption.id" *ngFor="let proveedorOption of proveedors; trackBy: trackProveedorById">{{proveedorOption.nombre}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

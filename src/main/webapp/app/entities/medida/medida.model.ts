@@ -10,6 +10,18 @@ const enum TipoFalda {
     'GAJOS'
 
 };
+
+const enum TipoMedida {
+    'AMBO_HOMBRE',
+    'AMBO_MUJER',
+    'CHALECO',
+    'PANTALON_HOMBRE',
+    'PANTALON_MUJER',
+    'POLLERA',
+    'VESTIDO',
+    'CORSET'
+
+};
 export class Medida {
     constructor(
         public id?: number,
@@ -34,6 +46,7 @@ export class Medida {
         public posicionCadera?: number,
         public largoFalda?: number,
         public tipoFalda?: TipoFalda,
+        public tipoMedida?: TipoMedida,
         public fechaMedida?: any,
         public anchoEspalda?: number,
         public anchoManga?: number,
@@ -42,9 +55,7 @@ export class Medida {
         public anchoRodillaPantalon?: number,
         public botaPantalon?: number,
         public largoPantalon?: number,
-        public observacion?: string,
-        public detalleMedida?: string,
-        public clienteId?: number,
+        public encargoId?: number,
     ) {
     }
 }

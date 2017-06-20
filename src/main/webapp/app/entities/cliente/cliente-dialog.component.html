@@ -15,8 +15,7 @@
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="clothesApp.cliente.nombre" for="field_nombre">Nombre</label>
             <input type="text" class="form-control" name="nombre" id="field_nombre"
-                [(ngModel)]="cliente.nombre"
-            required />
+                [(ngModel)]="cliente.nombre" required />
             <div [hidden]="!(editForm.controls.nombre?.dirty && editForm.controls.nombre?.invalid)">
                 <small class="form-text text-danger"
                    [hidden]="!editForm.controls.nombre?.errors?.required" jhiTranslate="entity.validation.required">
@@ -27,8 +26,7 @@
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="clothesApp.cliente.apellido" for="field_apellido">Apellido</label>
             <input type="text" class="form-control" name="apellido" id="field_apellido"
-                [(ngModel)]="cliente.apellido"
-            required />
+                [(ngModel)]="cliente.apellido" required />
             <div [hidden]="!(editForm.controls.apellido?.dirty && editForm.controls.apellido?.invalid)">
                 <small class="form-text text-danger"
                    [hidden]="!editForm.controls.apellido?.errors?.required" jhiTranslate="entity.validation.required">
@@ -39,14 +37,12 @@
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="clothesApp.cliente.celular" for="field_celular">Celular</label>
             <input type="text" class="form-control" name="celular" id="field_celular"
-                [(ngModel)]="cliente.celular"
-             />
+                [(ngModel)]="cliente.celular"  />
         </div>
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="clothesApp.cliente.telefono" for="field_telefono">Telefono</label>
             <input type="text" class="form-control" name="telefono" id="field_telefono"
-                [(ngModel)]="cliente.telefono"
-            required />
+                [(ngModel)]="cliente.telefono" required />
             <div [hidden]="!(editForm.controls.telefono?.dirty && editForm.controls.telefono?.invalid)">
                 <small class="form-text text-danger"
                    [hidden]="!editForm.controls.telefono?.errors?.required" jhiTranslate="entity.validation.required">
@@ -57,8 +53,7 @@
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="clothesApp.cliente.email" for="field_email">Email</label>
             <input type="text" class="form-control" name="email" id="field_email"
-                [(ngModel)]="cliente.email"
-            required />
+                [(ngModel)]="cliente.email" required />
             <div [hidden]="!(editForm.controls.email?.dirty && editForm.controls.email?.invalid)">
                 <small class="form-text text-danger"
                    [hidden]="!editForm.controls.email?.errors?.required" jhiTranslate="entity.validation.required">
@@ -69,8 +64,7 @@
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="clothesApp.cliente.domicilio" for="field_domicilio">Domicilio</label>
             <input type="text" class="form-control" name="domicilio" id="field_domicilio"
-                [(ngModel)]="cliente.domicilio"
-            required />
+                [(ngModel)]="cliente.domicilio" required />
             <div [hidden]="!(editForm.controls.domicilio?.dirty && editForm.controls.domicilio?.invalid)">
                 <small class="form-text text-danger"
                    [hidden]="!editForm.controls.domicilio?.errors?.required" jhiTranslate="entity.validation.required">
@@ -81,8 +75,7 @@
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="clothesApp.cliente.colegio" for="field_colegio">Colegio</label>
             <input type="text" class="form-control" name="colegio" id="field_colegio"
-                [(ngModel)]="cliente.colegio"
-            required />
+                [(ngModel)]="cliente.colegio" required />
             <div [hidden]="!(editForm.controls.colegio?.dirty && editForm.controls.colegio?.invalid)">
                 <small class="form-text text-danger"
                    [hidden]="!editForm.controls.colegio?.errors?.required" jhiTranslate="entity.validation.required">
@@ -91,17 +84,6 @@
             </div>
         </div>
 
-        <div class="form-group" style="visibility: hidden">
-            <label jhiTranslate="clothesApp.cliente.empresa" for="field_empresa">Empresa</label>
-
-            <input type="text" class="form-control" name="empresa" id="field_empresa" [(ngModel)]="cliente.empresaId" value="1"/>
-        </div>
-        <div [hidden]="!(editForm.controls.empresa?.dirty && editForm.controls.empresa?.invalid)">
-            <small class="form-text text-danger"
-                [hidden]="!editForm.controls.empresa?.errors?.required" jhiTranslate="entity.validation.required">
-                This field is required.
-            </small>
-        </div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">

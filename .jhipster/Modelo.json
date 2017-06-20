@@ -4,9 +4,9 @@
         {
             "relationshipType": "many-to-one",
             "relationshipValidateRules": "required",
-            "relationshipName": "cliente",
-            "otherEntityName": "cliente",
-            "otherEntityField": "nombre"
+            "relationshipName": "encargo",
+            "otherEntityName": "encargo",
+            "otherEntityField": "id"
         }
     ],
     "fields": [
@@ -33,14 +33,19 @@
             ]
         },
         {
+            "fieldName": "bordado",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "descripcion",
+            "fieldType": "String"
+        },
+        {
             "fieldName": "observacion",
-            "fieldType": "String",
-            "fieldValidateRules": [
-                "required"
-            ]
+            "fieldType": "String"
         }
     ],
-    "changelogDate": "20170604152015",
+    "changelogDate": "20170611211922",
     "javadoc": "Class Modelo.\n@author anelsoftware",
     "entityTableName": "modelo",
     "dto": "mapstruct",

@@ -1,0 +1,27 @@
+{
+    "clothesApp": {
+        "proveedor" : {
+            "home": {
+                "title": "Proveedors",
+                "createLabel": "Create a new Proveedor",
+                "createOrEditLabel": "Create or edit a Proveedor"
+            },
+            "created": "A new Proveedor is created with identifier {{ param }}",
+            "updated": "A Proveedor is updated with identifier {{ param }}",
+            "deleted": "A Proveedor is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Proveedor {{ id }}?"
+            },
+            "detail": {
+                "title": "Proveedor"
+            },
+            "nombre": "Nombre",
+            "domicilio": "Domicilio",
+            "telefono": "Telefono",
+            "cuilCuit": "Cuil Cuit",
+            "email": "Email",
+            "celular": "Celular",
+            "producto": "Producto"
+        }
+    }
+}

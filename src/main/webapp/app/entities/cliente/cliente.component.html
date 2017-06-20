@@ -19,8 +19,11 @@
             <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="nombre"><span jhiTranslate="clothesApp.cliente.nombre">Nombre</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="apellido"><span jhiTranslate="clothesApp.cliente.apellido">Apellido</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="celular"><span jhiTranslate="clothesApp.cliente.celular">Celular</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="telefono"><span jhiTranslate="clothesApp.cliente.telefono">Telefono</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="email"><span jhiTranslate="clothesApp.cliente.email">Email</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="domicilio"><span jhiTranslate="clothesApp.cliente.domicilio">Domicilio</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="colegio"><span jhiTranslate="clothesApp.cliente.colegio">Colegio</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="empresaNombre"><span jhiTranslate="clothesApp.cliente.empresa">Empresa</span> <span class="fa fa-sort"></span></th>
             <th></th>
             </tr>
             </thead>
@@ -29,41 +32,27 @@
                 <td><a [routerLink]="['../cliente', cliente.id ]">{{cliente.id}}</a></td>
                 <td>{{cliente.nombre}}</td>
                 <td>{{cliente.apellido}}</td>
+                <td>{{cliente.celular}}</td>
+                <td>{{cliente.telefono}}</td>
+                <td>{{cliente.email}}</td>
+                <td>{{cliente.domicilio}}</td>
                 <td>{{cliente.colegio}}</td>
-                <td>
-                    <div *ngIf="cliente.empresaId">
-                        <a [routerLink]="['../empresa', cliente.empresaId  ]" >{{cliente.empresaNombre}}</a>
-                    </div>
-                </td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
-
-                        <button type="submit"
-                                [routerLink]="['../clienteModelo', cliente.id ]"
-                                class="btn btn-primary btn-sm">
-                            <span class="fa fa-eye"></span>
-                            <span class="hidden-md-down" jhiTranslate="entity.action.model">Modelos</span>
-                        </button>
-                        <button type="submit"
-                                [routerLink]="['../clienteMedida', cliente.id ]"
-                                class="btn btn-primary btn-sm">
-                            <span class="fa fa-eye"></span>
-                            <span class="hidden-md-down" jhiTranslate="entity.action.medida">Medida</span>
-                        </button>
                         <button type="submit"
                                 [routerLink]="['../cliente', cliente.id ]"
                                 class="btn btn-info btn-sm">
                             <span class="fa fa-eye"></span>
                             <span class="hidden-md-down" jhiTranslate="entity.action.view">View</span>
                         </button>
-                        <button type="submit"
+                        <button type="submit" *jhiHasAnyAuthority="'ROLE_ADMIN'"
                                 [routerLink]="['/', { outlets: { popup: 'cliente/'+ cliente.id + '/edit'} }]"
                                 replaceUrl="true"
                                 class="btn btn-primary btn-sm">
                             <span class="fa fa-pencil"></span>
                             <span class="hidden-md-down" jhiTranslate="entity.action.edit">Edit</span>
                         </button>
-                        <button type="submit"
+                        <button type="submit" *jhiHasAnyAuthority="'ROLE_ADMIN'"
                                 [routerLink]="['/', { outlets: { popup: 'cliente/'+ cliente.id + '/delete'} }]"
                                 replaceUrl="true"
                                 class="btn btn-danger btn-sm">

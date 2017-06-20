@@ -12,6 +12,8 @@ import java.util.Objects;
 
 import com.anelsoftware.domain.enumeration.TipoFalda;
 
+import com.anelsoftware.domain.enumeration.TipoMedida;
+
 /**
  * Class Medida.
  * @author anelsoftware
@@ -93,6 +95,11 @@ public class Medida implements Serializable {
     private TipoFalda tipoFalda;
 
     @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "tipo_medida", nullable = false)
+    private TipoMedida tipoMedida;
+
+    @NotNull
     @Column(name = "fecha_medida", nullable = false)
     private LocalDate fechaMedida;
 
@@ -117,15 +124,9 @@ public class Medida implements Serializable {
     @Column(name = "largo_pantalon")
     private Double largoPantalon;
 
-    @Column(name = "observacion")
-    private String observacion;
-
-    @Column(name = "detalle_medida")
-    private String detalleMedida;
-
     @ManyToOne(optional = false)
     @NotNull
-    private Cliente cliente;
+    private Encargo encargo;
 
     public Long getId() {
         return id;
@@ -408,6 +409,19 @@ public class Medida implements Serializable {
         this.tipoFalda = tipoFalda;
     }
 
+    public TipoMedida getTipoMedida() {
+        return tipoMedida;
+    }
+
+    public Medida tipoMedida(TipoMedida tipoMedida) {
+        this.tipoMedida = tipoMedida;
+        return this;
+    }
+
+    public void setTipoMedida(TipoMedida tipoMedida) {
+        this.tipoMedida = tipoMedida;
+    }
+
     public LocalDate getFechaMedida() {
         return fechaMedida;
     }
@@ -512,43 +526,17 @@ public class Medida implements Serializable {
         this.largoPantalon = largoPantalon;
     }
 
-    public String getObservacion() {
-        return observacion;
+    public Encargo getEncargo() {
+        return encargo;
     }
 
-    public Medida observacion(String observacion) {
-        this.observacion = observacion;
+    public Medida encargo(Encargo encargo) {
+        this.encargo = encargo;
         return this;
     }
 
-    public void setObservacion(String observacion) {
-        this.observacion = observacion;
-    }
-
-    public String getDetalleMedida() {
-        return detalleMedida;
-    }
-
-    public Medida detalleMedida(String detalleMedida) {
-        this.detalleMedida = detalleMedida;
-        return this;
-    }
-
-    public void setDetalleMedida(String detalleMedida) {
-        this.detalleMedida = detalleMedida;
-    }
-
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public Medida cliente(Cliente cliente) {
-        this.cliente = cliente;
-        return this;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
+    public void setEncargo(Encargo encargo) {
+        this.encargo = encargo;
     }
 
     @Override
@@ -596,6 +584,7 @@ public class Medida implements Serializable {
             ", posicionCadera='" + getPosicionCadera() + "'" +
             ", largoFalda='" + getLargoFalda() + "'" +
             ", tipoFalda='" + getTipoFalda() + "'" +
+            ", tipoMedida='" + getTipoMedida() + "'" +
             ", fechaMedida='" + getFechaMedida() + "'" +
             ", anchoEspalda='" + getAnchoEspalda() + "'" +
             ", anchoManga='" + getAnchoManga() + "'" +
@@ -604,8 +593,6 @@ public class Medida implements Serializable {
             ", anchoRodillaPantalon='" + getAnchoRodillaPantalon() + "'" +
             ", botaPantalon='" + getBotaPantalon() + "'" +
             ", largoPantalon='" + getLargoPantalon() + "'" +
-            ", observacion='" + getObservacion() + "'" +
-            ", detalleMedida='" + getDetalleMedida() + "'" +
             "}";
     }
 }

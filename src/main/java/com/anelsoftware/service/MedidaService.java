@@ -41,10 +41,10 @@ public interface MedidaService {
     void delete(Long id);
 
     /**
-     * Get all medidas from selected Client
+     *
      * @param pageable
-     * @param clienteId
+     * @param encargoId
      * @return
      */
-    Page<MedidaDTO> findAllByCliente(Pageable pageable, Long clienteId);
+    Page<MedidaDTO> findAllByEncargoId(Pageable pageable, Long encargoId);
 }

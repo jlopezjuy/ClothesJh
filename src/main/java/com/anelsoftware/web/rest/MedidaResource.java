@@ -66,7 +66,7 @@ public class MedidaResource {
      * @param medidaDTO the medidaDTO to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated medidaDTO,
      * or with status 400 (Bad Request) if the medidaDTO is not valid,
-     * or with status 500 (Internal Server Error) if the medidaDTO couldnt be updated
+     * or with status 500 (Internal Server Error) if the medidaDTO couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/medidas")
@@ -98,17 +98,16 @@ public class MedidaResource {
     }
 
     /**
-     * GET  /medidas : get all the medidas.
+     * GET  /medidas : get all the medidas by Encargo.
      *
      * @param pageable the pagination information
-     * @param clienteId id of Client to filter
      * @return the ResponseEntity with status 200 (OK) and the list of medidas in body
      */
-    @GetMapping("/medidasCliente/{clienteId}")
+    @GetMapping("/medidas/encargo/{encargoId}")
     @Timed
-    public ResponseEntity<List<MedidaDTO>> getAllMedidasByCliente(@ApiParam Pageable pageable, @PathVariable Long clienteId) {
+    public ResponseEntity<List<MedidaDTO>> getAllMedidasEncargo(@ApiParam Pageable pageable, @PathVariable Long encargoId) {
         log.debug("REST request to get a page of Medidas");
-        Page<MedidaDTO> page = medidaService.findAllByCliente(pageable, clienteId);
+        Page<MedidaDTO> page = medidaService.findAllByEncargoId(pageable, encargoId);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/medidas");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
@@ -140,5 +139,4 @@ public class MedidaResource {
         medidaService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
-
 }

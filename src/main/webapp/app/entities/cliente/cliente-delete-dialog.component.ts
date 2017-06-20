@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { EventManager } from 'ng-jhipster';
+import { JhiAlertService, JhiEventManager } from 'ng-jhipster';
 
 import { Cliente } from './cliente.model';
 import { ClientePopupService } from './cliente-popup.service';
@@ -19,7 +19,8 @@ export class ClienteDeleteDialogComponent {
     constructor(
         private clienteService: ClienteService,
         public activeModal: NgbActiveModal,
-        private eventManager: EventManager
+        private alertService: JhiAlertService,
+        private eventManager: JhiEventManager
     ) {
     }
 
@@ -35,6 +36,7 @@ export class ClienteDeleteDialogComponent {
             });
             this.activeModal.dismiss(true);
         });
+        this.alertService.success('clothesApp.cliente.deleted', { param : id }, null);
     }
 }
 

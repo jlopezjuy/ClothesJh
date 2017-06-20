@@ -26,12 +26,13 @@ public class ModeloDTO implements Serializable {
     @NotNull
     private String colorVestido;
 
-    @NotNull
+    private Boolean bordado;
+
+    private String descripcion;
+
     private String observacion;
 
-    private Long clienteId;
-
-    private String clienteNombre;
+    private Long encargoId;
 
     public Long getId() {
         return id;
@@ -73,6 +74,22 @@ public class ModeloDTO implements Serializable {
         this.colorVestido = colorVestido;
     }
 
+    public Boolean isBordado() {
+        return bordado;
+    }
+
+    public void setBordado(Boolean bordado) {
+        this.bordado = bordado;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
     public String getObservacion() {
         return observacion;
     }
@@ -81,20 +98,12 @@ public class ModeloDTO implements Serializable {
         this.observacion = observacion;
     }
 
-    public Long getClienteId() {
-        return clienteId;
+    public Long getEncargoId() {
+        return encargoId;
     }
 
-    public void setClienteId(Long clienteId) {
-        this.clienteId = clienteId;
-    }
-
-    public String getClienteNombre() {
-        return clienteNombre;
-    }
-
-    public void setClienteNombre(String clienteNombre) {
-        this.clienteNombre = clienteNombre;
+    public void setEncargoId(Long encargoId) {
+        this.encargoId = encargoId;
     }
 
     @Override
@@ -125,6 +134,8 @@ public class ModeloDTO implements Serializable {
             ", imagen='" + getImagen() + "'" +
             ", nombreModelo='" + getNombreModelo() + "'" +
             ", colorVestido='" + getColorVestido() + "'" +
+            ", bordado='" + isBordado() + "'" +
+            ", descripcion='" + getDescripcion() + "'" +
             ", observacion='" + getObservacion() + "'" +
             "}";
     }

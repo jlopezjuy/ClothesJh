@@ -1,0 +1,69 @@
+entity FacturaPresupuesto {
+	fecha LocalDate required,
+    formaPago FormaPago required,
+    importeTotal BigDecimal
+}
+
+entity DetalleFactPres{
+	cantidad Integer,
+    predio BigDecimal
+}
+
+entity Producto{
+	nombre String required,
+    descripcion String,
+    cantidad Integer required,
+    codigoOrigen String,
+    precioCompra BigDecimal required,
+    precioVenta BigDecimal required,
+    margenGanancia BigDecimal,
+    talle Talla,
+	categoria TipoProducto required,
+    ubicacion Ubicacion,
+    imagen ImageBlob
+}
+
+entity Proveedor{
+	nombre String required,
+    domicilio String required,
+    telefono String required,
+    cuilCuit String required,
+    email String required,
+    telefono String required,
+    celular String required
+}
+
+enum FormaPago{
+	CONTADO, TARJETA
+}
+
+enum TipoProducto {
+    CAMISA, AMBO_LISO, AMBO_RAYADO,
+    PANTALON, SACO_SPORT, CORBATA
+}
+
+enum Ubicacion{
+	PERCHERO, MUEBLE, REPISA, DEPOSITO
+}
+
+enum Talla{
+	XS, S, M, L, XL, XXL
+}
+
+relationship OneToMany{
+	Cliente{factPres} to FacturaPresupuesto{cliente(nombre)},
+	FacturaPresupuesto{detalle} to DetalleFactPres{factPres},
+    Producto{detalle} to DetalleFactPres{producto},
+    Producto{proveedor(nombre)} to Proveedor{producto}
+}
+
+relationship ManyToOne{
+    FacturaPresupuesto{cliente(nombre)} to Cliente{factPres},
+    DetalleFactPres{factPres} to FacturaPresupuesto{detalle},
+    DetalleFactPres{producto} to Producto{detalle},
+    Proveedor{producto} to Producto{proveedor(nombre)}
+}
+
+paginate all with pager
+dto all with mapstruct
+service all with serviceImpl

@@ -8,10 +8,8 @@ export class Cliente {
         public email?: string,
         public domicilio?: string,
         public colegio?: string,
-        public modeloId?: number,
-        public medidaId?: number,
         public encargoId?: number,
-        public empresaId?: number,
+        public facturaPresupuestoId?: number,
     ) {
     }
 }

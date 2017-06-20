@@ -4,7 +4,7 @@ import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { EventManager, AlertService } from 'ng-jhipster';
+import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
 import { Encargo } from './encargo.model';
 import { EncargoPopupService } from './encargo-popup.service';
@@ -28,10 +28,10 @@ export class EncargoDialogComponent implements OnInit {
 
     constructor(
         public activeModal: NgbActiveModal,
-        private alertService: AlertService,
+        private alertService: JhiAlertService,
         private encargoService: EncargoService,
         private clienteService: ClienteService,
-        private eventManager: EventManager
+        private eventManager: JhiEventManager
     ) {
     }
 
@@ -40,8 +40,8 @@ export class EncargoDialogComponent implements OnInit {
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
         this.clienteService.query()
             .subscribe((res: ResponseWrapper) => { this.clientes = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
-        this.encargo.fechaEncargo = new Date();
     }
+
     clear() {
         this.activeModal.dismiss('cancel');
     }
@@ -50,19 +50,24 @@ export class EncargoDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.encargo.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.encargoService.update(this.encargo));
+                this.encargoService.update(this.encargo), false);
         } else {
             this.subscribeToSaveResponse(
-                this.encargoService.create(this.encargo));
+                this.encargoService.create(this.encargo), true);
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<Encargo>) {
+    private subscribeToSaveResponse(result: Observable<Encargo>, isCreated: boolean) {
         result.subscribe((res: Encargo) =>
-            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: Encargo) {
+    private onSaveSuccess(result: Encargo, isCreated: boolean) {
+        this.alertService.success(
+            isCreated ? 'clothesApp.encargo.created'
+            : 'clothesApp.encargo.updated',
+            { param : result.id }, null);
+
         this.eventManager.broadcast({ name: 'encargoListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);
@@ -111,7 +116,6 @@ export class EncargoPopupComponent implements OnInit, OnDestroy {
                     .open(EncargoDialogComponent);
             }
         });
-
     }
 
     ngOnDestroy() {

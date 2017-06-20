@@ -1,0 +1,33 @@
+{
+    "clothesApp": {
+        "producto" : {
+            "home": {
+                "title": "Productos",
+                "createLabel": "Crear nuevo Producto",
+                "createOrEditLabel": "Crear o editar Producto"
+            },
+            "created": "Un nuevo Producto ha sido creado con el identificador {{ param }}",
+            "updated": "Un Producto ha sido actualizado con el identificador {{ param }}",
+            "deleted": "Un Producto ha sido eliminado con el identificador {{ param }}",
+            "delete": {
+                "question": "¿Seguro que quiere eliminar Producto {{ id }}?"
+            },
+            "detail": {
+                "title": "Producto"
+            },
+            "nombre": "Nombre",
+            "descripcion": "Descripcion",
+            "cantidad": "Cantidad",
+            "codigoOrigen": "Codigo Origen",
+            "precioCompra": "Precio Compra",
+            "precioVenta": "Precio Venta",
+            "margenGanancia": "Margen Ganancia",
+            "talle": "Talle",
+            "categoria": "Categoria",
+            "ubicacion": "Ubicacion",
+            "imagen": "Imagen",
+            "detalleFactPres": "Detalle Fact Pres",
+            "proveedor": "Proveedor"
+        }
+    }
+}

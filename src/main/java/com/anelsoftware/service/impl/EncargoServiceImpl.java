@@ -9,10 +9,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 
 /**
  * Service Implementation for managing Encargo.
@@ -22,7 +21,7 @@ import java.util.List;
 public class EncargoServiceImpl implements EncargoService{
 
     private final Logger log = LoggerFactory.getLogger(EncargoServiceImpl.class);
-    
+
     private final EncargoRepository encargoRepository;
 
     private final EncargoMapper encargoMapper;
@@ -43,13 +42,12 @@ public class EncargoServiceImpl implements EncargoService{
         log.debug("Request to save Encargo : {}", encargoDTO);
         Encargo encargo = encargoMapper.toEntity(encargoDTO);
         encargo = encargoRepository.save(encargo);
-        EncargoDTO result = encargoMapper.toDto(encargo);
-        return result;
+        return encargoMapper.toDto(encargo);
     }
 
     /**
      *  Get all the encargos.
-     *  
+     *
      *  @param pageable the pagination information
      *  @return the list of entities
      */
@@ -57,8 +55,8 @@ public class EncargoServiceImpl implements EncargoService{
     @Transactional(readOnly = true)
     public Page<EncargoDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Encargos");
-        Page<Encargo> result = encargoRepository.findAll(pageable);
-        return result.map(encargo -> encargoMapper.toDto(encargo));
+        return encargoRepository.findAll(pageable)
+            .map(encargoMapper::toDto);
     }
 
     /**
@@ -72,8 +70,7 @@ public class EncargoServiceImpl implements EncargoService{
     public EncargoDTO findOne(Long id) {
         log.debug("Request to get Encargo : {}", id);
         Encargo encargo = encargoRepository.findOne(id);
-        EncargoDTO encargoDTO = encargoMapper.toDto(encargo);
-        return encargoDTO;
+        return encargoMapper.toDto(encargo);
     }
 
     /**

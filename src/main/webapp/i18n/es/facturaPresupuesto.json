@@ -1,0 +1,25 @@
+{
+    "clothesApp": {
+        "facturaPresupuesto" : {
+            "home": {
+                "title": "Factura Presupuestos",
+                "createLabel": "Crear nuevo Factura Presupuesto",
+                "createOrEditLabel": "Crear o editar Factura Presupuesto"
+            },
+            "created": "Un nuevo Factura Presupuesto ha sido creado con el identificador {{ param }}",
+            "updated": "Un Factura Presupuesto ha sido actualizado con el identificador {{ param }}",
+            "deleted": "Un Factura Presupuesto ha sido eliminado con el identificador {{ param }}",
+            "delete": {
+                "question": "¿Seguro que quiere eliminar Factura Presupuesto {{ id }}?"
+            },
+            "detail": {
+                "title": "Factura Presupuesto"
+            },
+            "fecha": "Fecha",
+            "formaPago": "Forma Pago",
+            "importeTotal": "Importe Total",
+            "detalleFactPres": "Detalle Fact Pres",
+            "cliente": "Cliente"
+        }
+    }
+}

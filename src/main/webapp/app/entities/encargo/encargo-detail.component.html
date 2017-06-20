@@ -28,6 +28,10 @@
         <dd>
             <span jhiTranslate="{{'clothesApp.TipoEncargo.' + encargo.tipoEncargo}}">{{encargo.tipoEncargo}}</span>
         </dd>
+        <dt><span jhiTranslate="clothesApp.encargo.tipoVestido">Tipo Vestido</span></dt>
+        <dd>
+            <span jhiTranslate="{{'clothesApp.TipoVestido.' + encargo.tipoVestido}}">{{encargo.tipoVestido}}</span>
+        </dd>
         <dt><span jhiTranslate="clothesApp.encargo.cliente">Cliente</span></dt>
         <dd>
             <div *ngIf="encargo.clienteId">
@@ -42,7 +46,7 @@
         <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
     </button>
 
-    <button type="button"
+    <button type="button" *jhiHasAnyAuthority="'ROLE_ADMIN'"
             [routerLink]="['/', { outlets: { popup: 'encargo/'+ encargo.id + '/edit'} }]"
             replaceUrl="true"
             class="btn btn-primary">
