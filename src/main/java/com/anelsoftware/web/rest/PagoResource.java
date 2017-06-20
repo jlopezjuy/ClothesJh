@@ -33,7 +33,7 @@ public class PagoResource {
     private final Logger log = LoggerFactory.getLogger(PagoResource.class);
 
     private static final String ENTITY_NAME = "pago";
-        
+
     private final PagoService pagoService;
 
     public PagoResource(PagoService pagoService) {
@@ -66,7 +66,7 @@ public class PagoResource {
      * @param pagoDTO the pagoDTO to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated pagoDTO,
      * or with status 400 (Bad Request) if the pagoDTO is not valid,
-     * or with status 500 (Internal Server Error) if the pagoDTO couldnt be updated
+     * or with status 500 (Internal Server Error) if the pagoDTO couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/pagos")
@@ -98,6 +98,21 @@ public class PagoResource {
     }
 
     /**
+     * GET  /pagos : get all the pagos.
+     *
+     * @param pageable the pagination information
+     * @return the ResponseEntity with status 200 (OK) and the list of pagos in body
+     */
+    @GetMapping("/pagos/encargo/{encargoId}")
+    @Timed
+    public ResponseEntity<List<PagoDTO>> getAllPagosEncargo(@ApiParam Pageable pageable,@PathVariable Long encargoId) {
+        log.debug("REST request to get a page of Pagos");
+        Page<PagoDTO> page = pagoService.findAllByEncargoId(pageable, encargoId);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/pagos");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
+    /**
      * GET  /pagos/:id : get the "id" pago.
      *
      * @param id the id of the pagoDTO to retrieve
@@ -124,5 +139,4 @@ public class PagoResource {
         pagoService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
-
 }

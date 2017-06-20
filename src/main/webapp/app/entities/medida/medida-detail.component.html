@@ -88,6 +88,10 @@
         <dd>
             <span jhiTranslate="{{'clothesApp.TipoFalda.' + medida.tipoFalda}}">{{medida.tipoFalda}}</span>
         </dd>
+        <dt><span jhiTranslate="clothesApp.medida.tipoMedida">Tipo Medida</span></dt>
+        <dd>
+            <span jhiTranslate="{{'clothesApp.TipoMedida.' + medida.tipoMedida}}">{{medida.tipoMedida}}</span>
+        </dd>
         <dt><span jhiTranslate="clothesApp.medida.fechaMedida">Fecha Medida</span></dt>
         <dd>
             <span>{{medida.fechaMedida | date:'mediumDate'}}</span>
@@ -120,18 +124,10 @@
         <dd>
             <span>{{medida.largoPantalon}}</span>
         </dd>
-        <dt><span jhiTranslate="clothesApp.medida.observacion">Observacion</span></dt>
+        <dt><span jhiTranslate="clothesApp.medida.encargo">Encargo</span></dt>
         <dd>
-            <span>{{medida.observacion}}</span>
-        </dd>
-        <dt><span jhiTranslate="clothesApp.medida.detalleMedida">Detalle Medida</span></dt>
-        <dd>
-            <span>{{medida.detalleMedida}}</span>
-        </dd>
-        <dt><span jhiTranslate="clothesApp.medida.cliente">Cliente</span></dt>
-        <dd>
-            <div *ngIf="medida.clienteId">
-                <a [routerLink]="['/cliente', medida.clienteId]">{{medida.clienteNombre}}</a>
+            <div *ngIf="medida.encargoId">
+                <a [routerLink]="['/encargo', medida.encargoId]">{{medida.encargoId}}</a>
             </div>
         </dd>
     </dl>
@@ -142,7 +138,7 @@
         <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
     </button>
 
-    <button type="button"
+    <button type="button" *jhiHasAnyAuthority="'ROLE_ADMIN'"
             [routerLink]="['/', { outlets: { popup: 'medida/'+ medida.id + '/edit'} }]"
             replaceUrl="true"
             class="btn btn-primary">

@@ -10,7 +10,7 @@
                 <a (click)="openFile(modelo.imagenContentType, modelo.imagen)">
                     <img [src]="'data:' + modelo.imagenContentType + ';base64,' + modelo.imagen" style="max-width: 100%;" alt="modelo image"/>
                 </a>
-                <!--{{modelo.imagenContentType}}, {{byteSize(modelo.imagen)}}-->
+                {{modelo.imagenContentType}}, {{byteSize(modelo.imagen)}}
             </div>
         </dd>
         <dt><span jhiTranslate="clothesApp.modelo.nombreModelo">Nombre Modelo</span></dt>
@@ -21,14 +21,22 @@
         <dd>
             <span>{{modelo.colorVestido}}</span>
         </dd>
+        <dt><span jhiTranslate="clothesApp.modelo.bordado">Bordado</span></dt>
+        <dd>
+            <span>{{modelo.bordado}}</span>
+        </dd>
+        <dt><span jhiTranslate="clothesApp.modelo.descripcion">Descripcion</span></dt>
+        <dd>
+            <span>{{modelo.descripcion}}</span>
+        </dd>
         <dt><span jhiTranslate="clothesApp.modelo.observacion">Observacion</span></dt>
         <dd>
             <span>{{modelo.observacion}}</span>
         </dd>
-        <dt><span jhiTranslate="clothesApp.modelo.cliente">Cliente</span></dt>
+        <dt><span jhiTranslate="clothesApp.modelo.encargo">Encargo</span></dt>
         <dd>
-            <div *ngIf="modelo.clienteId">
-                <a [routerLink]="['/cliente', modelo.clienteId]">{{modelo.clienteNombre}}</a>
+            <div *ngIf="modelo.encargoId">
+                <a [routerLink]="['/encargo', modelo.encargoId]">{{modelo.encargoId}}</a>
             </div>
         </dd>
     </dl>
@@ -39,7 +47,7 @@
         <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
     </button>
 
-    <button type="button"
+    <button type="button" *jhiHasAnyAuthority="'ROLE_ADMIN'"
             [routerLink]="['/', { outlets: { popup: 'modelo/'+ modelo.id + '/edit'} }]"
             replaceUrl="true"
             class="btn btn-primary">

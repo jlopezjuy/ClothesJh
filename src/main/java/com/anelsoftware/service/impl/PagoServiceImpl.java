@@ -1,5 +1,7 @@
 package com.anelsoftware.service.impl;
 
+import com.anelsoftware.domain.Encargo;
+import com.anelsoftware.repository.EncargoRepository;
 import com.anelsoftware.service.PagoService;
 import com.anelsoftware.domain.Pago;
 import com.anelsoftware.repository.PagoRepository;
@@ -9,10 +11,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 
 /**
  * Service Implementation for managing Pago.
@@ -22,14 +23,16 @@ import java.util.List;
 public class PagoServiceImpl implements PagoService{
 
     private final Logger log = LoggerFactory.getLogger(PagoServiceImpl.class);
-    
+
     private final PagoRepository pagoRepository;
+    private final EncargoRepository encargoRepository;
 
     private final PagoMapper pagoMapper;
 
-    public PagoServiceImpl(PagoRepository pagoRepository, PagoMapper pagoMapper) {
+    public PagoServiceImpl(PagoRepository pagoRepository, PagoMapper pagoMapper, EncargoRepository encargoRepository) {
         this.pagoRepository = pagoRepository;
         this.pagoMapper = pagoMapper;
+        this.encargoRepository = encargoRepository;
     }
 
     /**
@@ -43,13 +46,12 @@ public class PagoServiceImpl implements PagoService{
         log.debug("Request to save Pago : {}", pagoDTO);
         Pago pago = pagoMapper.toEntity(pagoDTO);
         pago = pagoRepository.save(pago);
-        PagoDTO result = pagoMapper.toDto(pago);
-        return result;
+        return pagoMapper.toDto(pago);
     }
 
     /**
      *  Get all the pagos.
-     *  
+     *
      *  @param pageable the pagination information
      *  @return the list of entities
      */
@@ -57,8 +59,8 @@ public class PagoServiceImpl implements PagoService{
     @Transactional(readOnly = true)
     public Page<PagoDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Pagos");
-        Page<Pago> result = pagoRepository.findAll(pageable);
-        return result.map(pago -> pagoMapper.toDto(pago));
+        return pagoRepository.findAll(pageable)
+            .map(pagoMapper::toDto);
     }
 
     /**
@@ -72,8 +74,7 @@ public class PagoServiceImpl implements PagoService{
     public PagoDTO findOne(Long id) {
         log.debug("Request to get Pago : {}", id);
         Pago pago = pagoRepository.findOne(id);
-        PagoDTO pagoDTO = pagoMapper.toDto(pago);
-        return pagoDTO;
+        return pagoMapper.toDto(pago);
     }
 
     /**
@@ -85,5 +86,18 @@ public class PagoServiceImpl implements PagoService{
     public void delete(Long id) {
         log.debug("Request to delete Pago : {}", id);
         pagoRepository.delete(id);
+    }
+
+    /**
+     * @param pageable
+     * @param encargoId
+     * @return
+     */
+    @Override
+    public Page<PagoDTO> findAllByEncargoId(Pageable pageable, Long encargoId) {
+        log.debug("Request to get all Pagos");
+        Encargo encargo = encargoRepository.findOne(encargoId);
+        return pagoRepository.findAllByEncargo(pageable, encargo)
+            .map(pagoMapper::toDto);
     }
 }

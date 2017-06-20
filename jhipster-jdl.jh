@@ -1,10 +1,4 @@
 
-entity Empresa{
-	nombre String required,
-    domicilio String required,
-    telefono String required,
-    categoria String required
-}
 
 /**
  * Class Cliente.
@@ -19,6 +13,8 @@ entity Cliente{
 	domicilio String required,
 	colegio String required
 }
+
+
 /**
  * Class Modelo.
  * @author anelsoftware
@@ -27,7 +23,9 @@ entity Modelo{
 	imagen ImageBlob required,
     nombreModelo String required,
     colorVestido String required,
-    observacion String required
+    bordado Boolean,
+    descripcion String,
+    observacion String
 }
 /**
  * Class Medida.
@@ -55,6 +53,7 @@ entity Medida{
     posicionCadera Double,
     largoFalda Double,
     tipoFalda TipoFalda,
+    tipoMedida TipoMedida required,
     fechaMedida LocalDate required,
     anchoHombro Double,
     anchoEspalda Double,
@@ -76,7 +75,8 @@ entity Encargo{
     fechaEntrega LocalDate,
     detalleVestido String required,
     estado Estado,
-    tipoEncargo TipoEncargo
+    tipoEncargo TipoEncargo,
+    tipoVestido TipoVestido
 }
 /**
  * Class Pago.
@@ -89,16 +89,79 @@ entity Pago{
     numeroRecibo Integer required
 }
 
+entity FacturaPresupuesto {
+	fecha LocalDate required,
+    formaPago FormaPago required,
+    importeTotal BigDecimal
+}
+
+entity DetalleFactPres{
+	cantidad Integer,
+    predio BigDecimal
+}
+
+entity Producto{
+	nombre String required,
+    descripcion String,
+    cantidad Integer required,
+    codigoOrigen String,
+    precioCompra BigDecimal required,
+    precioVenta BigDecimal required,
+    margenGanancia BigDecimal,
+    talle Talla,
+	categoria TipoProducto required,
+    ubicacion Ubicacion,
+    imagen ImageBlob
+}
+
+entity Proveedor{
+	nombre String required,
+    domicilio String required,
+    telefono String required,
+    cuilCuit String required,
+    email String required,
+    telefono String required,
+    celular String required
+}
+
+enum FormaPago{
+	CONTADO, TARJETA
+}
+
+enum TipoProducto {
+    CAMISA, AMBO_LISO, AMBO_RAYADO,
+    PANTALON, SACO_SPORT, CORBATA
+}
+
+enum Ubicacion{
+	PERCHERO, MUEBLE, REPISA, DEPOSITO
+}
+
+enum Talla{
+	XS, S, M, L, XL, XXL
+}
+
 enum Estado {
 	ENCARGADO, CORTADO, PROBADO, ENTREGADO, CANCELADO
 }
 
 enum TipoEncargo{
-	QUINCE, NOVIA, MADRINA, FIESTA, POLICIA
+	QUINCE, NOVIA, MADRINA, FIESTA, POLICIA, COMUNION, CONFIRMACION,
+    PAISANA
+}
+
+enum TipoVestido{
+	DOS_PIEZAS, UNA_PIEZA, SIRENA, CORTE_A
 }
 
 enum TipoFalda{
-	TUBO, RECTA, TAJO, EVASE, CORTEA, CAMPANA, PLATO, GAJOS 
+	TUBO, RECTA, TAJO, EVASE, CORTEA, CAMPANA, PLATO, GAJOS
+}
+
+enum TipoMedida{
+	AMBO_HOMBRE, AMBO_MUJER, CHALECO,
+    PANTALON_HOMBRE, PANTALON_MUJER,
+    POLLERA, VESTIDO, CORSET
 }
 
 
@@ -106,24 +169,18 @@ enum TipoFalda{
   * Relacion Una empresa tiene uno o muchos usuarios
   */
 relationship OneToMany {
-	Empresa{cliente(nombre)} to Cliente{empresa(nombre) required},
-    Cliente{modelo(nombre)} to Modelo{cliente(nombre) required},
-    Cliente{medida(nombre)} to Medida{cliente(nombre) required},
+    Encargo{medida(nombre)} to Medida{encargo required},
     Cliente{encargo(nombre)} to Encargo{cliente(nombre) required},
-    Encargo{pago} to Pago{encargo required}
+    Encargo{pago(fechaPago)} to Pago{encargo required},
+    Proveedor{producto(nombre)} to Producto{proveedor(nombre)},
+    Encargo{modelo(nombreModelo)} to Modelo{encargo required},
+    Cliente{facturaPresupuesto} to FacturaPresupuesto{cliente(nombre)},
+    FacturaPresupuesto{detalleFactPres} to DetalleFactPres{facturaPresupuesto},
+    Producto{detalleFactPres} to DetalleFactPres{producto(nombre)}
 }
 
-relationship ManyToOne {
-    Empresa{user(email)} to User{Empresa(nombre)}
-}
 
-
-paginate Cliente with pager
-paginate Empresa with pager
-paginate Encargo with pager
-paginate Modelo with pager
-paginate Medida with pager
-paginate Pago with pager
+paginate all with pager
 
 dto all with mapstruct
 

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Pago } from './pago.model';
 import { PagoService } from './pago.service';
+
 @Injectable()
 export class PagoPopupService {
     private isOpen = false;

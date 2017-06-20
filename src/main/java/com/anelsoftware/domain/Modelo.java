@@ -41,13 +41,18 @@ public class Modelo implements Serializable {
     @Column(name = "color_vestido", nullable = false)
     private String colorVestido;
 
-    @NotNull
-    @Column(name = "observacion", nullable = false)
+    @Column(name = "bordado")
+    private Boolean bordado;
+
+    @Column(name = "descripcion")
+    private String descripcion;
+
+    @Column(name = "observacion")
     private String observacion;
 
     @ManyToOne(optional = false)
     @NotNull
-    private Cliente cliente;
+    private Encargo encargo;
 
     public Long getId() {
         return id;
@@ -109,6 +114,32 @@ public class Modelo implements Serializable {
         this.colorVestido = colorVestido;
     }
 
+    public Boolean isBordado() {
+        return bordado;
+    }
+
+    public Modelo bordado(Boolean bordado) {
+        this.bordado = bordado;
+        return this;
+    }
+
+    public void setBordado(Boolean bordado) {
+        this.bordado = bordado;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public Modelo descripcion(String descripcion) {
+        this.descripcion = descripcion;
+        return this;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
     public String getObservacion() {
         return observacion;
     }
@@ -122,17 +153,17 @@ public class Modelo implements Serializable {
         this.observacion = observacion;
     }
 
-    public Cliente getCliente() {
-        return cliente;
+    public Encargo getEncargo() {
+        return encargo;
     }
 
-    public Modelo cliente(Cliente cliente) {
-        this.cliente = cliente;
+    public Modelo encargo(Encargo encargo) {
+        this.encargo = encargo;
         return this;
     }
 
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
+    public void setEncargo(Encargo encargo) {
+        this.encargo = encargo;
     }
 
     @Override
@@ -163,6 +194,8 @@ public class Modelo implements Serializable {
             ", imagenContentType='" + imagenContentType + "'" +
             ", nombreModelo='" + getNombreModelo() + "'" +
             ", colorVestido='" + getColorVestido() + "'" +
+            ", bordado='" + isBordado() + "'" +
+            ", descripcion='" + getDescripcion() + "'" +
             ", observacion='" + getObservacion() + "'" +
             "}";
     }

@@ -3,7 +3,7 @@ package com.anelsoftware.web.rest;
 import com.anelsoftware.ClothesApp;
 
 import com.anelsoftware.domain.Modelo;
-import com.anelsoftware.domain.Cliente;
+import com.anelsoftware.domain.Encargo;
 import com.anelsoftware.repository.ModeloRepository;
 import com.anelsoftware.service.ModeloService;
 import com.anelsoftware.service.dto.ModeloDTO;
@@ -52,6 +52,12 @@ public class ModeloResourceIntTest {
 
     private static final String DEFAULT_COLOR_VESTIDO = "AAAAAAAAAA";
     private static final String UPDATED_COLOR_VESTIDO = "BBBBBBBBBB";
+
+    private static final Boolean DEFAULT_BORDADO = false;
+    private static final Boolean UPDATED_BORDADO = true;
+
+    private static final String DEFAULT_DESCRIPCION = "AAAAAAAAAA";
+    private static final String UPDATED_DESCRIPCION = "BBBBBBBBBB";
 
     private static final String DEFAULT_OBSERVACION = "AAAAAAAAAA";
     private static final String UPDATED_OBSERVACION = "BBBBBBBBBB";
@@ -103,12 +109,14 @@ public class ModeloResourceIntTest {
             .imagenContentType(DEFAULT_IMAGEN_CONTENT_TYPE)
             .nombreModelo(DEFAULT_NOMBRE_MODELO)
             .colorVestido(DEFAULT_COLOR_VESTIDO)
+            .bordado(DEFAULT_BORDADO)
+            .descripcion(DEFAULT_DESCRIPCION)
             .observacion(DEFAULT_OBSERVACION);
         // Add required entity
-        Cliente cliente = ClienteResourceIntTest.createEntity(em);
-        em.persist(cliente);
+        Encargo encargo = EncargoResourceIntTest.createEntity(em);
+        em.persist(encargo);
         em.flush();
-        modelo.setCliente(cliente);
+        modelo.setEncargo(encargo);
         return modelo;
     }
 
@@ -137,6 +145,8 @@ public class ModeloResourceIntTest {
         assertThat(testModelo.getImagenContentType()).isEqualTo(DEFAULT_IMAGEN_CONTENT_TYPE);
         assertThat(testModelo.getNombreModelo()).isEqualTo(DEFAULT_NOMBRE_MODELO);
         assertThat(testModelo.getColorVestido()).isEqualTo(DEFAULT_COLOR_VESTIDO);
+        assertThat(testModelo.isBordado()).isEqualTo(DEFAULT_BORDADO);
+        assertThat(testModelo.getDescripcion()).isEqualTo(DEFAULT_DESCRIPCION);
         assertThat(testModelo.getObservacion()).isEqualTo(DEFAULT_OBSERVACION);
     }
 
@@ -219,25 +229,6 @@ public class ModeloResourceIntTest {
 
     @Test
     @Transactional
-    public void checkObservacionIsRequired() throws Exception {
-        int databaseSizeBeforeTest = modeloRepository.findAll().size();
-        // set the field null
-        modelo.setObservacion(null);
-
-        // Create the Modelo, which fails.
-        ModeloDTO modeloDTO = modeloMapper.toDto(modelo);
-
-        restModeloMockMvc.perform(post("/api/modelos")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(modeloDTO)))
-            .andExpect(status().isBadRequest());
-
-        List<Modelo> modeloList = modeloRepository.findAll();
-        assertThat(modeloList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     public void getAllModelos() throws Exception {
         // Initialize the database
         modeloRepository.saveAndFlush(modelo);
@@ -251,6 +242,8 @@ public class ModeloResourceIntTest {
             .andExpect(jsonPath("$.[*].imagen").value(hasItem(Base64Utils.encodeToString(DEFAULT_IMAGEN))))
             .andExpect(jsonPath("$.[*].nombreModelo").value(hasItem(DEFAULT_NOMBRE_MODELO.toString())))
             .andExpect(jsonPath("$.[*].colorVestido").value(hasItem(DEFAULT_COLOR_VESTIDO.toString())))
+            .andExpect(jsonPath("$.[*].bordado").value(hasItem(DEFAULT_BORDADO.booleanValue())))
+            .andExpect(jsonPath("$.[*].descripcion").value(hasItem(DEFAULT_DESCRIPCION.toString())))
             .andExpect(jsonPath("$.[*].observacion").value(hasItem(DEFAULT_OBSERVACION.toString())));
     }
 
@@ -269,6 +262,8 @@ public class ModeloResourceIntTest {
             .andExpect(jsonPath("$.imagen").value(Base64Utils.encodeToString(DEFAULT_IMAGEN)))
             .andExpect(jsonPath("$.nombreModelo").value(DEFAULT_NOMBRE_MODELO.toString()))
             .andExpect(jsonPath("$.colorVestido").value(DEFAULT_COLOR_VESTIDO.toString()))
+            .andExpect(jsonPath("$.bordado").value(DEFAULT_BORDADO.booleanValue()))
+            .andExpect(jsonPath("$.descripcion").value(DEFAULT_DESCRIPCION.toString()))
             .andExpect(jsonPath("$.observacion").value(DEFAULT_OBSERVACION.toString()));
     }
 
@@ -294,6 +289,8 @@ public class ModeloResourceIntTest {
             .imagenContentType(UPDATED_IMAGEN_CONTENT_TYPE)
             .nombreModelo(UPDATED_NOMBRE_MODELO)
             .colorVestido(UPDATED_COLOR_VESTIDO)
+            .bordado(UPDATED_BORDADO)
+            .descripcion(UPDATED_DESCRIPCION)
             .observacion(UPDATED_OBSERVACION);
         ModeloDTO modeloDTO = modeloMapper.toDto(updatedModelo);
 
@@ -310,6 +307,8 @@ public class ModeloResourceIntTest {
         assertThat(testModelo.getImagenContentType()).isEqualTo(UPDATED_IMAGEN_CONTENT_TYPE);
         assertThat(testModelo.getNombreModelo()).isEqualTo(UPDATED_NOMBRE_MODELO);
         assertThat(testModelo.getColorVestido()).isEqualTo(UPDATED_COLOR_VESTIDO);
+        assertThat(testModelo.isBordado()).isEqualTo(UPDATED_BORDADO);
+        assertThat(testModelo.getDescripcion()).isEqualTo(UPDATED_DESCRIPCION);
         assertThat(testModelo.getObservacion()).isEqualTo(UPDATED_OBSERVACION);
     }
 

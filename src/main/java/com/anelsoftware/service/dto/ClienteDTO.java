@@ -34,10 +34,6 @@ public class ClienteDTO implements Serializable {
     @NotNull
     private String colegio;
 
-    private Long empresaId;
-
-    private String empresaNombre;
-
     public Long getId() {
         return id;
     }
@@ -100,22 +96,6 @@ public class ClienteDTO implements Serializable {
 
     public void setColegio(String colegio) {
         this.colegio = colegio;
-    }
-
-    public Long getEmpresaId() {
-        return empresaId;
-    }
-
-    public void setEmpresaId(Long empresaId) {
-        this.empresaId = empresaId;
-    }
-
-    public String getEmpresaNombre() {
-        return empresaNombre;
-    }
-
-    public void setEmpresaNombre(String empresaNombre) {
-        this.empresaNombre = empresaNombre;
     }
 
     @Override

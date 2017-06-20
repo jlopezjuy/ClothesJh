@@ -1,0 +1,9 @@
+{
+    "clothesApp": {
+        "FormaPago" : {
+            "null": "",
+            "CONTADO": "CONTADO",
+            "TARJETA": "TARJETA"
+        }
+    }
+}

@@ -3,7 +3,7 @@ import { OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
-import { DateUtils, DataUtils, EventManager } from 'ng-jhipster';
+import { JhiDateUtils, JhiDataUtils, JhiEventManager } from 'ng-jhipster';
 import { ClothesTestModule } from '../../../test.module';
 import { MockActivatedRoute } from '../../../helpers/mock-route.service';
 import { ClienteDetailComponent } from '../../../../../../main/webapp/app/entities/cliente/cliente-detail.component';
@@ -22,21 +22,18 @@ describe('Component Tests', () => {
                 imports: [ClothesTestModule],
                 declarations: [ClienteDetailComponent],
                 providers: [
-                    DateUtils,
-                    DataUtils,
+                    JhiDateUtils,
+                    JhiDataUtils,
                     DatePipe,
                     {
                         provide: ActivatedRoute,
                         useValue: new MockActivatedRoute({id: 123})
                     },
                     ClienteService,
-                    EventManager
+                    JhiEventManager
                 ]
-            }).overrideComponent(ClienteDetailComponent, {
-                set: {
-                    template: ''
-                }
-            }).compileComponents();
+            }).overrideTemplate(ClienteDetailComponent, '')
+            .compileComponents();
         }));
 
         beforeEach(() => {
@@ -44,7 +41,6 @@ describe('Component Tests', () => {
             comp = fixture.componentInstance;
             service = fixture.debugElement.injector.get(ClienteService);
         });
-
 
         describe('OnInit', () => {
             it('Should call load all on init', () => {
@@ -57,7 +53,7 @@ describe('Component Tests', () => {
 
             // THEN
             expect(service.find).toHaveBeenCalledWith(123);
-            expect(comp.cliente).toEqual(jasmine.objectContaining({id:10}));
+            expect(comp.cliente).toEqual(jasmine.objectContaining({id: 10}));
             });
         });
     });

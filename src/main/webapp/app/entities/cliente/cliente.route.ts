@@ -2,25 +2,19 @@ import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes, CanActivate } from '@angular/router';
 
 import { UserRouteAccessService } from '../../shared';
-import { PaginationUtil } from 'ng-jhipster';
+import { JhiPaginationUtil } from 'ng-jhipster';
 
 import { ClienteComponent } from './cliente.component';
 import { ClienteDetailComponent } from './cliente-detail.component';
 import { ClientePopupComponent } from './cliente-dialog.component';
 import { ClienteDeletePopupComponent } from './cliente-delete-dialog.component';
-import { ModeloComponent } from "../modelo/modelo.component";
-import { MedidaComponent } from "../medida/medida.component";
 
 import { Principal } from '../../shared';
-import {ModeloResolvePagingParams} from "../modelo/modelo.route";
-import {MedidaResolvePagingParams} from "../medida/medida.route";
-
-
 
 @Injectable()
 export class ClienteResolvePagingParams implements Resolve<any> {
 
-    constructor(private paginationUtil: PaginationUtil) {}
+    constructor(private paginationUtil: JhiPaginationUtil) {}
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         const page = route.queryParams['page'] ? route.queryParams['page'] : '1';
@@ -51,28 +45,6 @@ export const clienteRoute: Routes = [
         data: {
             authorities: ['ROLE_USER'],
             pageTitle: 'clothesApp.cliente.home.title'
-        },
-        canActivate: [UserRouteAccessService]
-    }, {
-        path: 'clienteModelo/:id',
-        component: ModeloComponent,
-        resolve:{
-            'pagingParams': ModeloResolvePagingParams
-        },
-        data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'clothesApp.modelo.home.title'
-        },
-        canActivate: [UserRouteAccessService]
-    }, {
-        path: 'clienteMedida/:id',
-        component: MedidaComponent,
-        resolve:{
-            'pagingParams': MedidaResolvePagingParams
-        },
-        data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'clothesApp.medida.home.title'
         },
         canActivate: [UserRouteAccessService]
     }

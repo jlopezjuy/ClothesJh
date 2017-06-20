@@ -58,21 +58,12 @@ public class Cliente implements Serializable {
     @OneToMany(mappedBy = "cliente")
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Modelo> modelos = new HashSet<>();
-
-    @OneToMany(mappedBy = "cliente")
-    @JsonIgnore
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Medida> medidas = new HashSet<>();
-
-    @OneToMany(mappedBy = "cliente")
-    @JsonIgnore
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Encargo> encargos = new HashSet<>();
 
-    @ManyToOne(optional = false)
-    @NotNull
-    private Empresa empresa;
+    @OneToMany(mappedBy = "cliente")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<FacturaPresupuesto> facturaPresupuestos = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -173,56 +164,6 @@ public class Cliente implements Serializable {
         this.colegio = colegio;
     }
 
-    public Set<Modelo> getModelos() {
-        return modelos;
-    }
-
-    public Cliente modelos(Set<Modelo> modelos) {
-        this.modelos = modelos;
-        return this;
-    }
-
-    public Cliente addModelo(Modelo modelo) {
-        this.modelos.add(modelo);
-        modelo.setCliente(this);
-        return this;
-    }
-
-    public Cliente removeModelo(Modelo modelo) {
-        this.modelos.remove(modelo);
-        modelo.setCliente(null);
-        return this;
-    }
-
-    public void setModelos(Set<Modelo> modelos) {
-        this.modelos = modelos;
-    }
-
-    public Set<Medida> getMedidas() {
-        return medidas;
-    }
-
-    public Cliente medidas(Set<Medida> medidas) {
-        this.medidas = medidas;
-        return this;
-    }
-
-    public Cliente addMedida(Medida medida) {
-        this.medidas.add(medida);
-        medida.setCliente(this);
-        return this;
-    }
-
-    public Cliente removeMedida(Medida medida) {
-        this.medidas.remove(medida);
-        medida.setCliente(null);
-        return this;
-    }
-
-    public void setMedidas(Set<Medida> medidas) {
-        this.medidas = medidas;
-    }
-
     public Set<Encargo> getEncargos() {
         return encargos;
     }
@@ -248,17 +189,29 @@ public class Cliente implements Serializable {
         this.encargos = encargos;
     }
 
-    public Empresa getEmpresa() {
-        return empresa;
+    public Set<FacturaPresupuesto> getFacturaPresupuestos() {
+        return facturaPresupuestos;
     }
 
-    public Cliente empresa(Empresa empresa) {
-        this.empresa = empresa;
+    public Cliente facturaPresupuestos(Set<FacturaPresupuesto> facturaPresupuestos) {
+        this.facturaPresupuestos = facturaPresupuestos;
         return this;
     }
 
-    public void setEmpresa(Empresa empresa) {
-        this.empresa = empresa;
+    public Cliente addFacturaPresupuesto(FacturaPresupuesto facturaPresupuesto) {
+        this.facturaPresupuestos.add(facturaPresupuesto);
+        facturaPresupuesto.setCliente(this);
+        return this;
+    }
+
+    public Cliente removeFacturaPresupuesto(FacturaPresupuesto facturaPresupuesto) {
+        this.facturaPresupuestos.remove(facturaPresupuesto);
+        facturaPresupuesto.setCliente(null);
+        return this;
+    }
+
+    public void setFacturaPresupuestos(Set<FacturaPresupuesto> facturaPresupuestos) {
+        this.facturaPresupuestos = facturaPresupuestos;
     }
 
     @Override

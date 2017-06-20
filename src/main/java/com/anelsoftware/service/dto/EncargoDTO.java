@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.Objects;
 import com.anelsoftware.domain.enumeration.Estado;
 import com.anelsoftware.domain.enumeration.TipoEncargo;
+import com.anelsoftware.domain.enumeration.TipoVestido;
 
 /**
  * A DTO for the Encargo entity.
@@ -31,6 +32,8 @@ public class EncargoDTO implements Serializable {
     private Estado estado;
 
     private TipoEncargo tipoEncargo;
+
+    private TipoVestido tipoVestido;
 
     private Long clienteId;
 
@@ -92,6 +95,14 @@ public class EncargoDTO implements Serializable {
         this.tipoEncargo = tipoEncargo;
     }
 
+    public TipoVestido getTipoVestido() {
+        return tipoVestido;
+    }
+
+    public void setTipoVestido(TipoVestido tipoVestido) {
+        this.tipoVestido = tipoVestido;
+    }
+
     public Long getClienteId() {
         return clienteId;
     }
@@ -139,6 +150,7 @@ public class EncargoDTO implements Serializable {
             ", detalleVestido='" + getDetalleVestido() + "'" +
             ", estado='" + getEstado() + "'" +
             ", tipoEncargo='" + getTipoEncargo() + "'" +
+            ", tipoVestido='" + getTipoVestido() + "'" +
             "}";
     }
 }
