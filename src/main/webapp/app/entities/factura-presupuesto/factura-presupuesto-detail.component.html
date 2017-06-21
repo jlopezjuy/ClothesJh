@@ -1,28 +1,74 @@
 
 <div *ngIf="facturaPresupuesto">
-    <h2><span jhiTranslate="clothesApp.facturaPresupuesto.detail.title">Factura Presupuesto</span> {{facturaPresupuesto.id}}</h2>
-    <hr>
     <jhi-alert-error></jhi-alert-error>
-    <dl class="row-md jh-entity-details">
-        <dt><span jhiTranslate="clothesApp.facturaPresupuesto.fecha">Fecha</span></dt>
-        <dd>
-            <span>{{facturaPresupuesto.fecha | date:'mediumDate'}}</span>
-        </dd>
-        <dt><span jhiTranslate="clothesApp.facturaPresupuesto.formaPago">Forma Pago</span></dt>
-        <dd>
-            <span jhiTranslate="{{'clothesApp.FormaPago.' + facturaPresupuesto.formaPago}}">{{facturaPresupuesto.formaPago}}</span>
-        </dd>
-        <dt><span jhiTranslate="clothesApp.facturaPresupuesto.importeTotal">Importe Total</span></dt>
-        <dd>
-            <span>{{facturaPresupuesto.importeTotal}}</span>
-        </dd>
-        <dt><span jhiTranslate="clothesApp.facturaPresupuesto.cliente">Cliente</span></dt>
-        <dd>
-            <div *ngIf="facturaPresupuesto.clienteId">
-                <a [routerLink]="['/cliente', facturaPresupuesto.clienteId]">{{facturaPresupuesto.clienteNombre}}</a>
+    <div class="card">
+        <h3 class="card-header">
+            <span jhiTranslate="clothesApp.facturaPresupuesto.detail.title">Factura Presupuesto</span> {{facturaPresupuesto.id}}
+        </h3>
+        <div class="card-block">
+
+            <div class="row">
+                <div class="col col-lg-6">
+                    <span class="font-weight-bold" jhiTranslate="clothesApp.facturaPresupuesto.fecha">Fecha</span>
+                </div>
+                <div class="col col-lg-6">
+                    <span>{{facturaPresupuesto.fecha | date:'mediumDate'}}</span>
+
+                </div>
             </div>
-        </dd>
-    </dl>
+            <div class="row">
+                <div class="col col-lg-6">
+                    <span class="font-weight-bold" jhiTranslate="clothesApp.facturaPresupuesto.formaPago">Forma Pago</span>
+                </div>
+                <div class="col col-lg-6">
+                    <span jhiTranslate="{{'clothesApp.FormaPago.' + facturaPresupuesto.formaPago}}">{{facturaPresupuesto.formaPago}}</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-lg-6">
+                    <span class="font-weight-bold" jhiTranslate="clothesApp.facturaPresupuesto.importeTotal">Importe Total</span>
+                </div>
+                <div class="col col-lg-6">
+                    <span>{{facturaPresupuesto.importeTotal}}</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-lg-6">
+                    <span class="font-weight-bold" jhiTranslate="clothesApp.facturaPresupuesto.cliente">Cliente</span>
+                </div>
+                <div class="col col-lg-6">
+                    <div *ngIf="facturaPresupuesto.clienteId">
+                        <a [routerLink]="['/cliente', facturaPresupuesto.clienteId]">{{facturaPresupuesto.clienteNombre}}</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col col-sm-12">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Descripcion</th>
+                    <th>Precio Unitario</th>
+                    <th>Cantidad</th>
+                    <th>Total</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let producto of productosList ;trackBy: trackId">
+                    <td>{{producto.id}}</td>
+                    <td>{{producto.descripcion}}</td>
+                    <td>{{producto.precioVenta}}</td>
+                    <td>{{producto.cantidadSeleccionada}}</td>
+                    <td>{{producto.totalFila}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 
     <button type="submit"
             (click)="previousState()"

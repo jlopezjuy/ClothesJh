@@ -140,8 +140,13 @@ export class FacturaPresupuestoDialogComponent implements OnInit {
     }
 
     saveDetalleVenta(venta: DetalleFactPres) {
-        this.subscribeToSaveResponseVenta(
-            this.detalleFactPresService.create(venta), true);
+        if (venta.id !== undefined) {
+            this.subscribeToSaveResponseVenta(
+                this.detalleFactPresService.update(venta), true);
+        } else {
+            this.subscribeToSaveResponseVenta(
+                this.detalleFactPresService.create(venta), true);
+        }
     }
 
     private subscribeToSaveResponseVenta(result: Observable<DetalleFactPres>, isCreated: boolean) {

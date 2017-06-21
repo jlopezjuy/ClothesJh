@@ -9,6 +9,7 @@ import { ResponseWrapper, createRequestOption } from '../../shared';
 export class DetalleFactPresService {
 
     private resourceUrl = 'api/detalle-fact-pres';
+    private resourceUrlFactura = 'api/detalle-fact-pres/factura';
 
     constructor(private http: Http) { }
 
@@ -35,6 +36,11 @@ export class DetalleFactPresService {
     query(req?: any): Observable<ResponseWrapper> {
         const options = createRequestOption(req);
         return this.http.get(this.resourceUrl, options)
+            .map((res: Response) => this.convertResponse(res));
+    }
+
+    queryFactura(facturaPresupuestoId?: number): Observable<ResponseWrapper> {
+        return this.http.get(`${this.resourceUrlFactura}/${facturaPresupuestoId}`)
             .map((res: Response) => this.convertResponse(res));
     }
 

@@ -1,9 +1,14 @@
 package com.anelsoftware.repository;
 
 import com.anelsoftware.domain.DetalleFactPres;
+import com.anelsoftware.domain.FacturaPresupuesto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import org.springframework.data.jpa.repository.*;
+
+import java.util.List;
 
 
 /**
@@ -12,5 +17,6 @@ import org.springframework.data.jpa.repository.*;
 @SuppressWarnings("unused")
 @Repository
 public interface DetalleFactPresRepository extends JpaRepository<DetalleFactPres,Long> {
-    
+
+    List<DetalleFactPres> findAllByFacturaPresupuesto(FacturaPresupuesto facturaPresupuesto);
 }

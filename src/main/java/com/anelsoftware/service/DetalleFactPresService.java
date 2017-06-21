@@ -4,6 +4,8 @@ import com.anelsoftware.service.dto.DetalleFactPresDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 /**
  * Service Interface for managing DetalleFactPres.
  */
@@ -39,4 +41,12 @@ public interface DetalleFactPresService {
      *  @param id the id of the entity
      */
     void delete(Long id);
+
+    /**
+     *
+     * @param pageable
+     * @param facturaPresupuestoId
+     * @return
+     */
+    List<DetalleFactPresDTO> findAllByFacturaPresupuestoId(Long facturaPresupuestoId);
 }

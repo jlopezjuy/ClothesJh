@@ -97,6 +97,21 @@ public class DetalleFactPresResource {
     }
 
     /**
+     * GET  /detalle-fact-pres : get all the detalleFactPres.
+     *
+     * @param pageable the pagination information
+     * @param  facturaPresupuestoId
+     * @return the ResponseEntity with status 200 (OK) and the list of detalleFactPres in body
+     */
+    @GetMapping("/detalle-fact-pres/factura/{facturaPresupuestoId}")
+    @Timed
+    public ResponseEntity<List<DetalleFactPresDTO>> getAllDetalleFactPresFactura(@PathVariable Long facturaPresupuestoId) {
+        log.debug("REST request to get a page of DetalleFactPres");
+        List<DetalleFactPresDTO> page = detalleFactPresService.findAllByFacturaPresupuestoId(facturaPresupuestoId);
+        return new ResponseEntity<>(page, HttpStatus.OK);
+    }
+
+    /**
      * GET  /detalle-fact-pres/:id : get the "id" detalleFactPres.
      *
      * @param id the id of the detalleFactPresDTO to retrieve

@@ -1,5 +1,7 @@
 package com.anelsoftware.service.impl;
 
+import com.anelsoftware.domain.FacturaPresupuesto;
+import com.anelsoftware.repository.FacturaPresupuestoRepository;
 import com.anelsoftware.service.DetalleFactPresService;
 import com.anelsoftware.domain.DetalleFactPres;
 import com.anelsoftware.repository.DetalleFactPresRepository;
@@ -12,6 +14,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 
 /**
  * Service Implementation for managing DetalleFactPres.
@@ -23,12 +27,15 @@ public class DetalleFactPresServiceImpl implements DetalleFactPresService{
     private final Logger log = LoggerFactory.getLogger(DetalleFactPresServiceImpl.class);
 
     private final DetalleFactPresRepository detalleFactPresRepository;
+    private final FacturaPresupuestoRepository facturaPresupuestoRepository;
 
     private final DetalleFactPresMapper detalleFactPresMapper;
 
-    public DetalleFactPresServiceImpl(DetalleFactPresRepository detalleFactPresRepository, DetalleFactPresMapper detalleFactPresMapper) {
+    public DetalleFactPresServiceImpl(DetalleFactPresRepository detalleFactPresRepository, DetalleFactPresMapper detalleFactPresMapper,
+                                      FacturaPresupuestoRepository facturaPresupuestoRepository) {
         this.detalleFactPresRepository = detalleFactPresRepository;
         this.detalleFactPresMapper = detalleFactPresMapper;
+        this.facturaPresupuestoRepository = facturaPresupuestoRepository;
     }
 
     /**
@@ -82,5 +89,13 @@ public class DetalleFactPresServiceImpl implements DetalleFactPresService{
     public void delete(Long id) {
         log.debug("Request to delete DetalleFactPres : {}", id);
         detalleFactPresRepository.delete(id);
+    }
+
+    @Override
+    public List<DetalleFactPresDTO> findAllByFacturaPresupuestoId(Long facturaPresupuestoId) {
+        log.debug("Request to get all DetalleFactPres");
+        FacturaPresupuesto facturaPresupuesto = facturaPresupuestoRepository.findOne(facturaPresupuestoId);
+        List<DetalleFactPres> list = detalleFactPresRepository.findAllByFacturaPresupuesto(facturaPresupuesto);
+        return detalleFactPresMapper.toDto(list);
     }
 }
