@@ -24,7 +24,7 @@ import com.anelsoftware.domain.enumeration.Ubicacion;
 @Entity
 @Table(name = "producto")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class Producto implements Serializable {
+public class Producto extends AbstractAuditingEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
