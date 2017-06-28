@@ -106,7 +106,10 @@
             "edit": "Edit",
             "open": "Open",
             "save": "Save",
-            "view": "View"
+            "view": "View",
+            "model": "Model",
+            "measure": "Measure",
+            "pay": "Pay"
         },
         "detail": {
             "field": "Field",

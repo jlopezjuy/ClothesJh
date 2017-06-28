@@ -106,7 +106,10 @@
             "edit": "Editar",
             "open": "Open",
             "save": "Guardar",
-            "view": "Vista"
+            "view": "Vista",
+            "model": "Modelo",
+            "measure": "Medida",
+            "pay": "Pago"
         },
         "detail": {
             "field": "Campo",
