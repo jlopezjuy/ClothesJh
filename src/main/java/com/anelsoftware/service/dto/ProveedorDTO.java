@@ -32,6 +32,10 @@ public class ProveedorDTO extends AbstractAuditingDTO implements Serializable {
     @NotNull
     private String celular;
 
+    private Long rubroId;
+
+    private String rubroNombre;
+
     public Long getId() {
         return id;
     }
@@ -86,6 +90,22 @@ public class ProveedorDTO extends AbstractAuditingDTO implements Serializable {
 
     public void setCelular(String celular) {
         this.celular = celular;
+    }
+
+    public Long getRubroId() {
+        return rubroId;
+    }
+
+    public void setRubroId(Long rubroId) {
+        this.rubroId = rubroId;
+    }
+
+    public String getRubroNombre() {
+        return rubroNombre;
+    }
+
+    public void setRubroNombre(String rubroNombre) {
+        this.rubroNombre = rubroNombre;
     }
 
     @Override

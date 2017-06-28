@@ -16,6 +16,7 @@
                 "detalleFactPres": "Detalle Fact Pres",
                 "producto": "Producto",
                 "proveedor": "Proveedor",
+                "rubro": "Rubro",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

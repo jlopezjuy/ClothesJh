@@ -6,28 +6,23 @@ import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
-import { Proveedor } from './proveedor.model';
-import { ProveedorPopupService } from './proveedor-popup.service';
-import { ProveedorService } from './proveedor.service';
-import { Rubro, RubroService } from '../rubro';
-import { ResponseWrapper } from '../../shared';
+import { Rubro } from './rubro.model';
+import { RubroPopupService } from './rubro-popup.service';
+import { RubroService } from './rubro.service';
 
 @Component({
-    selector: 'jhi-proveedor-dialog',
-    templateUrl: './proveedor-dialog.component.html'
+    selector: 'jhi-rubro-dialog',
+    templateUrl: './rubro-dialog.component.html'
 })
-export class ProveedorDialogComponent implements OnInit {
+export class RubroDialogComponent implements OnInit {
 
-    proveedor: Proveedor;
+    rubro: Rubro;
     authorities: any[];
     isSaving: boolean;
-
-    rubros: Rubro[];
 
     constructor(
         public activeModal: NgbActiveModal,
         private alertService: JhiAlertService,
-        private proveedorService: ProveedorService,
         private rubroService: RubroService,
         private eventManager: JhiEventManager
     ) {
@@ -36,8 +31,6 @@ export class ProveedorDialogComponent implements OnInit {
     ngOnInit() {
         this.isSaving = false;
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
-        this.rubroService.query()
-            .subscribe((res: ResponseWrapper) => { this.rubros = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
 
     clear() {
@@ -46,27 +39,27 @@ export class ProveedorDialogComponent implements OnInit {
 
     save() {
         this.isSaving = true;
-        if (this.proveedor.id !== undefined) {
+        if (this.rubro.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.proveedorService.update(this.proveedor), false);
+                this.rubroService.update(this.rubro), false);
         } else {
             this.subscribeToSaveResponse(
-                this.proveedorService.create(this.proveedor), true);
+                this.rubroService.create(this.rubro), true);
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<Proveedor>, isCreated: boolean) {
-        result.subscribe((res: Proveedor) =>
+    private subscribeToSaveResponse(result: Observable<Rubro>, isCreated: boolean) {
+        result.subscribe((res: Rubro) =>
             this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: Proveedor, isCreated: boolean) {
+    private onSaveSuccess(result: Rubro, isCreated: boolean) {
         this.alertService.success(
-            isCreated ? 'clothesApp.proveedor.created'
-            : 'clothesApp.proveedor.updated',
+            isCreated ? 'clothesApp.rubro.created'
+            : 'clothesApp.rubro.updated',
             { param : result.id }, null);
 
-        this.eventManager.broadcast({ name: 'proveedorListModification', content: 'OK'});
+        this.eventManager.broadcast({ name: 'rubroListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);
     }
@@ -84,34 +77,30 @@ export class ProveedorDialogComponent implements OnInit {
     private onError(error) {
         this.alertService.error(error.message, null, null);
     }
-
-    trackRubroById(index: number, item: Rubro) {
-        return item.id;
-    }
 }
 
 @Component({
-    selector: 'jhi-proveedor-popup',
+    selector: 'jhi-rubro-popup',
     template: ''
 })
-export class ProveedorPopupComponent implements OnInit, OnDestroy {
+export class RubroPopupComponent implements OnInit, OnDestroy {
 
     modalRef: NgbModalRef;
     routeSub: any;
 
     constructor(
         private route: ActivatedRoute,
-        private proveedorPopupService: ProveedorPopupService
+        private rubroPopupService: RubroPopupService
     ) {}
 
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
             if ( params['id'] ) {
-                this.modalRef = this.proveedorPopupService
-                    .open(ProveedorDialogComponent, params['id']);
+                this.modalRef = this.rubroPopupService
+                    .open(RubroDialogComponent, params['id']);
             } else {
-                this.modalRef = this.proveedorPopupService
-                    .open(ProveedorDialogComponent);
+                this.modalRef = this.rubroPopupService
+                    .open(RubroDialogComponent);
             }
         });
     }

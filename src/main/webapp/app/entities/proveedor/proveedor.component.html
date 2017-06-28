@@ -23,6 +23,7 @@
             <th jhiSortBy="cuilCuit"><span jhiTranslate="clothesApp.proveedor.cuilCuit">Cuil Cuit</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="email"><span jhiTranslate="clothesApp.proveedor.email">Email</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="celular"><span jhiTranslate="clothesApp.proveedor.celular">Celular</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="rubroNombre"><span jhiTranslate="clothesApp.proveedor.rubro">Rubro</span> <span class="fa fa-sort"></span></th>
             <th></th>
             </tr>
             </thead>
@@ -35,6 +36,11 @@
                 <td>{{proveedor.cuilCuit}}</td>
                 <td>{{proveedor.email}}</td>
                 <td>{{proveedor.celular}}</td>
+                <td>
+                    <div *ngIf="proveedor.rubroId">
+                        <a [routerLink]="['../rubro', proveedor.rubroId  ]" >{{proveedor.rubroNombre}}</a>
+                    </div>
+                </td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"

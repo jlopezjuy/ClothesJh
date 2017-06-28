@@ -54,6 +54,10 @@ public class Proveedor extends AbstractAuditingEntity implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Producto> productos = new HashSet<>();
 
+    @ManyToOne(optional = false)
+    @NotNull
+    private Rubro rubro;
+
     public Long getId() {
         return id;
     }
@@ -163,6 +167,19 @@ public class Proveedor extends AbstractAuditingEntity implements Serializable {
 
     public void setProductos(Set<Producto> productos) {
         this.productos = productos;
+    }
+
+    public Rubro getRubro() {
+        return rubro;
+    }
+
+    public Proveedor rubro(Rubro rubro) {
+        this.rubro = rubro;
+        return this;
+    }
+
+    public void setRubro(Rubro rubro) {
+        this.rubro = rubro;
     }
 
     @Override

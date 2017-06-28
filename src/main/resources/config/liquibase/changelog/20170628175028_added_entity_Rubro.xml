@@ -15,39 +15,19 @@
     <property name="floatType" value="float" dbms="mysql, oracle, mssql"/>
 
     <!--
-        Added the entity Proveedor.
+        Added the entity Rubro.
     -->
-    <changeSet id="20170620004400-1" author="jhipster">
-        <createTable tableName="proveedor">
+    <changeSet id="20170628175028-1" author="jhipster">
+        <createTable tableName="rubro">
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="nombre" type="varchar(255)">
-                <constraints nullable="false" />
+                <constraints nullable="true" />
             </column>
 
-            <column name="domicilio" type="varchar(255)">
-                <constraints nullable="false" />
-            </column>
-
-            <column name="telefono" type="varchar(255)">
-                <constraints nullable="false" />
-            </column>
-
-            <column name="cuil_cuit" type="varchar(255)">
-                <constraints nullable="false" />
-            </column>
-
-            <column name="email" type="varchar(255)">
-                <constraints nullable="false" />
-            </column>
-
-            <column name="celular" type="varchar(255)">
-                <constraints nullable="false" />
-            </column>
-
-            <column name="rubro_id" type="bigint">
-                <constraints nullable="false" />
+            <column name="descripcion" type="varchar(255)">
+                <constraints nullable="true" />
             </column>
 
             <column name='created_by' type='varchar(50)'>

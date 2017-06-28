@@ -28,6 +28,12 @@
         <dd>
             <span>{{proveedor.celular}}</span>
         </dd>
+        <dt><span jhiTranslate="clothesApp.proveedor.rubro">Rubro</span></dt>
+        <dd>
+            <div *ngIf="proveedor.rubroId">
+                <a [routerLink]="['/rubro', proveedor.rubroId]">{{proveedor.rubroNombre}}</a>
+            </div>
+        </dd>
     </dl>
 
     <button type="submit"

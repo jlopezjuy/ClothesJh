@@ -8,6 +8,7 @@ export class Proveedor {
         public email?: string,
         public celular?: string,
         public productoId?: number,
+        public rubroId?: number,
     ) {
     }
 }

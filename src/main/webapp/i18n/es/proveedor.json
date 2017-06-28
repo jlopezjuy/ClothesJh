@@ -21,7 +21,8 @@
             "cuilCuit": "Cuil Cuit",
             "email": "Email",
             "celular": "Celular",
-            "producto": "Producto"
+            "producto": "Producto",
+            "rubro": "Rubro"
         }
     }
 }

@@ -3,6 +3,7 @@ package com.anelsoftware.web.rest;
 import com.anelsoftware.ClothesApp;
 
 import com.anelsoftware.domain.Proveedor;
+import com.anelsoftware.domain.Rubro;
 import com.anelsoftware.repository.ProveedorRepository;
 import com.anelsoftware.service.ProveedorService;
 import com.anelsoftware.service.dto.ProveedorDTO;
@@ -107,6 +108,11 @@ public class ProveedorResourceIntTest {
             .cuilCuit(DEFAULT_CUIL_CUIT)
             .email(DEFAULT_EMAIL)
             .celular(DEFAULT_CELULAR);
+        // Add required entity
+        Rubro rubro = RubroResourceIntTest.createEntity(em);
+        em.persist(rubro);
+        em.flush();
+        proveedor.setRubro(rubro);
         return proveedor;
     }
 

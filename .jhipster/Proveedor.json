@@ -6,6 +6,15 @@
             "relationshipName": "producto",
             "otherEntityName": "producto",
             "otherEntityRelationshipName": "proveedor"
+        },
+        {
+            "relationshipName": "rubro",
+            "otherEntityName": "rubro",
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": [
+                "required"
+            ],
+            "otherEntityField": "nombre"
         }
     ],
     "fields": [
@@ -53,8 +62,8 @@
         }
     ],
     "changelogDate": "20170620004400",
-    "entityTableName": "proveedor",
     "dto": "mapstruct",
-    "pagination": "pager",
-    "service": "serviceImpl"
+    "service": "serviceImpl",
+    "entityTableName": "proveedor",
+    "pagination": "pager"
 }

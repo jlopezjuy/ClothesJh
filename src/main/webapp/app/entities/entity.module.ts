@@ -9,6 +9,7 @@ import { ClothesFacturaPresupuestoModule } from './factura-presupuesto/factura-p
 import { ClothesDetalleFactPresModule } from './detalle-fact-pres/detalle-fact-pres.module';
 import { ClothesProductoModule } from './producto/producto.module';
 import { ClothesProveedorModule } from './proveedor/proveedor.module';
+import { ClothesRubroModule } from './rubro/rubro.module';
 /* jhipster-needle-add-entity-module-import - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -22,6 +23,7 @@ import { ClothesProveedorModule } from './proveedor/proveedor.module';
         ClothesDetalleFactPresModule,
         ClothesProductoModule,
         ClothesProveedorModule,
+        ClothesRubroModule,
         /* jhipster-needle-add-entity-module - JHipster will add entity modules here */
     ],
     declarations: [],
