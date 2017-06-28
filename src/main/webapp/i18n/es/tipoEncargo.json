@@ -6,7 +6,10 @@
             "NOVIA": "NOVIA",
             "MADRINA": "MADRINA",
             "FIESTA": "FIESTA",
-            "POLICIA": "POLICIA"
+            "POLICIA": "POLICIA",
+            "COMUNION": "COMUNION",
+            "CONFIRMACION": "CONFIRMACION",
+            "PAISANA": "PAISANA"
         }
     }
 }

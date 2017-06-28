@@ -1,0 +1,11 @@
+{
+    "clothesApp": {
+        "TipoVestido" : {
+            "null": "",
+            "DOS_PIEZAS": "DOS_PIEZAS",
+            "UNA_PIEZA": "UNA_PIEZA",
+            "SIRENA": "SIRENA",
+            "CORTE_A": "CORTE_A"
+        }
+    }
+}

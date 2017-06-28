@@ -68,7 +68,7 @@ class ModeloGatlingTest extends Simulation {
             .exec(http("Create new modelo")
             .post("/api/modelos")
             .headers(headers_http_authenticated)
-            .body(StringBody("""{"id":null, "imagen":null, "nombreModelo":"SAMPLE_TEXT", "colorVestido":"SAMPLE_TEXT", "observacion":"SAMPLE_TEXT"}""")).asJSON
+            .body(StringBody("""{"id":null, "imagen":null, "nombreModelo":"SAMPLE_TEXT", "colorVestido":"SAMPLE_TEXT", "bordado":null, "descripcion":"SAMPLE_TEXT", "observacion":"SAMPLE_TEXT"}""")).asJSON
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_modelo_url"))).exitHereIfFailed
             .pause(10)

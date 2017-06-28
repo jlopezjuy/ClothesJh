@@ -1,7 +1,5 @@
 package com.anelsoftware.web.rest;
 
-import com.anelsoftware.domain.Cliente;
-import com.anelsoftware.service.ClienteService;
 import com.codahale.metrics.annotation.Timed;
 import com.anelsoftware.service.ModeloService;
 import com.anelsoftware.web.rest.util.HeaderUtil;
@@ -68,7 +66,7 @@ public class ModeloResource {
      * @param modeloDTO the modeloDTO to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated modeloDTO,
      * or with status 400 (Bad Request) if the modeloDTO is not valid,
-     * or with status 500 (Internal Server Error) if the modeloDTO couldnt be updated
+     * or with status 500 (Internal Server Error) if the modeloDTO couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/modelos")
@@ -105,12 +103,11 @@ public class ModeloResource {
      * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of modelos in body
      */
-    @GetMapping("/modelosCliente/{clienteId}")
+    @GetMapping("/modelos/encargo/{encargoId}")
     @Timed
-    public ResponseEntity<List<ModeloDTO>> getAllModelosByCliente(@ApiParam Pageable pageable, @PathVariable Long clienteId) {
+    public ResponseEntity<List<ModeloDTO>> getAllModelosEncargo(@ApiParam Pageable pageable, @PathVariable Long encargoId) {
         log.debug("REST request to get a page of Modelos");
-        log.info("Cliente id: "+ clienteId);
-        Page<ModeloDTO> page = modeloService.findAllByCliente(pageable, clienteId);
+        Page<ModeloDTO> page = modeloService.findAllByEncargoId(pageable, encargoId);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/modelos");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
@@ -142,5 +139,4 @@ public class ModeloResource {
         modeloService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
-
 }

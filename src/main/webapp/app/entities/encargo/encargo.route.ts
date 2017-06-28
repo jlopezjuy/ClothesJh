@@ -1,20 +1,21 @@
 import { Injectable } from '@angular/core';
-import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes, CanActivate } from '@angular/router';
+import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@angular/router';
 
 import { UserRouteAccessService } from '../../shared';
-import { PaginationUtil } from 'ng-jhipster';
+import { JhiPaginationUtil } from 'ng-jhipster';
 
 import { EncargoComponent } from './encargo.component';
 import { EncargoDetailComponent } from './encargo-detail.component';
 import { EncargoPopupComponent } from './encargo-dialog.component';
 import { EncargoDeletePopupComponent } from './encargo-delete-dialog.component';
-
-import { Principal } from '../../shared';
+import { ModeloComponent } from '../modelo/modelo.component';
+import { MedidaComponent } from '../medida/medida.component';
+import { PagoComponent } from '../pago/pago.component';
 
 @Injectable()
 export class EncargoResolvePagingParams implements Resolve<any> {
 
-    constructor(private paginationUtil: PaginationUtil) {}
+    constructor(private paginationUtil: JhiPaginationUtil) {}
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         const page = route.queryParams['page'] ? route.queryParams['page'] : '1';
@@ -45,6 +46,39 @@ export const encargoRoute: Routes = [
         data: {
             authorities: ['ROLE_USER'],
             pageTitle: 'clothesApp.encargo.home.title'
+        },
+        canActivate: [UserRouteAccessService]
+    }, {
+        path: 'encargoModelo/:encargoId',
+        component: ModeloComponent,
+        resolve: {
+            'pagingParams': EncargoResolvePagingParams
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'clothesApp.modelo.home.title'
+        },
+        canActivate: [UserRouteAccessService]
+    }, {
+        path: 'encargoMedida/:encargoId',
+        component: MedidaComponent,
+        resolve: {
+            'pagingParams': EncargoResolvePagingParams
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'clothesApp.medida.home.title'
+        },
+        canActivate: [UserRouteAccessService]
+    }, {
+        path: 'encargoPago/:encargoId',
+        component: PagoComponent,
+        resolve: {
+            'pagingParams': EncargoResolvePagingParams
+        },
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'clothesApp.pago.home.title'
         },
         canActivate: [UserRouteAccessService]
     }

@@ -9,10 +9,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 
 /**
  * Service Implementation for managing Cliente.
@@ -22,7 +21,7 @@ import java.util.List;
 public class ClienteServiceImpl implements ClienteService{
 
     private final Logger log = LoggerFactory.getLogger(ClienteServiceImpl.class);
-    
+
     private final ClienteRepository clienteRepository;
 
     private final ClienteMapper clienteMapper;
@@ -43,13 +42,12 @@ public class ClienteServiceImpl implements ClienteService{
         log.debug("Request to save Cliente : {}", clienteDTO);
         Cliente cliente = clienteMapper.toEntity(clienteDTO);
         cliente = clienteRepository.save(cliente);
-        ClienteDTO result = clienteMapper.toDto(cliente);
-        return result;
+        return clienteMapper.toDto(cliente);
     }
 
     /**
      *  Get all the clientes.
-     *  
+     *
      *  @param pageable the pagination information
      *  @return the list of entities
      */
@@ -57,8 +55,8 @@ public class ClienteServiceImpl implements ClienteService{
     @Transactional(readOnly = true)
     public Page<ClienteDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Clientes");
-        Page<Cliente> result = clienteRepository.findAll(pageable);
-        return result.map(cliente -> clienteMapper.toDto(cliente));
+        return clienteRepository.findAll(pageable)
+            .map(clienteMapper::toDto);
     }
 
     /**
@@ -72,8 +70,7 @@ public class ClienteServiceImpl implements ClienteService{
     public ClienteDTO findOne(Long id) {
         log.debug("Request to get Cliente : {}", id);
         Cliente cliente = clienteRepository.findOne(id);
-        ClienteDTO clienteDTO = clienteMapper.toDto(cliente);
-        return clienteDTO;
+        return clienteMapper.toDto(cliente);
     }
 
     /**

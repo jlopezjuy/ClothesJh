@@ -4,13 +4,11 @@ import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { EventManager, AlertService } from 'ng-jhipster';
+import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
 import { Cliente } from './cliente.model';
 import { ClientePopupService } from './cliente-popup.service';
 import { ClienteService } from './cliente.service';
-import { Empresa, EmpresaService } from '../empresa';
-import { ResponseWrapper } from '../../shared';
 
 @Component({
     selector: 'jhi-cliente-dialog',
@@ -22,45 +20,45 @@ export class ClienteDialogComponent implements OnInit {
     authorities: any[];
     isSaving: boolean;
 
-    empresas: Empresa[];
-
     constructor(
         public activeModal: NgbActiveModal,
-        private alertService: AlertService,
+        private alertService: JhiAlertService,
         private clienteService: ClienteService,
-        private empresaService: EmpresaService,
-        private eventManager: EventManager
+        private eventManager: JhiEventManager
     ) {
     }
 
     ngOnInit() {
         this.isSaving = false;
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
-        this.empresaService.query()
-            .subscribe((res: ResponseWrapper) => { this.empresas = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
+
     clear() {
         this.activeModal.dismiss('cancel');
     }
 
     save() {
         this.isSaving = true;
-        this.cliente.empresaId = 1;
         if (this.cliente.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.clienteService.update(this.cliente));
+                this.clienteService.update(this.cliente), false);
         } else {
             this.subscribeToSaveResponse(
-                this.clienteService.create(this.cliente));
+                this.clienteService.create(this.cliente), true);
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<Cliente>) {
+    private subscribeToSaveResponse(result: Observable<Cliente>, isCreated: boolean) {
         result.subscribe((res: Cliente) =>
-            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: Cliente) {
+    private onSaveSuccess(result: Cliente, isCreated: boolean) {
+        this.alertService.success(
+            isCreated ? 'clothesApp.cliente.created'
+            : 'clothesApp.cliente.updated',
+            { param : result.id }, null);
+
         this.eventManager.broadcast({ name: 'clienteListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);
@@ -78,10 +76,6 @@ export class ClienteDialogComponent implements OnInit {
 
     private onError(error) {
         this.alertService.error(error.message, null, null);
-    }
-
-    trackEmpresaById(index: number, item: Empresa) {
-        return item.id;
     }
 }
 

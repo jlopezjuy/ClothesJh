@@ -1,6 +1,5 @@
 package com.anelsoftware.service;
 
-import com.anelsoftware.domain.Cliente;
 import com.anelsoftware.service.dto.ModeloDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -41,5 +40,11 @@ public interface ModeloService {
      */
     void delete(Long id);
 
-    Page<ModeloDTO> findAllByCliente(Pageable pageable, Long clienteId);
+    /**
+     *
+     * @param pageable
+     * @param encargoId
+     * @return
+     */
+    Page<ModeloDTO> findAllByEncargoId(Pageable pageable, Long encargoId);
 }

@@ -19,7 +19,7 @@ public interface EncargoService {
 
     /**
      *  Get all the encargos.
-     *  
+     *
      *  @param pageable the pagination information
      *  @return the list of entities
      */

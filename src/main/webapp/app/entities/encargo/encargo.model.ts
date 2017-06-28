@@ -13,7 +13,18 @@ const enum TipoEncargo {
     'NOVIA',
     'MADRINA',
     'FIESTA',
-    'POLICIA'
+    'POLICIA',
+    'COMUNION',
+    'CONFIRMACION',
+    'PAISANA'
+
+};
+
+const enum TipoVestido {
+    'DOS_PIEZAS',
+    'UNA_PIEZA',
+    'SIRENA',
+    'CORTE_A'
 
 };
 export class Encargo {
@@ -25,7 +36,10 @@ export class Encargo {
         public detalleVestido?: string,
         public estado?: Estado,
         public tipoEncargo?: TipoEncargo,
+        public tipoVestido?: TipoVestido,
+        public medidaId?: number,
         public pagoId?: number,
+        public modeloId?: number,
         public clienteId?: number,
     ) {
     }
