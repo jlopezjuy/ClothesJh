@@ -4,7 +4,7 @@ import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { EventManager, AlertService } from 'ng-jhipster';
+import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
 import { Pago } from './pago.model';
 import { PagoPopupService } from './pago-popup.service';
@@ -27,10 +27,10 @@ export class PagoDialogComponent implements OnInit {
 
     constructor(
         public activeModal: NgbActiveModal,
-        private alertService: AlertService,
+        private alertService: JhiAlertService,
         private pagoService: PagoService,
         private encargoService: EncargoService,
-        private eventManager: EventManager
+        private eventManager: JhiEventManager
     ) {
     }
 

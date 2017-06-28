@@ -3,7 +3,7 @@ import { OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
-import { DateUtils, DataUtils, EventManager } from 'ng-jhipster';
+import { JhiDateUtils, JhiDataUtils, JhiEventManager } from 'ng-jhipster';
 import { ClothesTestModule } from '../../../test.module';
 import { MockActivatedRoute } from '../../../helpers/mock-route.service';
 import { PagoDetailComponent } from '../../../../../../main/webapp/app/entities/pago/pago-detail.component';
@@ -22,15 +22,15 @@ describe('Component Tests', () => {
                 imports: [ClothesTestModule],
                 declarations: [PagoDetailComponent],
                 providers: [
-                    DateUtils,
-                    DataUtils,
+                    JhiDateUtils,
+                    JhiDataUtils,
                     DatePipe,
                     {
                         provide: ActivatedRoute,
                         useValue: new MockActivatedRoute({id: 123})
                     },
                     PagoService,
-                    EventManager
+                    JhiEventManager
                 ]
             }).overrideTemplate(PagoDetailComponent, '')
             .compileComponents();

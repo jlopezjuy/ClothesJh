@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
-import { DateUtils } from 'ng-jhipster';
+import { JhiDateUtils } from 'ng-jhipster';
 
 import { Medida } from './medida.model';
 import { ResponseWrapper, createRequestOption } from '../../shared';
@@ -13,7 +13,7 @@ export class MedidaService {
     private resourceUrlEncargo = 'api/medidas/encargo';
     private encargoId: number;
 
-    constructor(private http: Http, private dateUtils: DateUtils) { }
+    constructor(private http: Http, private dateUtils: JhiDateUtils) { }
 
     create(medida: Medida): Observable<Medida> {
         medida.encargoId = this.encargoId;

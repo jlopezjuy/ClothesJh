@@ -4,7 +4,7 @@ import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { EventManager, AlertService, DataUtils } from 'ng-jhipster';
+import { JhiEventManager, JhiAlertService, JhiDataUtils } from 'ng-jhipster';
 
 import { Modelo } from './modelo.model';
 import { ModeloPopupService } from './modelo-popup.service';
@@ -26,12 +26,12 @@ export class ModeloDialogComponent implements OnInit {
 
     constructor(
         public activeModal: NgbActiveModal,
-        private dataUtils: DataUtils,
-        private alertService: AlertService,
+        private dataUtils: JhiDataUtils,
+        private alertService: JhiAlertService,
         private modeloService: ModeloService,
         private encargoService: EncargoService,
         private elementRef: ElementRef,
-        private eventManager: EventManager
+        private eventManager: JhiEventManager
     ) {
     }
 

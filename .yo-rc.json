@@ -4,7 +4,7 @@
       "packageName": "com.anelsoftware",
       "nativeLanguage": "es"
     },
-    "jhipsterVersion": "4.5.3",
+    "jhipsterVersion": "4.5.4",
     "baseName": "clothes",
     "packageName": "com.anelsoftware",
     "packageFolder": "com/anelsoftware",
@@ -36,5 +36,8 @@
       "es",
       "en"
     ]
+  },
+  "generator-jhipster-entity-audit": {
+    "auditFramework": "custom"
   }
 }

@@ -1,0 +1,24 @@
+{
+    "clothesApp": {
+        "detalleFactPres" : {
+            "home": {
+                "title": "Detalle Fact Pres",
+                "createLabel": "Crear nuevo Detalle Fact Pres",
+                "createOrEditLabel": "Crear o editar Detalle Fact Pres"
+            },
+            "created": "Un nuevo Detalle Fact Pres ha sido creado con el identificador {{ param }}",
+            "updated": "Un Detalle Fact Pres ha sido actualizado con el identificador {{ param }}",
+            "deleted": "Un Detalle Fact Pres ha sido eliminado con el identificador {{ param }}",
+            "delete": {
+                "question": "¿Seguro que quiere eliminar Detalle Fact Pres {{ id }}?"
+            },
+            "detail": {
+                "title": "Detalle Fact Pres"
+            },
+            "cantidad": "Cantidad",
+            "predio": "Predio",
+            "facturaPresupuesto": "Factura Presupuesto",
+            "producto": "Producto"
+        }
+    }
+}
