@@ -1,0 +1,43 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "detalleFactPres",
+            "otherEntityName": "detalleFactPres",
+            "otherEntityRelationshipName": "facturaPresupuesto"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "cliente",
+            "otherEntityName": "cliente",
+            "otherEntityField": "nombre"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "fecha",
+            "fieldType": "LocalDate",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "formaPago",
+            "fieldType": "FormaPago",
+            "fieldValues": "CONTADO,TARJETA",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "importeTotal",
+            "fieldType": "BigDecimal"
+        }
+    ],
+    "changelogDate": "20170620004357",
+    "entityTableName": "factura_presupuesto",
+    "dto": "mapstruct",
+    "pagination": "pager",
+    "service": "serviceImpl"
+}

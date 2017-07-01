@@ -1,0 +1,41 @@
+
+<div *ngIf="detalleFactPres">
+    <h2><span jhiTranslate="clothesApp.detalleFactPres.detail.title">Detalle Fact Pres</span> {{detalleFactPres.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="clothesApp.detalleFactPres.cantidad">Cantidad</span></dt>
+        <dd>
+            <span>{{detalleFactPres.cantidad}}</span>
+        </dd>
+        <dt><span jhiTranslate="clothesApp.detalleFactPres.predio">Predio</span></dt>
+        <dd>
+            <span>{{detalleFactPres.predio}}</span>
+        </dd>
+        <dt><span jhiTranslate="clothesApp.detalleFactPres.facturaPresupuesto">Factura Presupuesto</span></dt>
+        <dd>
+            <div *ngIf="detalleFactPres.facturaPresupuestoId">
+                <a [routerLink]="['/factura-presupuesto', detalleFactPres.facturaPresupuestoId]">{{detalleFactPres.facturaPresupuestoId}}</a>
+            </div>
+        </dd>
+        <dt><span jhiTranslate="clothesApp.detalleFactPres.producto">Producto</span></dt>
+        <dd>
+            <div *ngIf="detalleFactPres.productoId">
+                <a [routerLink]="['/producto', detalleFactPres.productoId]">{{detalleFactPres.productoNombre}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'detalle-fact-pres/'+ detalleFactPres.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

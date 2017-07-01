@@ -4,7 +4,7 @@ import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { EventManager, AlertService } from 'ng-jhipster';
+import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
 import { Pago } from './pago.model';
 import { PagoPopupService } from './pago-popup.service';
@@ -27,10 +27,10 @@ export class PagoDialogComponent implements OnInit {
 
     constructor(
         public activeModal: NgbActiveModal,
-        private alertService: AlertService,
+        private alertService: JhiAlertService,
         private pagoService: PagoService,
         private encargoService: EncargoService,
-        private eventManager: EventManager
+        private eventManager: JhiEventManager
     ) {
     }
 
@@ -40,6 +40,7 @@ export class PagoDialogComponent implements OnInit {
         this.encargoService.query()
             .subscribe((res: ResponseWrapper) => { this.encargos = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
+
     clear() {
         this.activeModal.dismiss('cancel');
     }
@@ -48,19 +49,24 @@ export class PagoDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.pago.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.pagoService.update(this.pago));
+                this.pagoService.update(this.pago), false);
         } else {
             this.subscribeToSaveResponse(
-                this.pagoService.create(this.pago));
+                this.pagoService.create(this.pago), true);
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<Pago>) {
+    private subscribeToSaveResponse(result: Observable<Pago>, isCreated: boolean) {
         result.subscribe((res: Pago) =>
-            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: Pago) {
+    private onSaveSuccess(result: Pago, isCreated: boolean) {
+        this.alertService.success(
+            isCreated ? 'clothesApp.pago.created'
+            : 'clothesApp.pago.updated',
+            { param : result.id }, null);
+
         this.eventManager.broadcast({ name: 'pagoListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);

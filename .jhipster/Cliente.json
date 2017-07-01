@@ -3,28 +3,15 @@
     "relationships": [
         {
             "relationshipType": "one-to-many",
-            "relationshipName": "modelo",
-            "otherEntityName": "modelo",
-            "otherEntityRelationshipName": "cliente"
-        },
-        {
-            "relationshipType": "one-to-many",
-            "relationshipName": "medida",
-            "otherEntityName": "medida",
-            "otherEntityRelationshipName": "cliente"
-        },
-        {
-            "relationshipType": "one-to-many",
             "relationshipName": "encargo",
             "otherEntityName": "encargo",
             "otherEntityRelationshipName": "cliente"
         },
         {
-            "relationshipType": "many-to-one",
-            "relationshipValidateRules": "required",
-            "relationshipName": "empresa",
-            "otherEntityName": "empresa",
-            "otherEntityField": "nombre"
+            "relationshipType": "one-to-many",
+            "relationshipName": "facturaPresupuesto",
+            "otherEntityName": "facturaPresupuesto",
+            "otherEntityRelationshipName": "cliente"
         }
     ],
     "fields": [
@@ -75,7 +62,7 @@
             ]
         }
     ],
-    "changelogDate": "20170604152014",
+    "changelogDate": "20170611211921",
     "javadoc": "Class Cliente.\n@author anelsoftware",
     "entityTableName": "cliente",
     "dto": "mapstruct",

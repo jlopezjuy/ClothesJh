@@ -29,39 +29,63 @@
                 </a>
                 <ul class="dropdown-menu" ngbDropdownMenu>
                     <li>
-                        <a class="dropdown-item" routerLink="empresa" routerLinkActive="active" (click)="collapseNavbar()">
-                            <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
-                            <span jhiTranslate="global.menu.entities.empresa">Empresa</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="cliente" routerLinkActive="active" (click)="collapseNavbar()">
+                        <a class="dropdown-item" routerLink="cliente" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
                             <span jhiTranslate="global.menu.entities.cliente">Cliente</span>
                         </a>
                     </li>
+                    <!--<li>-->
+                        <!--<a class="dropdown-item" routerLink="modelo" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">-->
+                            <!--<i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>-->
+                            <!--<span jhiTranslate="global.menu.entities.modelo">Modelo</span>-->
+                        <!--</a>-->
+                    <!--</li>-->
+                    <!--<li>-->
+                        <!--<a class="dropdown-item" routerLink="medida" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">-->
+                            <!--<i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>-->
+                            <!--<span jhiTranslate="global.menu.entities.medida">Medida</span>-->
+                        <!--</a>-->
+                    <!--</li>-->
                     <li>
-                        <a class="dropdown-item" routerLink="modelo" routerLinkActive="active" (click)="collapseNavbar()">
-                            <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
-                            <span jhiTranslate="global.menu.entities.modelo">Modelo</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="medida" routerLinkActive="active" (click)="collapseNavbar()">
-                            <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
-                            <span jhiTranslate="global.menu.entities.medida">Medida</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="encargo" routerLinkActive="active" (click)="collapseNavbar()">
+                        <a class="dropdown-item" routerLink="encargo" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
                             <span jhiTranslate="global.menu.entities.encargo">Encargo</span>
                         </a>
                     </li>
+                    <!--<li>-->
+                        <!--<a class="dropdown-item" routerLink="pago" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">-->
+                            <!--<i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>-->
+                            <!--<span jhiTranslate="global.menu.entities.pago">Pago</span>-->
+                        <!--</a>-->
+                    <!--</li>-->
                     <li>
-                        <a class="dropdown-item" routerLink="pago" routerLinkActive="active" (click)="collapseNavbar()">
+                        <a class="dropdown-item" routerLink="factura-presupuesto" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
-                            <span jhiTranslate="global.menu.entities.pago">Pago</span>
+                            <span jhiTranslate="global.menu.entities.facturaPresupuesto">Factura Presupuesto</span>
+                        </a>
+                    </li>
+                    <!--<li>-->
+                        <!--<a class="dropdown-item" routerLink="detalle-fact-pres" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">-->
+                            <!--<i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>-->
+                            <!--<span jhiTranslate="global.menu.entities.detalleFactPres">Detalle Fact Pres</span>-->
+                        <!--</a>-->
+                    <!--</li>-->
+                    <li>
+                        <a class="dropdown-item" routerLink="producto" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
+                            <span jhiTranslate="global.menu.entities.producto">Producto</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="proveedor" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
+                            <span jhiTranslate="global.menu.entities.proveedor">Proveedor</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="rubro" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
+                            <span jhiTranslate="global.menu.entities.rubro">Rubro</span>
                         </a>
                     </li>
                     <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
@@ -116,6 +140,12 @@
                         <a class="dropdown-item" routerLink="docs" routerLinkActive="active" (click)="collapseNavbar()">
                             <i class="fa fa-fw fa-book" aria-hidden="true"></i>
                             <span jhiTranslate="global.menu.admin.apidocs">API</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="entity-audit" routerLinkActive="active" (click)="collapseNavbar()">
+                            <i class="fa fa-list-alt" aria-hidden="true"></i>&nbsp;
+                            <span jhiTranslate="global.menu.admin.entity-audit">Entity Audit</span>
                         </a>
                     </li>
                     <!-- jhipster-needle-add-element-to-admin-menu - JHipster will add entities to the admin menu here -->

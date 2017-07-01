@@ -3,7 +3,6 @@ package com.anelsoftware.web.rest;
 import com.anelsoftware.ClothesApp;
 
 import com.anelsoftware.domain.Cliente;
-import com.anelsoftware.domain.Empresa;
 import com.anelsoftware.repository.ClienteRepository;
 import com.anelsoftware.service.ClienteService;
 import com.anelsoftware.service.dto.ClienteDTO;
@@ -112,11 +111,6 @@ public class ClienteResourceIntTest {
             .email(DEFAULT_EMAIL)
             .domicilio(DEFAULT_DOMICILIO)
             .colegio(DEFAULT_COLEGIO);
-        // Add required entity
-        Empresa empresa = EmpresaResourceIntTest.createEntity(em);
-        em.persist(empresa);
-        em.flush();
-        cliente.setEmpresa(empresa);
         return cliente;
     }
 

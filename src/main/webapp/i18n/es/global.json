@@ -7,12 +7,16 @@
             "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
             "entities": {
                 "main": "Entidades",
-                "empresa": "Empresa",
                 "cliente": "Cliente",
                 "modelo": "Modelo",
                 "medida": "Medida",
                 "encargo": "Encargo",
                 "pago": "Pago",
+                "facturaPresupuesto": "Factura Presupuesto",
+                "detalleFactPres": "Detalle Fact Pres",
+                "producto": "Producto",
+                "proveedor": "Proveedor",
+                "rubro": "Rubro",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {
@@ -35,6 +39,7 @@
                 "audits": "Auditorías",
                 "apidocs": "API",
                 "database": "Base de datos",
+                "entity-audit": "Entity Audit",
                 "jhipster-needle-menu-add-admin-element": "JHipster will add additional menu entries here (do not translate!)"
             },
             "language": "Idioma"
@@ -89,7 +94,8 @@
         },
         "ribbon": {
             "dev":"Development"
-        }
+        },
+        "item-count": "Monstrando {{first}} - {{second}} de {{total}} artículos."
     },
     "entity": {
         "action": {
@@ -102,8 +108,9 @@
             "open": "Open",
             "save": "Guardar",
             "view": "Vista",
-            "model": "Modelos",
-            "medida": "Medidas"
+            "model": "Modelo",
+            "measure": "Medida",
+            "pay": "Pago"
         },
         "detail": {
             "field": "Campo",

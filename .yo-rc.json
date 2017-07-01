@@ -4,13 +4,13 @@
       "packageName": "com.anelsoftware",
       "nativeLanguage": "es"
     },
-    "jhipsterVersion": "4.5.1",
+    "jhipsterVersion": "4.5.4",
     "baseName": "clothes",
     "packageName": "com.anelsoftware",
     "packageFolder": "com/anelsoftware",
     "serverPort": "8080",
     "authenticationType": "jwt",
-    "hibernateCache": "ehcache",
+    "hibernateCache": "hazelcast",
     "clusteredHttpSession": false,
     "websocket": false,
     "databaseType": "sql",
@@ -21,39 +21,23 @@
     "serviceDiscoveryType": false,
     "buildTool": "maven",
     "enableSocialSignIn": false,
-    "jwtSecretKey": "5a87de6bd299efcdc08e6117083aadcf392102a0",
+    "jwtSecretKey": "5bd7aca4d240bc23ca3f0dc34ec828210b81fc25",
     "clientFramework": "angular2",
     "useSass": true,
     "clientPackageManager": "yarn",
     "applicationType": "monolith",
     "testFrameworks": [
-      "gatling",
-      "cucumber"
+      "gatling"
     ],
     "jhiPrefix": "jhi",
-    "otherModules": [
-      {
-        "name": "generator-jhipster-bootstrap-material-design",
-        "version": "3.5.1"
-      },
-      {
-        "name": "generator-jhipster-swagger2markup",
-        "version": "1.2.0"
-      },
-      {
-        "name": "generator-jhipster-entity-audit",
-        "version": "2.4.0"
-      },
-      {
-        "name": "generator-jhipster-entity-audit-and-delete",
-        "version": "2.2.2"
-      }
-    ],
     "enableTranslation": true,
     "nativeLanguage": "es",
     "languages": [
       "es",
       "en"
     ]
+  },
+  "generator-jhipster-entity-audit": {
+    "auditFramework": "custom"
   }
 }

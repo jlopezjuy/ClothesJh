@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
-import { EventManager , DataUtils } from 'ng-jhipster';
+import { JhiEventManager , JhiDataUtils } from 'ng-jhipster';
 
 import { Modelo } from './modelo.model';
 import { ModeloService } from './modelo.service';
@@ -17,8 +17,8 @@ export class ModeloDetailComponent implements OnInit, OnDestroy {
     private eventSubscriber: Subscription;
 
     constructor(
-        private eventManager: EventManager,
-        private dataUtils: DataUtils,
+        private eventManager: JhiEventManager,
+        private dataUtils: JhiDataUtils,
         private modeloService: ModeloService,
         private route: ActivatedRoute
     ) {

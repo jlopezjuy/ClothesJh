@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
-import { DateUtils } from 'ng-jhipster';
+import { JhiDateUtils } from 'ng-jhipster';
 
 import { Encargo } from './encargo.model';
 import { ResponseWrapper, createRequestOption } from '../../shared';
@@ -11,7 +11,7 @@ export class EncargoService {
 
     private resourceUrl = 'api/encargos';
 
-    constructor(private http: Http, private dateUtils: DateUtils) { }
+    constructor(private http: Http, private dateUtils: JhiDateUtils) { }
 
     create(encargo: Encargo): Observable<Encargo> {
         const copy = this.convert(encargo);
@@ -54,7 +54,7 @@ export class EncargoService {
         for (let i = 0; i < jsonResponse.length; i++) {
             this.convertItemFromServer(jsonResponse[i]);
         }
-        return new ResponseWrapper(res.headers, jsonResponse);
+        return new ResponseWrapper(res.headers, jsonResponse, res.status);
     }
 
     private convertItemFromServer(entity: any) {

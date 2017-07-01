@@ -1,15 +1,15 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { Component, OnInit, OnDestroy, ElementRef } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { EventManager, AlertService, DataUtils } from 'ng-jhipster';
+import { JhiEventManager, JhiAlertService, JhiDataUtils } from 'ng-jhipster';
 
 import { Modelo } from './modelo.model';
 import { ModeloPopupService } from './modelo-popup.service';
 import { ModeloService } from './modelo.service';
-import { Cliente, ClienteService } from '../cliente';
+import { Encargo, EncargoService } from '../encargo';
 import { ResponseWrapper } from '../../shared';
 
 @Component({
@@ -22,25 +22,26 @@ export class ModeloDialogComponent implements OnInit {
     authorities: any[];
     isSaving: boolean;
 
-    clientes: Cliente[];
+    encargos: Encargo[];
 
     constructor(
         public activeModal: NgbActiveModal,
-        private dataUtils: DataUtils,
-        private alertService: AlertService,
-        private activatedRoute: ActivatedRoute,
+        private dataUtils: JhiDataUtils,
+        private alertService: JhiAlertService,
         private modeloService: ModeloService,
-        private clienteService: ClienteService,
-        private eventManager: EventManager
+        private encargoService: EncargoService,
+        private elementRef: ElementRef,
+        private eventManager: JhiEventManager
     ) {
     }
 
     ngOnInit() {
         this.isSaving = false;
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
-        this.clienteService.query()
-            .subscribe((res: ResponseWrapper) => { this.clientes = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+        this.encargoService.query()
+            .subscribe((res: ResponseWrapper) => { this.encargos = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
+
     byteSize(field) {
         return this.dataUtils.byteSize(field);
     }
@@ -50,7 +51,7 @@ export class ModeloDialogComponent implements OnInit {
     }
 
     setFileData(event, modelo, field, isImage) {
-        if (event.target.files && event.target.files[0]) {
+        if (event && event.target.files && event.target.files[0]) {
             const file = event.target.files[0];
             if (isImage && !/^image\//.test(file.type)) {
                 return;
@@ -61,6 +62,11 @@ export class ModeloDialogComponent implements OnInit {
             });
         }
     }
+
+    clearInputImage(field: string, fieldContentType: string, idInput: string) {
+        this.dataUtils.clearInputImage(this.modelo, this.elementRef, field, fieldContentType, idInput);
+    }
+
     clear() {
         this.activeModal.dismiss('cancel');
     }
@@ -69,24 +75,24 @@ export class ModeloDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.modelo.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.modeloService.update(this.modelo));
+                this.modeloService.update(this.modelo), false);
         } else {
-            this.activatedRoute.params.forEach((params:Params) => {
-                let idCliente = params['clienteId'];
-                console.log("Cliente id: " + idCliente);
-                this.modelo.clienteId = idCliente;
-            });
             this.subscribeToSaveResponse(
-                this.modeloService.create(this.modelo));
+                this.modeloService.create(this.modelo), true);
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<Modelo>) {
+    private subscribeToSaveResponse(result: Observable<Modelo>, isCreated: boolean) {
         result.subscribe((res: Modelo) =>
-            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: Modelo) {
+    private onSaveSuccess(result: Modelo, isCreated: boolean) {
+        this.alertService.success(
+            isCreated ? 'clothesApp.modelo.created'
+            : 'clothesApp.modelo.updated',
+            { param : result.id }, null);
+
         this.eventManager.broadcast({ name: 'modeloListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);
@@ -106,7 +112,7 @@ export class ModeloDialogComponent implements OnInit {
         this.alertService.error(error.message, null, null);
     }
 
-    trackClienteById(index: number, item: Cliente) {
+    trackEncargoById(index: number, item: Encargo) {
         return item.id;
     }
 }

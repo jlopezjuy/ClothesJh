@@ -9,14 +9,12 @@ import { ResponseWrapper, createRequestOption } from '../../shared';
 export class ModeloService {
 
     private resourceUrl = 'api/modelos';
-    private resourceUrlCliente = 'api/modelosCliente';
-    private clienteId:number;
-
+    private resourceUrlEncargo = 'api/modelos/encargo';
+    private encargoId: number;
     constructor(private http: Http) { }
 
     create(modelo: Modelo): Observable<Modelo> {
-        console.log("cliente id en servicio: " + this.clienteId);
-        modelo.clienteId = this.clienteId;
+        modelo.encargoId = this.encargoId;
         const copy = this.convert(modelo);
         return this.http.post(this.resourceUrl, copy).map((res: Response) => {
             return res.json();
@@ -24,9 +22,6 @@ export class ModeloService {
     }
 
     update(modelo: Modelo): Observable<Modelo> {
-        console.log("modelo editado: " + modelo);
-        console.log(modelo);
-
         const copy = this.convert(modelo);
         return this.http.put(this.resourceUrl, copy).map((res: Response) => {
             return res.json();
@@ -39,11 +34,10 @@ export class ModeloService {
         });
     }
 
-    query(req?: any, idCliente?:number): Observable<ResponseWrapper> {
-        this.clienteId = idCliente;
-        console.log("guardado: "+ this.clienteId);
+    query(req?: any, encargoId?: number): Observable<ResponseWrapper> {
+        this.encargoId = encargoId;
         const options = createRequestOption(req);
-        return this.http.get(`${this.resourceUrlCliente}/${idCliente}`, options)
+        return this.http.get(`${this.resourceUrlEncargo}/${encargoId}`, options)
             .map((res: Response) => this.convertResponse(res));
     }
 
@@ -53,7 +47,7 @@ export class ModeloService {
 
     private convertResponse(res: Response): ResponseWrapper {
         const jsonResponse = res.json();
-        return new ResponseWrapper(res.headers, jsonResponse);
+        return new ResponseWrapper(res.headers, jsonResponse, res.status);
     }
 
     private convert(modelo: Modelo): Modelo {

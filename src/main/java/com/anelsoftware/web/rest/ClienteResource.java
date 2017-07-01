@@ -66,7 +66,7 @@ public class ClienteResource {
      * @param clienteDTO the clienteDTO to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated clienteDTO,
      * or with status 400 (Bad Request) if the clienteDTO is not valid,
-     * or with status 500 (Internal Server Error) if the clienteDTO couldnt be updated
+     * or with status 500 (Internal Server Error) if the clienteDTO couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/clientes")
@@ -124,5 +124,4 @@ public class ClienteResource {
         clienteService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
-
 }
