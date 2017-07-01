@@ -33,7 +33,7 @@ public class EncargoResource {
     private final Logger log = LoggerFactory.getLogger(EncargoResource.class);
 
     private static final String ENTITY_NAME = "encargo";
-        
+
     private final EncargoService encargoService;
 
     public EncargoResource(EncargoService encargoService) {
@@ -66,7 +66,7 @@ public class EncargoResource {
      * @param encargoDTO the encargoDTO to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated encargoDTO,
      * or with status 400 (Bad Request) if the encargoDTO is not valid,
-     * or with status 500 (Internal Server Error) if the encargoDTO couldnt be updated
+     * or with status 500 (Internal Server Error) if the encargoDTO couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/encargos")
@@ -124,5 +124,4 @@ public class EncargoResource {
         encargoService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
-
 }

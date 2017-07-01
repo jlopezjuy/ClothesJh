@@ -1,7 +1,7 @@
 package com.anelsoftware.service.impl;
 
-import com.anelsoftware.domain.Cliente;
-import com.anelsoftware.repository.ClienteRepository;
+import com.anelsoftware.domain.Encargo;
+import com.anelsoftware.repository.EncargoRepository;
 import com.anelsoftware.service.ModeloService;
 import com.anelsoftware.domain.Modelo;
 import com.anelsoftware.repository.ModeloRepository;
@@ -11,10 +11,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 
 /**
  * Service Implementation for managing Modelo.
@@ -26,14 +25,14 @@ public class ModeloServiceImpl implements ModeloService{
     private final Logger log = LoggerFactory.getLogger(ModeloServiceImpl.class);
 
     private final ModeloRepository modeloRepository;
-    private final ClienteRepository clienteRepository;
+    private final EncargoRepository encargoRepository;
 
     private final ModeloMapper modeloMapper;
 
-    public ModeloServiceImpl(ModeloRepository modeloRepository, ModeloMapper modeloMapper, ClienteRepository clienteRepository) {
+    public ModeloServiceImpl(ModeloRepository modeloRepository, ModeloMapper modeloMapper, EncargoRepository encargoRepository) {
         this.modeloRepository = modeloRepository;
         this.modeloMapper = modeloMapper;
-        this.clienteRepository = clienteRepository;
+        this.encargoRepository = encargoRepository;
     }
 
     /**
@@ -47,8 +46,7 @@ public class ModeloServiceImpl implements ModeloService{
         log.debug("Request to save Modelo : {}", modeloDTO);
         Modelo modelo = modeloMapper.toEntity(modeloDTO);
         modelo = modeloRepository.save(modelo);
-        ModeloDTO result = modeloMapper.toDto(modelo);
-        return result;
+        return modeloMapper.toDto(modelo);
     }
 
     /**
@@ -61,8 +59,8 @@ public class ModeloServiceImpl implements ModeloService{
     @Transactional(readOnly = true)
     public Page<ModeloDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Modelos");
-        Page<Modelo> result = modeloRepository.findAll(pageable);
-        return result.map(modelo -> modeloMapper.toDto(modelo));
+        return modeloRepository.findAll(pageable)
+            .map(modeloMapper::toDto);
     }
 
     /**
@@ -76,8 +74,7 @@ public class ModeloServiceImpl implements ModeloService{
     public ModeloDTO findOne(Long id) {
         log.debug("Request to get Modelo : {}", id);
         Modelo modelo = modeloRepository.findOne(id);
-        ModeloDTO modeloDTO = modeloMapper.toDto(modelo);
-        return modeloDTO;
+        return modeloMapper.toDto(modelo);
     }
 
     /**
@@ -92,16 +89,15 @@ public class ModeloServiceImpl implements ModeloService{
     }
 
     /**
-     *
      * @param pageable
-     * @param clienteId
+     * @param encargoId
      * @return
      */
     @Override
-    public Page<ModeloDTO> findAllByCliente(Pageable pageable, Long clienteId) {
+    public Page<ModeloDTO> findAllByEncargoId(Pageable pageable, Long encargoId) {
         log.debug("Request to get all Modelos");
-        Cliente cliente  = clienteRepository.findOne(clienteId);
-        Page<Modelo> result = modeloRepository.findAllByCliente(pageable, cliente);
-        return result.map(modelo -> modeloMapper.toDto(modelo));
+        Encargo encargo = encargoRepository.findOne(encargoId);
+        return modeloRepository.findAllByEncargo(pageable, encargo)
+            .map(modeloMapper::toDto);
     }
 }

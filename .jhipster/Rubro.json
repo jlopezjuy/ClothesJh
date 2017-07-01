@@ -1,0 +1,26 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "proveedor",
+            "otherEntityName": "proveedor",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "nombre"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "nombre",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "descripcion",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20170628175028",
+    "dto": "mapstruct",
+    "service": "serviceImpl",
+    "entityTableName": "rubro",
+    "pagination": "pagination"
+}

@@ -1,7 +1,7 @@
 package com.anelsoftware.service.impl;
 
-import com.anelsoftware.domain.Cliente;
-import com.anelsoftware.repository.ClienteRepository;
+import com.anelsoftware.domain.Encargo;
+import com.anelsoftware.repository.EncargoRepository;
 import com.anelsoftware.service.MedidaService;
 import com.anelsoftware.domain.Medida;
 import com.anelsoftware.repository.MedidaRepository;
@@ -11,10 +11,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 
 /**
  * Service Implementation for managing Medida.
@@ -27,14 +26,14 @@ public class MedidaServiceImpl implements MedidaService{
 
     private final MedidaRepository medidaRepository;
 
-    private final ClienteRepository clienteRepository;
+    private final EncargoRepository encargoRepository;
 
     private final MedidaMapper medidaMapper;
 
-    public MedidaServiceImpl(MedidaRepository medidaRepository, MedidaMapper medidaMapper, ClienteRepository clienteRepository) {
+    public MedidaServiceImpl(MedidaRepository medidaRepository, MedidaMapper medidaMapper, EncargoRepository encargoRepository) {
         this.medidaRepository = medidaRepository;
         this.medidaMapper = medidaMapper;
-        this.clienteRepository = clienteRepository;
+        this.encargoRepository = encargoRepository;
     }
 
     /**
@@ -48,8 +47,7 @@ public class MedidaServiceImpl implements MedidaService{
         log.debug("Request to save Medida : {}", medidaDTO);
         Medida medida = medidaMapper.toEntity(medidaDTO);
         medida = medidaRepository.save(medida);
-        MedidaDTO result = medidaMapper.toDto(medida);
-        return result;
+        return medidaMapper.toDto(medida);
     }
 
     /**
@@ -62,8 +60,8 @@ public class MedidaServiceImpl implements MedidaService{
     @Transactional(readOnly = true)
     public Page<MedidaDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Medidas");
-        Page<Medida> result = medidaRepository.findAll(pageable);
-        return result.map(medida -> medidaMapper.toDto(medida));
+        return medidaRepository.findAll(pageable)
+            .map(medidaMapper::toDto);
     }
 
     /**
@@ -77,8 +75,7 @@ public class MedidaServiceImpl implements MedidaService{
     public MedidaDTO findOne(Long id) {
         log.debug("Request to get Medida : {}", id);
         Medida medida = medidaRepository.findOne(id);
-        MedidaDTO medidaDTO = medidaMapper.toDto(medida);
-        return medidaDTO;
+        return medidaMapper.toDto(medida);
     }
 
     /**
@@ -93,17 +90,15 @@ public class MedidaServiceImpl implements MedidaService{
     }
 
     /**
-     * Get all medidas from selected Client
-     *
      * @param pageable
-     * @param clienteId
+     * @param encargoId
      * @return
      */
     @Override
-    public Page<MedidaDTO> findAllByCliente(Pageable pageable, Long clienteId) {
+    public Page<MedidaDTO> findAllByEncargoId(Pageable pageable, Long encargoId) {
         log.debug("Request to get all Medidas");
-        Cliente cliente = clienteRepository.findOne(clienteId);
-        Page<Medida> result = medidaRepository.findAllByCliente(pageable, cliente);
-        return result.map(medida -> medidaMapper.toDto(medida));
+        Encargo encargo = encargoRepository.findOne(encargoId);
+        return medidaRepository.findAllByEncargo(pageable, encargo)
+            .map(medidaMapper::toDto);
     }
 }

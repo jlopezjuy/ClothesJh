@@ -1,0 +1,51 @@
+
+<div *ngIf="proveedor">
+    <h2><span jhiTranslate="clothesApp.proveedor.detail.title">Proveedor</span> {{proveedor.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="clothesApp.proveedor.nombre">Nombre</span></dt>
+        <dd>
+            <span>{{proveedor.nombre}}</span>
+        </dd>
+        <dt><span jhiTranslate="clothesApp.proveedor.domicilio">Domicilio</span></dt>
+        <dd>
+            <span>{{proveedor.domicilio}}</span>
+        </dd>
+        <dt><span jhiTranslate="clothesApp.proveedor.telefono">Telefono</span></dt>
+        <dd>
+            <span>{{proveedor.telefono}}</span>
+        </dd>
+        <dt><span jhiTranslate="clothesApp.proveedor.cuilCuit">Cuil Cuit</span></dt>
+        <dd>
+            <span>{{proveedor.cuilCuit}}</span>
+        </dd>
+        <dt><span jhiTranslate="clothesApp.proveedor.email">Email</span></dt>
+        <dd>
+            <span>{{proveedor.email}}</span>
+        </dd>
+        <dt><span jhiTranslate="clothesApp.proveedor.celular">Celular</span></dt>
+        <dd>
+            <span>{{proveedor.celular}}</span>
+        </dd>
+        <dt><span jhiTranslate="clothesApp.proveedor.rubro">Rubro</span></dt>
+        <dd>
+            <div *ngIf="proveedor.rubroId">
+                <a [routerLink]="['/rubro', proveedor.rubroId]">{{proveedor.rubroNombre}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'proveedor/'+ proveedor.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

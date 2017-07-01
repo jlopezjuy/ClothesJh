@@ -19,7 +19,7 @@ public interface ClienteService {
 
     /**
      *  Get all the clientes.
-     *  
+     *
      *  @param pageable the pagination information
      *  @return the list of entities
      */

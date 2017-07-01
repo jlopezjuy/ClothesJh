@@ -32,12 +32,6 @@
         <dd>
             <span>{{cliente.colegio}}</span>
         </dd>
-        <dt><span jhiTranslate="clothesApp.cliente.empresa">Empresa</span></dt>
-        <dd>
-            <div *ngIf="cliente.empresaId">
-                <a [routerLink]="['/empresa', cliente.empresaId]">{{cliente.empresaNombre}}</a>
-            </div>
-        </dd>
     </dl>
 
     <button type="submit"
@@ -46,7 +40,7 @@
         <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
     </button>
 
-    <button type="button"
+    <button type="button" *jhiHasAnyAuthority="'ROLE_ADMIN'"
             [routerLink]="['/', { outlets: { popup: 'cliente/'+ cliente.id + '/edit'} }]"
             replaceUrl="true"
             class="btn btn-primary">

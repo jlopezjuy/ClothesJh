@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Router, Params } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
-import { EventManager, ParseLinks, PaginationUtil, JhiLanguageService, AlertService } from 'ng-jhipster';
+import { JhiEventManager, JhiParseLinks, JhiPaginationUtil, JhiLanguageService, JhiAlertService } from 'ng-jhipster';
 
 import { Medida } from './medida.model';
 import { MedidaService } from './medida.service';
@@ -28,17 +28,17 @@ currentAccount: any;
     predicate: any;
     previousPage: any;
     reverse: any;
-    clienteId: number;
+    encargoId: number;
 
     constructor(
         private medidaService: MedidaService,
-        private parseLinks: ParseLinks,
-        private alertService: AlertService,
+        private parseLinks: JhiParseLinks,
+        private alertService: JhiAlertService,
         private principal: Principal,
         private activatedRoute: ActivatedRoute,
         private router: Router,
-        private eventManager: EventManager,
-        private paginationUtil: PaginationUtil,
+        private eventManager: JhiEventManager,
+        private paginationUtil: JhiPaginationUtil,
         private paginationConfig: PaginationConfig
     ) {
         this.itemsPerPage = ITEMS_PER_PAGE;
@@ -51,13 +51,13 @@ currentAccount: any;
     }
 
     loadAll() {
-        this.activatedRoute.params.forEach((params:Params) => {
-            this.clienteId = params['id'];
-            console.log("Load all Cliente id: " + this.clienteId);
+        this.activatedRoute.params.forEach((params: Params) => {
+            this.encargoId = params['encargoId'];
+            console.log('Load all Cliente id: ' + this.encargoId);
             this.medidaService.query({
                 page: this.page - 1,
                 size: this.itemsPerPage,
-                sort: this.sort()}, this.clienteId).subscribe(
+                sort: this.sort()}, this.encargoId).subscribe(
                 (res: ResponseWrapper) => this.onSuccess(res.json, res.headers),
                 (res: ResponseWrapper) => this.onError(res.json)
             );

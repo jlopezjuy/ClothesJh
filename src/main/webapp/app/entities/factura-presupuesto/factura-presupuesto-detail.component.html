@@ -1,0 +1,85 @@
+
+<div *ngIf="facturaPresupuesto">
+    <jhi-alert-error></jhi-alert-error>
+    <div class="card">
+        <h3 class="card-header">
+            <span jhiTranslate="clothesApp.facturaPresupuesto.detail.title">Factura Presupuesto</span> {{facturaPresupuesto.id}}
+        </h3>
+        <div class="card-block">
+
+            <div class="row">
+                <div class="col col-lg-6">
+                    <span class="font-weight-bold" jhiTranslate="clothesApp.facturaPresupuesto.fecha">Fecha</span>
+                </div>
+                <div class="col col-lg-6">
+                    <span>{{facturaPresupuesto.fecha | date:'mediumDate'}}</span>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-lg-6">
+                    <span class="font-weight-bold" jhiTranslate="clothesApp.facturaPresupuesto.formaPago">Forma Pago</span>
+                </div>
+                <div class="col col-lg-6">
+                    <span jhiTranslate="{{'clothesApp.FormaPago.' + facturaPresupuesto.formaPago}}">{{facturaPresupuesto.formaPago}}</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-lg-6">
+                    <span class="font-weight-bold" jhiTranslate="clothesApp.facturaPresupuesto.importeTotal">Importe Total</span>
+                </div>
+                <div class="col col-lg-6">
+                    <span>{{facturaPresupuesto.importeTotal}}</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-lg-6">
+                    <span class="font-weight-bold" jhiTranslate="clothesApp.facturaPresupuesto.cliente">Cliente</span>
+                </div>
+                <div class="col col-lg-6">
+                    <div *ngIf="facturaPresupuesto.clienteId">
+                        <a [routerLink]="['/cliente', facturaPresupuesto.clienteId]">{{facturaPresupuesto.clienteNombre}}</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col col-sm-12">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Descripcion</th>
+                    <th>Precio Unitario</th>
+                    <th>Cantidad</th>
+                    <th>Total</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let producto of productosList ;trackBy: trackId">
+                    <td>{{producto.id}}</td>
+                    <td>{{producto.descripcion}}</td>
+                    <td>{{producto.precioVenta}}</td>
+                    <td>{{producto.cantidadSeleccionada}}</td>
+                    <td>{{producto.totalFila}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'factura-presupuesto/'+ facturaPresupuesto.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

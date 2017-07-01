@@ -34,7 +34,7 @@
         <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
     </button>
 
-    <button type="button"
+    <button type="button" *jhiHasAnyAuthority="'ROLE_ADMIN'"
             [routerLink]="['/', { outlets: { popup: 'pago/'+ pago.id + '/edit'} }]"
             replaceUrl="true"
             class="btn btn-primary">

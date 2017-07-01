@@ -1,0 +1,23 @@
+{
+    "clothesApp": {
+        "rubro" : {
+            "home": {
+                "title": "Rubros",
+                "createLabel": "Create a new Rubro",
+                "createOrEditLabel": "Create or edit a Rubro"
+            },
+            "created": "A new Rubro is created with identifier {{ param }}",
+            "updated": "A Rubro is updated with identifier {{ param }}",
+            "deleted": "A Rubro is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Rubro {{ id }}?"
+            },
+            "detail": {
+                "title": "Rubro"
+            },
+            "nombre": "Nombre",
+            "descripcion": "Descripcion",
+            "proveedor": "Proveedor"
+        }
+    }
+}

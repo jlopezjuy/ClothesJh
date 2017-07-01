@@ -8,11 +8,12 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
 import com.anelsoftware.domain.enumeration.TipoFalda;
+import com.anelsoftware.domain.enumeration.TipoMedida;
 
 /**
  * A DTO for the Medida entity.
  */
-public class MedidaDTO implements Serializable {
+public class MedidaDTO extends AbstractAuditingDTO implements Serializable {
 
     private Long id;
 
@@ -59,6 +60,9 @@ public class MedidaDTO implements Serializable {
     private TipoFalda tipoFalda;
 
     @NotNull
+    private TipoMedida tipoMedida;
+
+    @NotNull
     private LocalDate fechaMedida;
 
     private Double anchoEspalda;
@@ -75,13 +79,7 @@ public class MedidaDTO implements Serializable {
 
     private Double largoPantalon;
 
-    private String observacion;
-
-    private String detalleMedida;
-
-    private Long clienteId;
-
-    private String clienteNombre;
+    private Long encargoId;
 
     public Long getId() {
         return id;
@@ -259,6 +257,14 @@ public class MedidaDTO implements Serializable {
         this.tipoFalda = tipoFalda;
     }
 
+    public TipoMedida getTipoMedida() {
+        return tipoMedida;
+    }
+
+    public void setTipoMedida(TipoMedida tipoMedida) {
+        this.tipoMedida = tipoMedida;
+    }
+
     public LocalDate getFechaMedida() {
         return fechaMedida;
     }
@@ -323,36 +329,12 @@ public class MedidaDTO implements Serializable {
         this.largoPantalon = largoPantalon;
     }
 
-    public String getObservacion() {
-        return observacion;
+    public Long getEncargoId() {
+        return encargoId;
     }
 
-    public void setObservacion(String observacion) {
-        this.observacion = observacion;
-    }
-
-    public String getDetalleMedida() {
-        return detalleMedida;
-    }
-
-    public void setDetalleMedida(String detalleMedida) {
-        this.detalleMedida = detalleMedida;
-    }
-
-    public Long getClienteId() {
-        return clienteId;
-    }
-
-    public void setClienteId(Long clienteId) {
-        this.clienteId = clienteId;
-    }
-
-    public String getClienteNombre() {
-        return clienteNombre;
-    }
-
-    public void setClienteNombre(String clienteNombre) {
-        this.clienteNombre = clienteNombre;
+    public void setEncargoId(Long encargoId) {
+        this.encargoId = encargoId;
     }
 
     @Override
@@ -401,6 +383,7 @@ public class MedidaDTO implements Serializable {
             ", posicionCadera='" + getPosicionCadera() + "'" +
             ", largoFalda='" + getLargoFalda() + "'" +
             ", tipoFalda='" + getTipoFalda() + "'" +
+            ", tipoMedida='" + getTipoMedida() + "'" +
             ", fechaMedida='" + getFechaMedida() + "'" +
             ", anchoEspalda='" + getAnchoEspalda() + "'" +
             ", anchoManga='" + getAnchoManga() + "'" +
@@ -409,8 +392,6 @@ public class MedidaDTO implements Serializable {
             ", anchoRodillaPantalon='" + getAnchoRodillaPantalon() + "'" +
             ", botaPantalon='" + getBotaPantalon() + "'" +
             ", largoPantalon='" + getLargoPantalon() + "'" +
-            ", observacion='" + getObservacion() + "'" +
-            ", detalleMedida='" + getDetalleMedida() + "'" +
             "}";
     }
 }

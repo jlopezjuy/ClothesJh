@@ -18,8 +18,10 @@
             "imagen": "Imagen",
             "nombreModelo": "Nombre Modelo",
             "colorVestido": "Color Vestido",
+            "bordado": "Bordado",
+            "descripcion": "Descripcion",
             "observacion": "Observacion",
-            "cliente": "Cliente"
+            "encargo": "Encargo"
         }
     }
 }
