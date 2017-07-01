@@ -36,12 +36,12 @@
         </div>
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="clothesApp.cliente.celular" for="field_celular">Celular</label>
-            <input type="text" class="form-control" name="celular" id="field_celular"
+            <input type="tel" class="form-control" name="celular" id="field_celular" pattern="^\d{3}-\d{3}-\d{4}"
                 [(ngModel)]="cliente.celular"  />
         </div>
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="clothesApp.cliente.telefono" for="field_telefono">Telefono</label>
-            <input type="text" class="form-control" name="telefono" id="field_telefono"
+            <input type="tel" class="form-control" name="telefono" id="field_telefono" pattern="^\d{3}-\d{3}-\d{4}"
                 [(ngModel)]="cliente.telefono" required />
             <div [hidden]="!(editForm.controls.telefono?.dirty && editForm.controls.telefono?.invalid)">
                 <small class="form-text text-danger"
@@ -52,7 +52,7 @@
         </div>
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="clothesApp.cliente.email" for="field_email">Email</label>
-            <input type="text" class="form-control" name="email" id="field_email"
+            <input type="email" class="form-control" name="email" id="field_email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
                 [(ngModel)]="cliente.email" required />
             <div [hidden]="!(editForm.controls.email?.dirty && editForm.controls.email?.invalid)">
                 <small class="form-text text-danger"
