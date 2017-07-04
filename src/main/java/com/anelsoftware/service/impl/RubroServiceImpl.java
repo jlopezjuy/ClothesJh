@@ -55,8 +55,7 @@ public class RubroServiceImpl implements RubroService{
     @Transactional(readOnly = true)
     public Page<RubroDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Rubros");
-        return rubroRepository.findAll(pageable)
-            .map(rubroMapper::toDto);
+        return rubroRepository.findAllOrderByNombre(pageable).map(rubroMapper::toDto);
     }
 
     /**
