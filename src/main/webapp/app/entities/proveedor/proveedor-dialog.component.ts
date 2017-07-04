@@ -45,14 +45,27 @@ export class ProveedorDialogComponent implements OnInit {
     }
 
     save() {
-        this.isSaving = true;
-        if (this.proveedor.id !== undefined) {
-            this.subscribeToSaveResponse(
-                this.proveedorService.update(this.proveedor), false);
-        } else {
-            this.subscribeToSaveResponse(
-                this.proveedorService.create(this.proveedor), true);
+        if (this.validateFields(this.proveedor)) {
+            this.isSaving = true;
+            if (this.proveedor.id !== undefined) {
+                this.subscribeToSaveResponse(
+                    this.proveedorService.update(this.proveedor), false);
+            } else {
+                this.subscribeToSaveResponse(
+                    this.proveedorService.create(this.proveedor), true);
+            }
         }
+    }
+
+    validateFields(proveedor: Proveedor) {
+        console.log('Entro en el validate ' + proveedor.cuilCuit.toString().length);
+        let validate: boolean;
+        validate = true;
+        if (proveedor.cuilCuit.toString().length > 11 || proveedor.cuilCuit.toString().length < 11) {
+            this.alertService.error('clothesApp.proveedor.validCuil');
+            validate = false;
+        }
+        return validate;
     }
 
     private subscribeToSaveResponse(result: Observable<Proveedor>, isCreated: boolean) {

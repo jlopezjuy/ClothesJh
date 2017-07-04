@@ -9,6 +9,7 @@
             "created": "A new Proveedor is created with identifier {{ param }}",
             "updated": "A Proveedor is updated with identifier {{ param }}",
             "deleted": "A Proveedor is deleted with identifier {{ param }}",
+            "validCuil": "Cuil/Cuit error",
             "delete": {
                 "question": "Are you sure you want to delete Proveedor {{ id }}?"
             },

@@ -155,10 +155,10 @@ export class FacturaPresupuestoDialogComponent implements OnInit {
     }
 
     private onSaveSuccessVenta(result: DetalleFactPres, isCreated: boolean) {
-        // this.alertService.success(
-        //     isCreated ? 'clothesApp.facturaPresupuesto.created'
-        //         : 'clothesApp.facturaPresupuesto.updated',
-        //     {param: result.id}, null);
+        this.alertService.success(
+            isCreated ? 'clothesApp.facturaPresupuesto.created'
+                : 'clothesApp.facturaPresupuesto.updated',
+            {param: result.id}, null);
         console.log('Ok');
     }
 
