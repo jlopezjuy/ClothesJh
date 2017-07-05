@@ -9,6 +9,7 @@
             "created": "Un nuevo Factura Presupuesto ha sido creado con el identificador {{ param }}",
             "errorProducto": "Debe seleccionar un producto",
             "errorCantidad": "Debe ingresar una cantidad para el producto {{ param }}",
+            "errorImporteTotal": "Debe ingresar un producto",
             "updated": "Un Factura Presupuesto ha sido actualizado con el identificador {{ param }}",
             "deleted": "Un Factura Presupuesto ha sido eliminado con el identificador {{ param }}",
             "delete": {

@@ -9,6 +9,7 @@
             "created": "A new Factura Presupuesto is created with identifier {{ param }}",
             "errorProducto": "You need to select a producto",
             "errorCantidad": "You must enter the quantity of the product {{ param }}",
+            "errorImporteTotal": "You must enter the product",
             "updated": "A Factura Presupuesto is updated with identifier {{ param }}",
             "deleted": "A Factura Presupuesto is deleted with identifier {{ param }}",
             "delete": {

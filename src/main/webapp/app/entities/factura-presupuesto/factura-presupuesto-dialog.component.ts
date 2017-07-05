@@ -15,6 +15,7 @@ import {Producto} from '../producto/producto.model';
 import {ProductoService} from '../producto/producto.service';
 import {DetalleFactPres} from '../detalle-fact-pres/detalle-fact-pres.model';
 import {DetalleFactPresService} from '../detalle-fact-pres/detalle-fact-pres.service';
+import {DatePipe} from '@angular/common';
 
 @Component({
     selector: 'jhi-factura-presupuesto-dialog',
@@ -57,9 +58,10 @@ export class FacturaPresupuestoDialogComponent implements OnInit {
         this.productoService.query().subscribe((res: ResponseWrapper) => {
             this.productos = res.json;
         }, (res: ResponseWrapper) => this.onError(res.json));
-        this.facturaPresupuesto = new FacturaPresupuesto(null, new Date(), null, null, null, null);
-        this.fechaHoy = new Date();
-        this.fechaDp = new Date();
+
+        this.fechaDp = Date.now();
+
+        this.fechaHoy = Date.now();
     }
 
     clear() {
@@ -67,14 +69,29 @@ export class FacturaPresupuestoDialogComponent implements OnInit {
     }
 
     save() {
-        this.isSaving = true;
-        if (this.facturaPresupuesto.id !== undefined) {
-            this.subscribeToSaveResponse(
-                this.facturaPresupuestoService.update(this.facturaPresupuesto), false);
-        } else {
-            this.subscribeToSaveResponse(
-                this.facturaPresupuestoService.create(this.facturaPresupuesto), true);
+        if (this.validate()) {
+            this.isSaving = true;
+            if (this.facturaPresupuesto.id !== undefined) {
+                this.subscribeToSaveResponse(
+                    this.facturaPresupuestoService.update(this.facturaPresupuesto), false);
+            } else {
+                this.subscribeToSaveResponse(
+                    this.facturaPresupuestoService.create(this.facturaPresupuesto), true);
+            }
         }
+    }
+
+    /**
+     * Metodo para calidar campos antes de insertar
+     * @returns {boolean}
+     */
+    validate() {
+        console.log('valor de importe total: ' + this.facturaPresupuesto.importeTotal );
+        if (this.facturaPresupuesto.importeTotal === undefined || this.facturaPresupuesto.importeTotal === null) {
+            this.alertService.error('clothesApp.facturaPresupuesto.errorImporteTotal');
+            return false;
+        }
+        return true;
     }
 
     addToList() {

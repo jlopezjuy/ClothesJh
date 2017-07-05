@@ -17,7 +17,6 @@ public class FacturaPresupuestoDTO extends AbstractAuditingDTO implements Serial
 
     private Long id;
 
-    @NotNull
     private LocalDate fecha;
 
     @NotNull
