@@ -18,8 +18,6 @@
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
                 <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
-                <th jhiSortBy="importeTotal"><span jhiTranslate="clothesApp.encargo.importeTotal">Importe Total</span>
-                    <span class="fa fa-sort"></span></th>
                 <th jhiSortBy="fechaEncargo"><span jhiTranslate="clothesApp.encargo.fechaEncargo">Fecha Encargo</span>
                     <span class="fa fa-sort"></span></th>
                 <th jhiSortBy="fechaEntrega"><span jhiTranslate="clothesApp.encargo.fechaEntrega">Fecha Entrega</span>
@@ -29,10 +27,6 @@
                     class="fa fa-sort"></span></th>
                 <th jhiSortBy="estado"><span jhiTranslate="clothesApp.encargo.estado">Estado</span> <span
                     class="fa fa-sort"></span></th>
-                <th jhiSortBy="tipoEncargo"><span jhiTranslate="clothesApp.encargo.tipoEncargo">Tipo Encargo</span>
-                    <span class="fa fa-sort"></span></th>
-                <th jhiSortBy="tipoVestido"><span jhiTranslate="clothesApp.encargo.tipoVestido">Tipo Vestido</span>
-                    <span class="fa fa-sort"></span></th>
                 <th jhiSortBy="clienteNombre"><span jhiTranslate="clothesApp.encargo.cliente">Cliente</span> <span
                     class="fa fa-sort"></span></th>
                 <th></th>
@@ -41,13 +35,10 @@
             <tbody>
             <tr *ngFor="let encargo of encargos ;trackBy: trackId">
                 <td><a [routerLink]="['../encargo', encargo.id ]">{{encargo.id}}</a></td>
-                <td>{{encargo.importeTotal}}</td>
                 <td>{{encargo.fechaEncargo | date:'dd/MM/yyyy'}}</td>
                 <td>{{encargo.fechaEntrega | date:'dd/MM/yyyy'}}</td>
                 <td>{{encargo.detalleVestido}}</td>
                 <td jhiTranslate="{{'clothesApp.Estado.' + encargo.estado}}">{{encargo.estado}}</td>
-                <td jhiTranslate="{{'clothesApp.TipoEncargo.' + encargo.tipoEncargo}}">{{encargo.tipoEncargo}}</td>
-                <td jhiTranslate="{{'clothesApp.TipoVestido.' + encargo.tipoVestido}}">{{encargo.tipoVestido}}</td>
                 <td>
                     <div *ngIf="encargo.clienteId">
                         <a [routerLink]="['../cliente', encargo.clienteId  ]">{{encargo.clienteNombre}}</a>
