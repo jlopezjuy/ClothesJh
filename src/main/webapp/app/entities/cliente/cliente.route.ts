@@ -9,8 +9,6 @@ import { ClienteDetailComponent } from './cliente-detail.component';
 import { ClientePopupComponent } from './cliente-dialog.component';
 import { ClienteDeletePopupComponent } from './cliente-delete-dialog.component';
 
-import { Principal } from '../../shared';
-
 @Injectable()
 export class ClienteResolvePagingParams implements Resolve<any> {
 
