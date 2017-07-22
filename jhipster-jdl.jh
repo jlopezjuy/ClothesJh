@@ -5,13 +5,13 @@
  * @author anelsoftware
  */
 entity Cliente{
-	nombre String required,
-	apellido String required,
-	celular String,
-	telefono String required,
-	email String required,
-	domicilio String required,
-	colegio String required
+    nombre String required,
+    apellido String required,
+    celular String,
+    telefono String required,
+    email String required,
+    domicilio String required,
+    colegio String required
 }
 
 
@@ -20,7 +20,7 @@ entity Cliente{
  * @author anelsoftware
  */
 entity Modelo{
-	imagen ImageBlob required,
+    imagen ImageBlob required,
     nombreModelo String required,
     colorVestido String required,
     bordado Boolean,
@@ -32,7 +32,7 @@ entity Modelo{
  * @author anelsoftware
  */
 entity Medida{
-	contornoBusto Double,
+    contornoBusto Double,
     anchoPecho Double,
     altoBusto Double,
     bajoBusto Double,
@@ -70,7 +70,7 @@ entity Medida{
  * @author anelsoftware
  */
 entity Encargo{
-	importeTotal Double required,
+    importeTotal Double required,
     fechaEncargo LocalDate required,
     fechaEntrega LocalDate,
     detalleVestido String required,
@@ -83,25 +83,28 @@ entity Encargo{
  * @author anelsoftware
  */
 entity Pago{
-	fechaPago LocalDate,
+    fechaPago LocalDate,
     importe Double required,
     detalle String required,
     numeroRecibo Integer required
 }
-
+/**
+ * Class Factura Presupuesto.
+ * @author anelsoftware
+ */
 entity FacturaPresupuesto {
-	fecha LocalDate required,
+    fecha LocalDate required,
     formaPago FormaPago required,
     importeTotal BigDecimal
 }
 
 entity DetalleFactPres{
-	cantidad Integer,
+    cantidad Integer,
     predio BigDecimal
 }
 
 entity Producto{
-	nombre String required,
+    nombre String required,
     descripcion String,
     cantidad Integer required,
     codigoOrigen String,
@@ -109,13 +112,13 @@ entity Producto{
     precioVenta BigDecimal required,
     margenGanancia BigDecimal,
     talle Talla,
-	categoria TipoProducto required,
+    categoria TipoProducto required,
     ubicacion Ubicacion,
     imagen ImageBlob
 }
 
 entity Proveedor{
-	nombre String required,
+    nombre String required,
     domicilio String required,
     telefono String required,
     cuilCuit String required,
@@ -124,46 +127,52 @@ entity Proveedor{
     celular String required
 }
 
+entity Rubro{
+    nombre String,
+    descripcion String
+}
+
 enum FormaPago{
-	CONTADO, TARJETA
+    CONTADO, TARJETA
 }
 
 enum TipoProducto {
     CAMISA, AMBO_LISO, AMBO_RAYADO,
-    PANTALON, SACO_SPORT, CORBATA
+    PANTALON, SACO_SPORT, CORBATA, ACCESORIOS,
+    BLUSA, MONO, CORSET, VESTIDO, RAMO, TOCADO, GEMELOS,
+    ZAPATO, LIGAS
 }
 
 enum Ubicacion{
-	PERCHERO, MUEBLE, REPISA, DEPOSITO
+    VIDRIERA, PERCHERO, MUEBLE, REPISA, DEPOSITO, MOSTRADOR, ESTANTE
 }
 
 enum Talla{
-	XS, S, M, L, XL, XXL
+    XS, S, M, L, XL, XXL
 }
 
 enum Estado {
-	ENCARGADO, CORTADO, PROBADO, ENTREGADO, CANCELADO
+    ENCARGADO, CORTADO, PROBADO, ENTREGADO, CANCELADO
 }
 
 enum TipoEncargo{
-	QUINCE, NOVIA, MADRINA, FIESTA, POLICIA, COMUNION, CONFIRMACION,
-    PAISANA
+    QUINCE, NOVIA, MADRINA, FIESTA, POLICIA, COMUNION, CONFIRMACION,
+    PAISANA, CENA_BLANCA, COCKTAIL
 }
 
 enum TipoVestido{
-	DOS_PIEZAS, UNA_PIEZA, SIRENA, CORTE_A
+    DOS_PIEZAS, UNA_PIEZA, SIRENA, CORTE_A
 }
 
 enum TipoFalda{
-	TUBO, RECTA, TAJO, EVASE, CORTEA, CAMPANA, PLATO, GAJOS
+    TUBO, RECTA, TAJO, EVASE, CORTEA, CAMPANA, PLATO, GAJOS
 }
 
 enum TipoMedida{
-	AMBO_HOMBRE, AMBO_MUJER, CHALECO,
+    AMBO_HOMBRE, AMBO_MUJER, CHALECO,
     PANTALON_HOMBRE, PANTALON_MUJER,
     POLLERA, VESTIDO, CORSET
 }
-
 
 /**
   * Relacion Una empresa tiene uno o muchos usuarios
@@ -176,7 +185,8 @@ relationship OneToMany {
     Encargo{modelo(nombreModelo)} to Modelo{encargo required},
     Cliente{facturaPresupuesto} to FacturaPresupuesto{cliente(nombre)},
     FacturaPresupuesto{detalleFactPres} to DetalleFactPres{facturaPresupuesto},
-    Producto{detalleFactPres} to DetalleFactPres{producto(nombre)}
+    Producto{detalleFactPres} to DetalleFactPres{producto(nombre)},
+    Rubro{proveedor(nombre)} to Proveedor{rubro(nombre)}
 }
 
 
