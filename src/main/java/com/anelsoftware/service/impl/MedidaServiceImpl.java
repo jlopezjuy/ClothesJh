@@ -5,6 +5,7 @@ import com.anelsoftware.repository.EncargoRepository;
 import com.anelsoftware.service.MedidaService;
 import com.anelsoftware.domain.Medida;
 import com.anelsoftware.repository.MedidaRepository;
+import com.anelsoftware.repository.search.MedidaSearchRepository;
 import com.anelsoftware.service.dto.MedidaDTO;
 import com.anelsoftware.service.mapper.MedidaMapper;
 import org.slf4j.Logger;
@@ -14,6 +15,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * Service Implementation for managing Medida.
@@ -30,10 +33,14 @@ public class MedidaServiceImpl implements MedidaService{
 
     private final MedidaMapper medidaMapper;
 
-    public MedidaServiceImpl(MedidaRepository medidaRepository, MedidaMapper medidaMapper, EncargoRepository encargoRepository) {
+    private final MedidaSearchRepository medidaSearchRepository;
+
+    public MedidaServiceImpl(MedidaRepository medidaRepository, MedidaMapper medidaMapper, MedidaSearchRepository medidaSearchRepository,
+                             EncargoRepository encargoRepository) {
         this.medidaRepository = medidaRepository;
         this.medidaMapper = medidaMapper;
         this.encargoRepository = encargoRepository;
+        this.medidaSearchRepository = medidaSearchRepository;
     }
 
     /**
@@ -47,7 +54,9 @@ public class MedidaServiceImpl implements MedidaService{
         log.debug("Request to save Medida : {}", medidaDTO);
         Medida medida = medidaMapper.toEntity(medidaDTO);
         medida = medidaRepository.save(medida);
-        return medidaMapper.toDto(medida);
+        MedidaDTO result = medidaMapper.toDto(medida);
+        medidaSearchRepository.save(medida);
+        return result;
     }
 
     /**
@@ -87,6 +96,7 @@ public class MedidaServiceImpl implements MedidaService{
     public void delete(Long id) {
         log.debug("Request to delete Medida : {}", id);
         medidaRepository.delete(id);
+        medidaSearchRepository.delete(id);
     }
 
     /**
@@ -100,5 +110,20 @@ public class MedidaServiceImpl implements MedidaService{
         Encargo encargo = encargoRepository.findOne(encargoId);
         return medidaRepository.findAllByEncargo(pageable, encargo)
             .map(medidaMapper::toDto);
+    }
+
+    /**
+     * Search for the medida corresponding to the query.
+     *
+     *  @param query the query of the search
+     *  @param pageable the pagination information
+     *  @return the list of entities
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public Page<MedidaDTO> search(String query, Pageable pageable) {
+        log.debug("Request to search for a page of Medidas for query {}", query);
+        Page<Medida> result = medidaSearchRepository.search(queryStringQuery(query), pageable);
+        return result.map(medidaMapper::toDto);
     }
 }

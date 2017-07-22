@@ -5,6 +5,7 @@ import com.anelsoftware.repository.EncargoRepository;
 import com.anelsoftware.service.ModeloService;
 import com.anelsoftware.domain.Modelo;
 import com.anelsoftware.repository.ModeloRepository;
+import com.anelsoftware.repository.search.ModeloSearchRepository;
 import com.anelsoftware.service.dto.ModeloDTO;
 import com.anelsoftware.service.mapper.ModeloMapper;
 import org.slf4j.Logger;
@@ -14,6 +15,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * Service Implementation for managing Modelo.
@@ -29,10 +32,14 @@ public class ModeloServiceImpl implements ModeloService{
 
     private final ModeloMapper modeloMapper;
 
-    public ModeloServiceImpl(ModeloRepository modeloRepository, ModeloMapper modeloMapper, EncargoRepository encargoRepository) {
+    private final ModeloSearchRepository modeloSearchRepository;
+
+    public ModeloServiceImpl(ModeloRepository modeloRepository, ModeloMapper modeloMapper, ModeloSearchRepository modeloSearchRepository,
+                             EncargoRepository encargoRepository) {
         this.modeloRepository = modeloRepository;
         this.modeloMapper = modeloMapper;
         this.encargoRepository = encargoRepository;
+        this.modeloSearchRepository = modeloSearchRepository;
     }
 
     /**
@@ -46,7 +53,9 @@ public class ModeloServiceImpl implements ModeloService{
         log.debug("Request to save Modelo : {}", modeloDTO);
         Modelo modelo = modeloMapper.toEntity(modeloDTO);
         modelo = modeloRepository.save(modelo);
-        return modeloMapper.toDto(modelo);
+        ModeloDTO result = modeloMapper.toDto(modelo);
+        modeloSearchRepository.save(modelo);
+        return result;
     }
 
     /**
@@ -86,6 +95,7 @@ public class ModeloServiceImpl implements ModeloService{
     public void delete(Long id) {
         log.debug("Request to delete Modelo : {}", id);
         modeloRepository.delete(id);
+        modeloSearchRepository.delete(id);
     }
 
     /**
@@ -99,5 +109,20 @@ public class ModeloServiceImpl implements ModeloService{
         Encargo encargo = encargoRepository.findOne(encargoId);
         return modeloRepository.findAllByEncargo(pageable, encargo)
             .map(modeloMapper::toDto);
+    }
+
+    /**
+     * Search for the modelo corresponding to the query.
+     *
+     *  @param query the query of the search
+     *  @param pageable the pagination information
+     *  @return the list of entities
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public Page<ModeloDTO> search(String query, Pageable pageable) {
+        log.debug("Request to search for a page of Modelos for query {}", query);
+        Page<Modelo> result = modeloSearchRepository.search(queryStringQuery(query), pageable);
+        return result.map(modeloMapper::toDto);
     }
 }

@@ -3,6 +3,7 @@ package com.anelsoftware.service.impl;
 import com.anelsoftware.service.ProductoService;
 import com.anelsoftware.domain.Producto;
 import com.anelsoftware.repository.ProductoRepository;
+import com.anelsoftware.repository.search.ProductoSearchRepository;
 import com.anelsoftware.service.dto.ProductoDTO;
 import com.anelsoftware.service.mapper.ProductoMapper;
 import org.slf4j.Logger;
@@ -12,6 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * Service Implementation for managing Producto.
@@ -26,9 +29,12 @@ public class ProductoServiceImpl implements ProductoService{
 
     private final ProductoMapper productoMapper;
 
-    public ProductoServiceImpl(ProductoRepository productoRepository, ProductoMapper productoMapper) {
+    private final ProductoSearchRepository productoSearchRepository;
+
+    public ProductoServiceImpl(ProductoRepository productoRepository, ProductoMapper productoMapper, ProductoSearchRepository productoSearchRepository) {
         this.productoRepository = productoRepository;
         this.productoMapper = productoMapper;
+        this.productoSearchRepository = productoSearchRepository;
     }
 
     /**
@@ -42,7 +48,9 @@ public class ProductoServiceImpl implements ProductoService{
         log.debug("Request to save Producto : {}", productoDTO);
         Producto producto = productoMapper.toEntity(productoDTO);
         producto = productoRepository.save(producto);
-        return productoMapper.toDto(producto);
+        ProductoDTO result = productoMapper.toDto(producto);
+        productoSearchRepository.save(producto);
+        return result;
     }
 
     /**
@@ -82,5 +90,21 @@ public class ProductoServiceImpl implements ProductoService{
     public void delete(Long id) {
         log.debug("Request to delete Producto : {}", id);
         productoRepository.delete(id);
+        productoSearchRepository.delete(id);
+    }
+
+    /**
+     * Search for the producto corresponding to the query.
+     *
+     *  @param query the query of the search
+     *  @param pageable the pagination information
+     *  @return the list of entities
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public Page<ProductoDTO> search(String query, Pageable pageable) {
+        log.debug("Request to search for a page of Productos for query {}", query);
+        Page<Producto> result = productoSearchRepository.search(queryStringQuery(query), pageable);
+        return result.map(productoMapper::toDto);
     }
 }

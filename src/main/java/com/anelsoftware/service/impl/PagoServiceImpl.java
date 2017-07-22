@@ -5,6 +5,7 @@ import com.anelsoftware.repository.EncargoRepository;
 import com.anelsoftware.service.PagoService;
 import com.anelsoftware.domain.Pago;
 import com.anelsoftware.repository.PagoRepository;
+import com.anelsoftware.repository.search.PagoSearchRepository;
 import com.anelsoftware.service.dto.PagoDTO;
 import com.anelsoftware.service.mapper.PagoMapper;
 import org.slf4j.Logger;
@@ -14,6 +15,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * Service Implementation for managing Pago.
@@ -29,10 +32,14 @@ public class PagoServiceImpl implements PagoService{
 
     private final PagoMapper pagoMapper;
 
-    public PagoServiceImpl(PagoRepository pagoRepository, PagoMapper pagoMapper, EncargoRepository encargoRepository) {
+    private final PagoSearchRepository pagoSearchRepository;
+
+    public PagoServiceImpl(PagoRepository pagoRepository, PagoMapper pagoMapper, PagoSearchRepository pagoSearchRepository,
+                           EncargoRepository encargoRepository) {
         this.pagoRepository = pagoRepository;
         this.pagoMapper = pagoMapper;
         this.encargoRepository = encargoRepository;
+        this.pagoSearchRepository = pagoSearchRepository;
     }
 
     /**
@@ -46,7 +53,9 @@ public class PagoServiceImpl implements PagoService{
         log.debug("Request to save Pago : {}", pagoDTO);
         Pago pago = pagoMapper.toEntity(pagoDTO);
         pago = pagoRepository.save(pago);
-        return pagoMapper.toDto(pago);
+        PagoDTO result = pagoMapper.toDto(pago);
+        pagoSearchRepository.save(pago);
+        return result;
     }
 
     /**
@@ -86,6 +95,7 @@ public class PagoServiceImpl implements PagoService{
     public void delete(Long id) {
         log.debug("Request to delete Pago : {}", id);
         pagoRepository.delete(id);
+        pagoSearchRepository.delete(id);
     }
 
     /**
@@ -99,5 +109,20 @@ public class PagoServiceImpl implements PagoService{
         Encargo encargo = encargoRepository.findOne(encargoId);
         return pagoRepository.findAllByEncargo(pageable, encargo)
             .map(pagoMapper::toDto);
+    }
+
+    /**
+     * Search for the pago corresponding to the query.
+     *
+     *  @param query the query of the search
+     *  @param pageable the pagination information
+     *  @return the list of entities
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public Page<PagoDTO> search(String query, Pageable pageable) {
+        log.debug("Request to search for a page of Pagos for query {}", query);
+        Page<Pago> result = pagoSearchRepository.search(queryStringQuery(query), pageable);
+        return result.map(pagoMapper::toDto);
     }
 }

@@ -3,6 +3,7 @@ package com.anelsoftware.service.impl;
 import com.anelsoftware.service.EncargoService;
 import com.anelsoftware.domain.Encargo;
 import com.anelsoftware.repository.EncargoRepository;
+import com.anelsoftware.repository.search.EncargoSearchRepository;
 import com.anelsoftware.service.dto.EncargoDTO;
 import com.anelsoftware.service.mapper.EncargoMapper;
 import org.slf4j.Logger;
@@ -12,6 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * Service Implementation for managing Encargo.
@@ -26,9 +29,12 @@ public class EncargoServiceImpl implements EncargoService{
 
     private final EncargoMapper encargoMapper;
 
-    public EncargoServiceImpl(EncargoRepository encargoRepository, EncargoMapper encargoMapper) {
+    private final EncargoSearchRepository encargoSearchRepository;
+
+    public EncargoServiceImpl(EncargoRepository encargoRepository, EncargoMapper encargoMapper, EncargoSearchRepository encargoSearchRepository) {
         this.encargoRepository = encargoRepository;
         this.encargoMapper = encargoMapper;
+        this.encargoSearchRepository = encargoSearchRepository;
     }
 
     /**
@@ -42,7 +48,9 @@ public class EncargoServiceImpl implements EncargoService{
         log.debug("Request to save Encargo : {}", encargoDTO);
         Encargo encargo = encargoMapper.toEntity(encargoDTO);
         encargo = encargoRepository.save(encargo);
-        return encargoMapper.toDto(encargo);
+        EncargoDTO result = encargoMapper.toDto(encargo);
+        encargoSearchRepository.save(encargo);
+        return result;
     }
 
     /**
@@ -82,5 +90,21 @@ public class EncargoServiceImpl implements EncargoService{
     public void delete(Long id) {
         log.debug("Request to delete Encargo : {}", id);
         encargoRepository.delete(id);
+        encargoSearchRepository.delete(id);
+    }
+
+    /**
+     * Search for the encargo corresponding to the query.
+     *
+     *  @param query the query of the search
+     *  @param pageable the pagination information
+     *  @return the list of entities
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public Page<EncargoDTO> search(String query, Pageable pageable) {
+        log.debug("Request to search for a page of Encargos for query {}", query);
+        Page<Encargo> result = encargoSearchRepository.search(queryStringQuery(query), pageable);
+        return result.map(encargoMapper::toDto);
     }
 }
