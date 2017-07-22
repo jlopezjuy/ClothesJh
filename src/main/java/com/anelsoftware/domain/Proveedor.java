@@ -3,6 +3,7 @@ package com.anelsoftware.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -17,7 +18,8 @@ import java.util.Objects;
 @Entity
 @Table(name = "proveedor")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class Proveedor extends AbstractAuditingEntity implements Serializable {
+@Document(indexName = "proveedor")
+public class Proveedor implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -54,8 +56,7 @@ public class Proveedor extends AbstractAuditingEntity implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Producto> productos = new HashSet<>();
 
-    @ManyToOne(optional = false)
-    @NotNull
+    @ManyToOne
     private Rubro rubro;
 
     public Long getId() {

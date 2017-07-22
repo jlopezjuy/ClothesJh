@@ -3,6 +3,7 @@ package com.anelsoftware.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -16,7 +17,8 @@ import java.util.Objects;
 @Entity
 @Table(name = "rubro")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class Rubro extends AbstractAuditingEntity implements Serializable {
+@Document(indexName = "rubro")
+public class Rubro implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -30,7 +32,7 @@ public class Rubro extends AbstractAuditingEntity implements Serializable {
     @Column(name = "descripcion")
     private String descripcion;
 
-    @OneToMany(mappedBy = "nombre")
+    @OneToMany(mappedBy = "rubro")
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Proveedor> proveedors = new HashSet<>();
@@ -80,11 +82,13 @@ public class Rubro extends AbstractAuditingEntity implements Serializable {
 
     public Rubro addProveedor(Proveedor proveedor) {
         this.proveedors.add(proveedor);
+        proveedor.setRubro(this);
         return this;
     }
 
     public Rubro removeProveedor(Proveedor proveedor) {
         this.proveedors.remove(proveedor);
+        proveedor.setRubro(null);
         return this;
     }
 

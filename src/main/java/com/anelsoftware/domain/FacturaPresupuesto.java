@@ -1,8 +1,10 @@
 package com.anelsoftware.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.annotations.ApiModel;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -16,12 +18,15 @@ import java.util.Objects;
 import com.anelsoftware.domain.enumeration.FormaPago;
 
 /**
- * A FacturaPresupuesto.
+ * Class Factura Presupuesto.
+ * @author anelsoftware
  */
+@ApiModel(description = "Class Factura Presupuesto. @author anelsoftware")
 @Entity
 @Table(name = "factura_presupuesto")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class FacturaPresupuesto extends AbstractAuditingEntity implements Serializable {
+@Document(indexName = "facturapresupuesto")
+public class FacturaPresupuesto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
