@@ -17,7 +17,6 @@ import { RubroService } from './rubro.service';
 export class RubroDialogComponent implements OnInit {
 
     rubro: Rubro;
-    authorities: any[];
     isSaving: boolean;
 
     constructor(
@@ -30,7 +29,6 @@ export class RubroDialogComponent implements OnInit {
 
     ngOnInit() {
         this.isSaving = false;
-        this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
     }
 
     clear() {
@@ -41,24 +39,19 @@ export class RubroDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.rubro.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.rubroService.update(this.rubro), false);
+                this.rubroService.update(this.rubro));
         } else {
             this.subscribeToSaveResponse(
-                this.rubroService.create(this.rubro), true);
+                this.rubroService.create(this.rubro));
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<Rubro>, isCreated: boolean) {
+    private subscribeToSaveResponse(result: Observable<Rubro>) {
         result.subscribe((res: Rubro) =>
-            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: Rubro, isCreated: boolean) {
-        this.alertService.success(
-            isCreated ? 'clothesApp.rubro.created'
-            : 'clothesApp.rubro.updated',
-            { param : result.id }, null);
-
+    private onSaveSuccess(result: Rubro) {
         this.eventManager.broadcast({ name: 'rubroListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);
@@ -85,7 +78,6 @@ export class RubroDialogComponent implements OnInit {
 })
 export class RubroPopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
     constructor(
@@ -96,11 +88,11 @@ export class RubroPopupComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
             if ( params['id'] ) {
-                this.modalRef = this.rubroPopupService
-                    .open(RubroDialogComponent, params['id']);
+                this.rubroPopupService
+                    .open(RubroDialogComponent as Component, params['id']);
             } else {
-                this.modalRef = this.rubroPopupService
-                    .open(RubroDialogComponent);
+                this.rubroPopupService
+                    .open(RubroDialogComponent as Component);
             }
         });
     }
