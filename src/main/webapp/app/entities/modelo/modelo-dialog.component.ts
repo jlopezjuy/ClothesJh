@@ -19,7 +19,6 @@ import { ResponseWrapper } from '../../shared';
 export class ModeloDialogComponent implements OnInit {
 
     modelo: Modelo;
-    authorities: any[];
     isSaving: boolean;
 
     encargos: Encargo[];
@@ -37,7 +36,6 @@ export class ModeloDialogComponent implements OnInit {
 
     ngOnInit() {
         this.isSaving = false;
-        this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
         this.encargoService.query()
             .subscribe((res: ResponseWrapper) => { this.encargos = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
@@ -75,24 +73,19 @@ export class ModeloDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.modelo.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.modeloService.update(this.modelo), false);
+                this.modeloService.update(this.modelo));
         } else {
             this.subscribeToSaveResponse(
-                this.modeloService.create(this.modelo), true);
+                this.modeloService.create(this.modelo));
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<Modelo>, isCreated: boolean) {
+    private subscribeToSaveResponse(result: Observable<Modelo>) {
         result.subscribe((res: Modelo) =>
-            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: Modelo, isCreated: boolean) {
-        this.alertService.success(
-            isCreated ? 'clothesApp.modelo.created'
-            : 'clothesApp.modelo.updated',
-            { param : result.id }, null);
-
+    private onSaveSuccess(result: Modelo) {
         this.eventManager.broadcast({ name: 'modeloListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);
@@ -123,7 +116,6 @@ export class ModeloDialogComponent implements OnInit {
 })
 export class ModeloPopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
     constructor(
@@ -134,11 +126,11 @@ export class ModeloPopupComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
             if ( params['id'] ) {
-                this.modalRef = this.modeloPopupService
-                    .open(ModeloDialogComponent, params['id']);
+                this.modeloPopupService
+                    .open(ModeloDialogComponent as Component, params['id']);
             } else {
-                this.modalRef = this.modeloPopupService
-                    .open(ModeloDialogComponent);
+                this.modeloPopupService
+                    .open(ModeloDialogComponent as Component);
             }
         });
     }

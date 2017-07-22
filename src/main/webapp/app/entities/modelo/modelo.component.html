@@ -1,16 +1,30 @@
 <div>
     <h2>
         <span jhiTranslate="clothesApp.modelo.home.title">Modelos</span>
-        <button class="btn btn-primary float-right create-modelo"
+        <button class="btn btn-primary float-right jh-create-entity create-modelo"
                 [routerLink]="['/', { outlets: { popup: ['modelo-new'] } }]">
             <span class="fa fa-plus"></span>
-            <span jhiTranslate="clothesApp.modelo.home.createLabel">
+            <span class="hidden-sm-down" jhiTranslate="clothesApp.modelo.home.createLabel">
             Create new Modelo
             </span>
         </button>
     </h2>
     <jhi-alert></jhi-alert>
     <div class="row">
+        <div class="col-sm-12">
+            <form name="searchForm" class="form-inline">
+                <div class="input-group w-100 mt-3">
+                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch"
+                           name="currentSearch" placeholder="{{ 'clothesApp.modelo.home.search' | translate }}">
+                    <button class="input-group-addon btn btn-info" (click)="search(currentSearch)">
+                        <span class="fa fa-search"></span>
+                    </button>
+                    <button class="input-group-addon btn btn-danger" (click)="clear()" *ngIf="currentSearch">
+                        <span class="fa fa-trash-o"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
     <br/>
     <div class="table-responsive" *ngIf="modelos">

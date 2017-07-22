@@ -9,8 +9,6 @@ import { ModeloDetailComponent } from './modelo-detail.component';
 import { ModeloPopupComponent } from './modelo-dialog.component';
 import { ModeloDeletePopupComponent } from './modelo-delete-dialog.component';
 
-import { Principal } from '../../shared';
-
 @Injectable()
 export class ModeloResolvePagingParams implements Resolve<any> {
 
