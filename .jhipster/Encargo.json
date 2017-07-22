@@ -61,7 +61,7 @@
         {
             "fieldName": "tipoEncargo",
             "fieldType": "TipoEncargo",
-            "fieldValues": "QUINCE,NOVIA,MADRINA,FIESTA,POLICIA,COMUNION,CONFIRMACION,PAISANA"
+            "fieldValues": "QUINCE,NOVIA,MADRINA,FIESTA,POLICIA,COMUNION,CONFIRMACION,PAISANA,CENA_BLANCA,COCKTAIL"
         },
         {
             "fieldName": "tipoVestido",
@@ -69,7 +69,7 @@
             "fieldValues": "DOS_PIEZAS,UNA_PIEZA,SIRENA,CORTE_A"
         }
     ],
-    "changelogDate": "20170611211924",
+    "changelogDate": "20170722185304",
     "javadoc": "Class Encargo.\n@author anelsoftware",
     "entityTableName": "encargo",
     "dto": "mapstruct",

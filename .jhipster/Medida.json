@@ -139,7 +139,7 @@
             "fieldType": "Double"
         }
     ],
-    "changelogDate": "20170611211923",
+    "changelogDate": "20170722185303",
     "javadoc": "Class Medida.\n@author anelsoftware",
     "entityTableName": "medida",
     "dto": "mapstruct",

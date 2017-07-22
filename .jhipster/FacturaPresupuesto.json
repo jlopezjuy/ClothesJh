@@ -35,7 +35,8 @@
             "fieldType": "BigDecimal"
         }
     ],
-    "changelogDate": "20170620004357",
+    "changelogDate": "20170722185306",
+    "javadoc": "Class Factura Presupuesto.\n@author anelsoftware",
     "entityTableName": "factura_presupuesto",
     "dto": "mapstruct",
     "pagination": "pager",

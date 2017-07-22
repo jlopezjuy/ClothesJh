@@ -63,7 +63,7 @@
         {
             "fieldName": "categoria",
             "fieldType": "TipoProducto",
-            "fieldValues": "CAMISA,AMBO_LISO,AMBO_RAYADO,PANTALON,SACO_SPORT,CORBATA",
+            "fieldValues": "CAMISA,AMBO_LISO,AMBO_RAYADO,PANTALON,SACO_SPORT,CORBATA,ACCESORIOS,BLUSA,MONO,CORSET,VESTIDO,RAMO,TOCADO,GEMELOS,ZAPATO,LIGAS",
             "fieldValidateRules": [
                 "required"
             ]
@@ -71,7 +71,7 @@
         {
             "fieldName": "ubicacion",
             "fieldType": "Ubicacion",
-            "fieldValues": "PERCHERO,MUEBLE,REPISA,DEPOSITO"
+            "fieldValues": "VIDRIERA,PERCHERO,MUEBLE,REPISA,DEPOSITO,MOSTRADOR,ESTANTE"
         },
         {
             "fieldName": "imagen",
@@ -79,7 +79,7 @@
             "fieldTypeBlobContent": "image"
         }
     ],
-    "changelogDate": "20170620004359",
+    "changelogDate": "20170722185308",
     "entityTableName": "producto",
     "dto": "mapstruct",
     "pagination": "pager",

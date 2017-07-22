@@ -45,7 +45,7 @@
             "fieldType": "String"
         }
     ],
-    "changelogDate": "20170611211922",
+    "changelogDate": "20170722185302",
     "javadoc": "Class Modelo.\n@author anelsoftware",
     "entityTableName": "modelo",
     "dto": "mapstruct",
