@@ -4,7 +4,8 @@
             "home": {
                 "title": "Detalle Fact Pres",
                 "createLabel": "Crear nuevo Detalle Fact Pres",
-                "createOrEditLabel": "Crear o editar Detalle Fact Pres"
+                "createOrEditLabel": "Crear o editar Detalle Fact Pres",
+                "search": "Search for Detalle Fact Pres"
             },
             "created": "Un nuevo Detalle Fact Pres ha sido creado con el identificador {{ param }}",
             "updated": "Un Detalle Fact Pres ha sido actualizado con el identificador {{ param }}",

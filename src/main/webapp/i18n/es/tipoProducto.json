@@ -7,7 +7,17 @@
             "AMBO_RAYADO": "AMBO_RAYADO",
             "PANTALON": "PANTALON",
             "SACO_SPORT": "SACO_SPORT",
-            "CORBATA": "CORBATA"
+            "CORBATA": "CORBATA",
+            "ACCESORIOS": "ACCESORIOS",
+            "BLUSA": "BLUSA",
+            "MONO": "MONO",
+            "CORSET": "CORSET",
+            "VESTIDO": "VESTIDO",
+            "RAMO": "RAMO",
+            "TOCADO": "TOCADO",
+            "GEMELOS": "GEMELOS",
+            "ZAPATO": "ZAPATO",
+            "LIGAS": "LIGAS"
         }
     }
 }

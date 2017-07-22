@@ -4,7 +4,8 @@
             "home": {
                 "title": "Factura Presupuestos",
                 "createLabel": "Crear nuevo Factura Presupuesto",
-                "createOrEditLabel": "Crear o editar Factura Presupuesto"
+                "createOrEditLabel": "Crear o editar Factura Presupuesto",
+                "search": "Search for Factura Presupuesto"
             },
             "created": "Un nuevo Factura Presupuesto ha sido creado con el identificador {{ param }}",
             "errorProducto": "Debe seleccionar un producto",

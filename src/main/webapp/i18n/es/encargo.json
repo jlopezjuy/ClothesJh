@@ -4,7 +4,8 @@
             "home": {
                 "title": "Encargos",
                 "createLabel": "Crear nuevo Encargo",
-                "createOrEditLabel": "Crear o editar Encargo"
+                "createOrEditLabel": "Crear o editar Encargo",
+                "search": "Search for Encargo"
             },
             "created": "Un nuevo Encargo ha sido creado con el identificador {{ param }}",
             "updated": "Un Encargo ha sido actualizado con el identificador {{ param }}",

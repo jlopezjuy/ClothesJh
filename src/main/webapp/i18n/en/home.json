@@ -1,9 +1,0 @@
-{
-    "home": {
-        "title": "Welcome to Clothes!",
-        "subtitle": "This is your Boutique system",
-        "logged": {
-            "message": "You are logged in as user \"{{username}}\"."
-        }
-    }
-}
