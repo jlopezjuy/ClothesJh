@@ -13,7 +13,7 @@ import com.anelsoftware.domain.enumeration.TipoMedida;
 /**
  * A DTO for the Medida entity.
  */
-public class MedidaDTO extends AbstractAuditingDTO implements Serializable {
+public class MedidaDTO implements Serializable {
 
     private Long id;
 

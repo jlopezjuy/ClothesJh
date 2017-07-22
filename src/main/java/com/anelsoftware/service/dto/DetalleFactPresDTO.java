@@ -10,7 +10,7 @@ import java.util.Objects;
 /**
  * A DTO for the DetalleFactPres entity.
  */
-public class DetalleFactPresDTO extends AbstractAuditingDTO implements Serializable {
+public class DetalleFactPresDTO implements Serializable {
 
     private Long id;
 

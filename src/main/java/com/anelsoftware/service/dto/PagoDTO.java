@@ -11,7 +11,7 @@ import java.util.Objects;
 /**
  * A DTO for the Pago entity.
  */
-public class PagoDTO extends AbstractAuditingDTO implements Serializable {
+public class PagoDTO implements Serializable {
 
     private Long id;
 

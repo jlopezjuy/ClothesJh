@@ -9,7 +9,7 @@ import java.util.Objects;
 /**
  * A DTO for the Rubro entity.
  */
-public class RubroDTO extends AbstractAuditingDTO implements Serializable {
+public class RubroDTO implements Serializable {
 
     private Long id;
 

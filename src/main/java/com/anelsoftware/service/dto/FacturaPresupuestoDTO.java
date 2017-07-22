@@ -13,7 +13,7 @@ import com.anelsoftware.domain.enumeration.FormaPago;
 /**
  * A DTO for the FacturaPresupuesto entity.
  */
-public class FacturaPresupuestoDTO extends AbstractAuditingDTO implements Serializable {
+public class FacturaPresupuestoDTO implements Serializable {
 
     private Long id;
 

@@ -11,7 +11,7 @@ import javax.persistence.Lob;
 /**
  * A DTO for the Modelo entity.
  */
-public class ModeloDTO extends AbstractAuditingDTO implements Serializable {
+public class ModeloDTO implements Serializable {
 
     private Long id;
 

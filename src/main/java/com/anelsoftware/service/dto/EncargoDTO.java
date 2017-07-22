@@ -14,7 +14,7 @@ import com.anelsoftware.domain.enumeration.TipoVestido;
 /**
  * A DTO for the Encargo entity.
  */
-public class EncargoDTO extends AbstractAuditingDTO implements Serializable {
+public class EncargoDTO implements Serializable {
 
     private Long id;
 

@@ -10,7 +10,7 @@ import java.util.Objects;
 /**
  * A DTO for the Cliente entity.
  */
-public class ClienteDTO extends AbstractAuditingDTO implements Serializable {
+public class ClienteDTO implements Serializable {
 
     private Long id;
 
