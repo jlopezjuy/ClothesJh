@@ -22,6 +22,9 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.StreamSupport;
+
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * REST controller for managing Modelo.
@@ -139,4 +142,22 @@ public class ModeloResource {
         modeloService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
+
+    /**
+     * SEARCH  /_search/modelos?query=:query : search for the modelo corresponding
+     * to the query.
+     *
+     * @param query the query of the modelo search
+     * @param pageable the pagination information
+     * @return the result of the search
+     */
+    @GetMapping("/_search/modelos")
+    @Timed
+    public ResponseEntity<List<ModeloDTO>> searchModelos(@RequestParam String query, @ApiParam Pageable pageable) {
+        log.debug("REST request to search for a page of Modelos for query {}", query);
+        Page<ModeloDTO> page = modeloService.search(query, pageable);
+        HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/modelos");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
 }

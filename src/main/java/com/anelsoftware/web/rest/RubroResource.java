@@ -21,6 +21,9 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.StreamSupport;
+
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * REST controller for managing Rubro.
@@ -123,4 +126,22 @@ public class RubroResource {
         rubroService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
+
+    /**
+     * SEARCH  /_search/rubros?query=:query : search for the rubro corresponding
+     * to the query.
+     *
+     * @param query the query of the rubro search
+     * @param pageable the pagination information
+     * @return the result of the search
+     */
+    @GetMapping("/_search/rubros")
+    @Timed
+    public ResponseEntity<List<RubroDTO>> searchRubros(@RequestParam String query, @ApiParam Pageable pageable) {
+        log.debug("REST request to search for a page of Rubros for query {}", query);
+        Page<RubroDTO> page = rubroService.search(query, pageable);
+        HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/rubros");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
 }

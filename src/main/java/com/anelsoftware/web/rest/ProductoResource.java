@@ -22,6 +22,9 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.StreamSupport;
+
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * REST controller for managing Producto.
@@ -124,4 +127,22 @@ public class ProductoResource {
         productoService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
+
+    /**
+     * SEARCH  /_search/productos?query=:query : search for the producto corresponding
+     * to the query.
+     *
+     * @param query the query of the producto search
+     * @param pageable the pagination information
+     * @return the result of the search
+     */
+    @GetMapping("/_search/productos")
+    @Timed
+    public ResponseEntity<List<ProductoDTO>> searchProductos(@RequestParam String query, @ApiParam Pageable pageable) {
+        log.debug("REST request to search for a page of Productos for query {}", query);
+        Page<ProductoDTO> page = productoService.search(query, pageable);
+        HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/productos");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
 }
