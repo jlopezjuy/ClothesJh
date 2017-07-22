@@ -1,3 +1,4 @@
+import { BaseEntity } from './../../shared';
 
 const enum Talla {
     'XS',
@@ -6,8 +7,7 @@ const enum Talla {
     'L',
     'XL',
     'XXL'
-
-};
+}
 
 const enum TipoProducto {
     'CAMISA',
@@ -15,18 +15,30 @@ const enum TipoProducto {
     'AMBO_RAYADO',
     'PANTALON',
     'SACO_SPORT',
-    'CORBATA'
-
-};
+    'CORBATA',
+    'ACCESORIOS',
+    'BLUSA',
+    'MONO',
+    'CORSET',
+    'VESTIDO',
+    'RAMO',
+    'TOCADO',
+    'GEMELOS',
+    'ZAPATO',
+    'LIGAS'
+}
 
 const enum Ubicacion {
+    'VIDRIERA',
     'PERCHERO',
     'MUEBLE',
     'REPISA',
-    'DEPOSITO'
+    'DEPOSITO',
+    'MOSTRADOR',
+    'ESTANTE'
+}
 
-};
-export class Producto {
+export class Producto implements BaseEntity {
     constructor(
         public id?: number,
         public nombre?: string,
@@ -41,7 +53,7 @@ export class Producto {
         public ubicacion?: Ubicacion,
         public imagenContentType?: string,
         public imagen?: any,
-        public detalleFactPresId?: number,
+        public detalleFactPres?: BaseEntity[],
         public proveedorId?: number,
         // transient
         public cantidadSeleccionada?: number,

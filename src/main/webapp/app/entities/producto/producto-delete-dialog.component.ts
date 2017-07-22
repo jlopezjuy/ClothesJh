@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { JhiAlertService, JhiEventManager } from 'ng-jhipster';
+import { JhiEventManager } from 'ng-jhipster';
 
 import { Producto } from './producto.model';
 import { ProductoPopupService } from './producto-popup.service';
@@ -19,7 +19,6 @@ export class ProductoDeleteDialogComponent {
     constructor(
         private productoService: ProductoService,
         public activeModal: NgbActiveModal,
-        private alertService: JhiAlertService,
         private eventManager: JhiEventManager
     ) {
     }
@@ -36,7 +35,6 @@ export class ProductoDeleteDialogComponent {
             });
             this.activeModal.dismiss(true);
         });
-        this.alertService.success('clothesApp.producto.deleted', { param : id }, null);
     }
 }
 
@@ -46,7 +44,6 @@ export class ProductoDeleteDialogComponent {
 })
 export class ProductoDeletePopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
     constructor(
@@ -56,8 +53,8 @@ export class ProductoDeletePopupComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
-            this.modalRef = this.productoPopupService
-                .open(ProductoDeleteDialogComponent, params['id']);
+            this.productoPopupService
+                .open(ProductoDeleteDialogComponent as Component, params['id']);
         });
     }
 

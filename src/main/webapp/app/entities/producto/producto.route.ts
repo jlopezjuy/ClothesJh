@@ -9,8 +9,6 @@ import { ProductoDetailComponent } from './producto-detail.component';
 import { ProductoPopupComponent } from './producto-dialog.component';
 import { ProductoDeletePopupComponent } from './producto-delete-dialog.component';
 
-import { Principal } from '../../shared';
-
 @Injectable()
 export class ProductoResolvePagingParams implements Resolve<any> {
 

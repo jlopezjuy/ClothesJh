@@ -154,6 +154,16 @@
                     <option value="PANTALON" jhiTranslate="clothesApp.TipoProducto.PANTALON">PANTALON</option>
                     <option value="SACO_SPORT" jhiTranslate="clothesApp.TipoProducto.SACO_SPORT">SACO_SPORT</option>
                     <option value="CORBATA" jhiTranslate="clothesApp.TipoProducto.CORBATA">CORBATA</option>
+                    <option value="ACCESORIOS" jhiTranslate="clothesApp.TipoProducto.ACCESORIOS">ACCESORIOS</option>
+                    <option value="BLUSA" jhiTranslate="clothesApp.TipoProducto.BLUSA">BLUSA</option>
+                    <option value="MONO" jhiTranslate="clothesApp.TipoProducto.MONO">MONO</option>
+                    <option value="CORSET" jhiTranslate="clothesApp.TipoProducto.CORSET">CORSET</option>
+                    <option value="VESTIDO" jhiTranslate="clothesApp.TipoProducto.VESTIDO">VESTIDO</option>
+                    <option value="RAMO" jhiTranslate="clothesApp.TipoProducto.RAMO">RAMO</option>
+                    <option value="TOCADO" jhiTranslate="clothesApp.TipoProducto.TOCADO">TOCADO</option>
+                    <option value="GEMELOS" jhiTranslate="clothesApp.TipoProducto.GEMELOS">GEMELOS</option>
+                    <option value="ZAPATO" jhiTranslate="clothesApp.TipoProducto.ZAPATO">ZAPATO</option>
+                    <option value="LIGAS" jhiTranslate="clothesApp.TipoProducto.LIGAS">LIGAS</option>
                 </select>
                 <div [hidden]="!(editForm.controls.categoria?.dirty && editForm.controls.categoria?.invalid)">
                     <small class="form-text text-danger"
@@ -166,10 +176,13 @@
             <div class="form-group col col-sm-6">
                 <label class="form-control-label" jhiTranslate="clothesApp.producto.ubicacion" for="field_ubicacion">Ubicacion</label>
                 <select class="form-control" name="ubicacion" [(ngModel)]="producto.ubicacion" id="field_ubicacion">
+                    <option value="VIDRIERA" jhiTranslate="clothesApp.Ubicacion.VIDRIERA">VIDRIERA</option>
                     <option value="PERCHERO" jhiTranslate="clothesApp.Ubicacion.PERCHERO">PERCHERO</option>
                     <option value="MUEBLE" jhiTranslate="clothesApp.Ubicacion.MUEBLE">MUEBLE</option>
                     <option value="REPISA" jhiTranslate="clothesApp.Ubicacion.REPISA">REPISA</option>
                     <option value="DEPOSITO" jhiTranslate="clothesApp.Ubicacion.DEPOSITO">DEPOSITO</option>
+                    <option value="MOSTRADOR" jhiTranslate="clothesApp.Ubicacion.MOSTRADOR">MOSTRADOR</option>
+                    <option value="ESTANTE" jhiTranslate="clothesApp.Ubicacion.ESTANTE">ESTANTE</option>
                 </select>
             </div>
         </div>
