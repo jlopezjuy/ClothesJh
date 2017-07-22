@@ -47,4 +47,14 @@ public interface ModeloService {
      * @return
      */
     Page<ModeloDTO> findAllByEncargoId(Pageable pageable, Long encargoId);
+
+    /**
+     * Search for the modelo corresponding to the query.
+     *
+     *  @param query the query of the search
+     *
+     *  @param pageable the pagination information
+     *  @return the list of entities
+     */
+    Page<ModeloDTO> search(String query, Pageable pageable);
 }

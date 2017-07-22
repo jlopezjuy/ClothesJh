@@ -39,4 +39,14 @@ public interface ProductoService {
      *  @param id the id of the entity
      */
     void delete(Long id);
+
+    /**
+     * Search for the producto corresponding to the query.
+     *
+     *  @param query the query of the search
+     *  
+     *  @param pageable the pagination information
+     *  @return the list of entities
+     */
+    Page<ProductoDTO> search(String query, Pageable pageable);
 }
