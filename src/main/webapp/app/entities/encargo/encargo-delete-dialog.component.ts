@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { JhiAlertService, JhiEventManager } from 'ng-jhipster';
+import { JhiEventManager } from 'ng-jhipster';
 
 import { Encargo } from './encargo.model';
 import { EncargoPopupService } from './encargo-popup.service';
@@ -19,7 +19,6 @@ export class EncargoDeleteDialogComponent {
     constructor(
         private encargoService: EncargoService,
         public activeModal: NgbActiveModal,
-        private alertService: JhiAlertService,
         private eventManager: JhiEventManager
     ) {
     }
@@ -36,7 +35,6 @@ export class EncargoDeleteDialogComponent {
             });
             this.activeModal.dismiss(true);
         });
-        this.alertService.success('clothesApp.encargo.deleted', { param : id }, null);
     }
 }
 
@@ -46,7 +44,6 @@ export class EncargoDeleteDialogComponent {
 })
 export class EncargoDeletePopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
     constructor(
@@ -56,8 +53,8 @@ export class EncargoDeletePopupComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
-            this.modalRef = this.encargoPopupService
-                .open(EncargoDeleteDialogComponent, params['id']);
+            this.encargoPopupService
+                .open(EncargoDeleteDialogComponent as Component, params['id']);
         });
     }
 

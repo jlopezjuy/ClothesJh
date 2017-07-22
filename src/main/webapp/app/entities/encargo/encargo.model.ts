@@ -1,3 +1,4 @@
+import { BaseEntity } from './../../shared';
 
 const enum Estado {
     'ENCARGADO',
@@ -5,8 +6,7 @@ const enum Estado {
     'PROBADO',
     'ENTREGADO',
     'CANCELADO'
-
-};
+}
 
 const enum TipoEncargo {
     'QUINCE',
@@ -16,18 +16,19 @@ const enum TipoEncargo {
     'POLICIA',
     'COMUNION',
     'CONFIRMACION',
-    'PAISANA'
-
-};
+    'PAISANA',
+    'CENA_BLANCA',
+    'COCKTAIL'
+}
 
 const enum TipoVestido {
     'DOS_PIEZAS',
     'UNA_PIEZA',
     'SIRENA',
     'CORTE_A'
+}
 
-};
-export class Encargo {
+export class Encargo implements BaseEntity {
     constructor(
         public id?: number,
         public importeTotal?: number,
@@ -37,9 +38,9 @@ export class Encargo {
         public estado?: Estado,
         public tipoEncargo?: TipoEncargo,
         public tipoVestido?: TipoVestido,
-        public medidaId?: number,
-        public pagoId?: number,
-        public modeloId?: number,
+        public medidas?: BaseEntity[],
+        public pagos?: BaseEntity[],
+        public modelos?: BaseEntity[],
         public clienteId?: number,
     ) {
     }
