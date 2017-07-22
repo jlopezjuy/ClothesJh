@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { JhiAlertService, JhiEventManager } from 'ng-jhipster';
+import { JhiEventManager } from 'ng-jhipster';
 
 import { DetalleFactPres } from './detalle-fact-pres.model';
 import { DetalleFactPresPopupService } from './detalle-fact-pres-popup.service';
@@ -19,7 +19,6 @@ export class DetalleFactPresDeleteDialogComponent {
     constructor(
         private detalleFactPresService: DetalleFactPresService,
         public activeModal: NgbActiveModal,
-        private alertService: JhiAlertService,
         private eventManager: JhiEventManager
     ) {
     }
@@ -36,7 +35,6 @@ export class DetalleFactPresDeleteDialogComponent {
             });
             this.activeModal.dismiss(true);
         });
-        this.alertService.success('clothesApp.detalleFactPres.deleted', { param : id }, null);
     }
 }
 
@@ -46,7 +44,6 @@ export class DetalleFactPresDeleteDialogComponent {
 })
 export class DetalleFactPresDeletePopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
     constructor(
@@ -56,8 +53,8 @@ export class DetalleFactPresDeletePopupComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
-            this.modalRef = this.detalleFactPresPopupService
-                .open(DetalleFactPresDeleteDialogComponent, params['id']);
+            this.detalleFactPresPopupService
+                .open(DetalleFactPresDeleteDialogComponent as Component, params['id']);
         });
     }
 

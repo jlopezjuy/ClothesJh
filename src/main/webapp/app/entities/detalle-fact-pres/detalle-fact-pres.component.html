@@ -1,15 +1,28 @@
 <div>
     <h2>
         <span jhiTranslate="clothesApp.detalleFactPres.home.title">Detalle Fact Pres</span>
-        <button class="btn btn-primary float-right create-detalle-fact-pres" [routerLink]="['/', { outlets: { popup: ['detalle-fact-pres-new'] } }]">
+        <button class="btn btn-primary float-right jh-create-entity create-detalle-fact-pres" [routerLink]="['/', { outlets: { popup: ['detalle-fact-pres-new'] } }]">
             <span class="fa fa-plus"></span>
-            <span  jhiTranslate="clothesApp.detalleFactPres.home.createLabel">
+            <span class="hidden-sm-down"  jhiTranslate="clothesApp.detalleFactPres.home.createLabel">
             Create new Detalle Fact Pres
             </span>
         </button>
     </h2>
     <jhi-alert></jhi-alert>
     <div class="row">
+        <div class="col-sm-12">
+            <form name="searchForm" class="form-inline">
+                <div class="input-group w-100 mt-3">
+                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="{{ 'clothesApp.detalleFactPres.home.search' | translate }}">
+                    <button class="input-group-addon btn btn-info" (click)="search(currentSearch)">
+                        <span class="fa fa-search"></span>
+                    </button>
+                    <button class="input-group-addon btn btn-danger" (click)="clear()" *ngIf="currentSearch">
+                        <span class="fa fa-trash-o"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
     <br/>
     <div class="table-responsive" *ngIf="detalleFactPres">

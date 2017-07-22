@@ -23,7 +23,7 @@ spring:
         type: com.zaxxer.hikari.HikariDataSource
         url: jdbc:mysql://localhost:3306/clothes?useUnicode=true&characterEncoding=utf8&useSSL=false
         username: root
-        password: mostro154
+        password:
         hikari:
             data-source-properties:
                 cachePrepStmts: true
@@ -43,6 +43,10 @@ spring:
             hibernate.cache.hazelcast.instance_name: clothes
             hibernate.cache.use_minimal_puts: true
             hibernate.cache.hazelcast.use_lite_member: true
+    data:
+        elasticsearch:
+            cluster-name:
+            cluster-nodes: localhost:9300
     mail:
         host: localhost
         port: 25
@@ -96,7 +100,7 @@ jhipster:
     security:
         authentication:
             jwt:
-                secret: 5bd7aca4d240bc23ca3f0dc34ec828210b81fc25
+                secret: 2ba2a3073ed8150831479342399d5196bd5458fc
                 # Token is valid 24 hours
                 token-validity-in-seconds: 86400
                 token-validity-in-seconds-for-remember-me: 2592000
