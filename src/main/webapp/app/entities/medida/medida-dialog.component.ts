@@ -19,7 +19,6 @@ import { ResponseWrapper } from '../../shared';
 export class MedidaDialogComponent implements OnInit {
 
     medida: Medida;
-    authorities: any[];
     isSaving: boolean;
 
     encargos: Encargo[];
@@ -36,7 +35,6 @@ export class MedidaDialogComponent implements OnInit {
 
     ngOnInit() {
         this.isSaving = false;
-        this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
         this.encargoService.query()
             .subscribe((res: ResponseWrapper) => { this.encargos = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
@@ -49,24 +47,19 @@ export class MedidaDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.medida.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.medidaService.update(this.medida), false);
+                this.medidaService.update(this.medida));
         } else {
             this.subscribeToSaveResponse(
-                this.medidaService.create(this.medida), true);
+                this.medidaService.create(this.medida));
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<Medida>, isCreated: boolean) {
+    private subscribeToSaveResponse(result: Observable<Medida>) {
         result.subscribe((res: Medida) =>
-            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: Medida, isCreated: boolean) {
-        this.alertService.success(
-            isCreated ? 'clothesApp.medida.created'
-            : 'clothesApp.medida.updated',
-            { param : result.id }, null);
-
+    private onSaveSuccess(result: Medida) {
         this.eventManager.broadcast({ name: 'medidaListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);
@@ -97,7 +90,6 @@ export class MedidaDialogComponent implements OnInit {
 })
 export class MedidaPopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
     constructor(
@@ -108,11 +100,11 @@ export class MedidaPopupComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
             if ( params['id'] ) {
-                this.modalRef = this.medidaPopupService
-                    .open(MedidaDialogComponent, params['id']);
+                this.medidaPopupService
+                    .open(MedidaDialogComponent as Component, params['id']);
             } else {
-                this.modalRef = this.medidaPopupService
-                    .open(MedidaDialogComponent);
+                this.medidaPopupService
+                    .open(MedidaDialogComponent as Component);
             }
         });
     }
