@@ -1,4 +1,6 @@
-export class Proveedor {
+import { BaseEntity } from './../../shared';
+
+export class Proveedor implements BaseEntity {
     constructor(
         public id?: number,
         public nombre?: string,
@@ -7,7 +9,7 @@ export class Proveedor {
         public cuilCuit?: string,
         public email?: string,
         public celular?: string,
-        public productoId?: number,
+        public productos?: BaseEntity[],
         public rubroId?: number,
     ) {
     }
