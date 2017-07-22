@@ -6,6 +6,7 @@ import com.anelsoftware.domain.Modelo;
 import com.anelsoftware.domain.Encargo;
 import com.anelsoftware.repository.ModeloRepository;
 import com.anelsoftware.service.ModeloService;
+import com.anelsoftware.repository.search.ModeloSearchRepository;
 import com.anelsoftware.service.dto.ModeloDTO;
 import com.anelsoftware.service.mapper.ModeloMapper;
 import com.anelsoftware.web.rest.errors.ExceptionTranslator;
@@ -72,6 +73,9 @@ public class ModeloResourceIntTest {
     private ModeloService modeloService;
 
     @Autowired
+    private ModeloSearchRepository modeloSearchRepository;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -122,6 +126,7 @@ public class ModeloResourceIntTest {
 
     @Before
     public void initTest() {
+        modeloSearchRepository.deleteAll();
         modelo = createEntity(em);
     }
 
@@ -148,6 +153,10 @@ public class ModeloResourceIntTest {
         assertThat(testModelo.isBordado()).isEqualTo(DEFAULT_BORDADO);
         assertThat(testModelo.getDescripcion()).isEqualTo(DEFAULT_DESCRIPCION);
         assertThat(testModelo.getObservacion()).isEqualTo(DEFAULT_OBSERVACION);
+
+        // Validate the Modelo in Elasticsearch
+        Modelo modeloEs = modeloSearchRepository.findOne(testModelo.getId());
+        assertThat(modeloEs).isEqualToComparingFieldByField(testModelo);
     }
 
     @Test
@@ -280,6 +289,7 @@ public class ModeloResourceIntTest {
     public void updateModelo() throws Exception {
         // Initialize the database
         modeloRepository.saveAndFlush(modelo);
+        modeloSearchRepository.save(modelo);
         int databaseSizeBeforeUpdate = modeloRepository.findAll().size();
 
         // Update the modelo
@@ -310,6 +320,10 @@ public class ModeloResourceIntTest {
         assertThat(testModelo.isBordado()).isEqualTo(UPDATED_BORDADO);
         assertThat(testModelo.getDescripcion()).isEqualTo(UPDATED_DESCRIPCION);
         assertThat(testModelo.getObservacion()).isEqualTo(UPDATED_OBSERVACION);
+
+        // Validate the Modelo in Elasticsearch
+        Modelo modeloEs = modeloSearchRepository.findOne(testModelo.getId());
+        assertThat(modeloEs).isEqualToComparingFieldByField(testModelo);
     }
 
     @Test
@@ -336,6 +350,7 @@ public class ModeloResourceIntTest {
     public void deleteModelo() throws Exception {
         // Initialize the database
         modeloRepository.saveAndFlush(modelo);
+        modeloSearchRepository.save(modelo);
         int databaseSizeBeforeDelete = modeloRepository.findAll().size();
 
         // Get the modelo
@@ -343,9 +358,34 @@ public class ModeloResourceIntTest {
             .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isOk());
 
+        // Validate Elasticsearch is empty
+        boolean modeloExistsInEs = modeloSearchRepository.exists(modelo.getId());
+        assertThat(modeloExistsInEs).isFalse();
+
         // Validate the database is empty
         List<Modelo> modeloList = modeloRepository.findAll();
         assertThat(modeloList).hasSize(databaseSizeBeforeDelete - 1);
+    }
+
+    @Test
+    @Transactional
+    public void searchModelo() throws Exception {
+        // Initialize the database
+        modeloRepository.saveAndFlush(modelo);
+        modeloSearchRepository.save(modelo);
+
+        // Search the modelo
+        restModeloMockMvc.perform(get("/api/_search/modelos?query=id:" + modelo.getId()))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(modelo.getId().intValue())))
+            .andExpect(jsonPath("$.[*].imagenContentType").value(hasItem(DEFAULT_IMAGEN_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].imagen").value(hasItem(Base64Utils.encodeToString(DEFAULT_IMAGEN))))
+            .andExpect(jsonPath("$.[*].nombreModelo").value(hasItem(DEFAULT_NOMBRE_MODELO.toString())))
+            .andExpect(jsonPath("$.[*].colorVestido").value(hasItem(DEFAULT_COLOR_VESTIDO.toString())))
+            .andExpect(jsonPath("$.[*].bordado").value(hasItem(DEFAULT_BORDADO.booleanValue())))
+            .andExpect(jsonPath("$.[*].descripcion").value(hasItem(DEFAULT_DESCRIPCION.toString())))
+            .andExpect(jsonPath("$.[*].observacion").value(hasItem(DEFAULT_OBSERVACION.toString())));
     }
 
     @Test

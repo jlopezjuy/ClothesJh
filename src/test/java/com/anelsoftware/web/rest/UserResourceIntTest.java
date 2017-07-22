@@ -4,6 +4,7 @@ import com.anelsoftware.ClothesApp;
 import com.anelsoftware.domain.Authority;
 import com.anelsoftware.domain.User;
 import com.anelsoftware.repository.UserRepository;
+import com.anelsoftware.repository.search.UserSearchRepository;
 import com.anelsoftware.security.AuthoritiesConstants;
 import com.anelsoftware.service.MailService;
 import com.anelsoftware.service.UserService;
@@ -77,6 +78,9 @@ public class UserResourceIntTest {
     private UserRepository userRepository;
 
     @Autowired
+    private UserSearchRepository userSearchRepository;
+
+    @Autowired
     private MailService mailService;
 
     @Autowired
@@ -104,7 +108,7 @@ public class UserResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        UserResource userResource = new UserResource(userRepository, mailService, userService);
+        UserResource userResource = new UserResource(userRepository, mailService, userService, userSearchRepository);
         this.restUserMockMvc = MockMvcBuilders.standaloneSetup(userResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -216,6 +220,7 @@ public class UserResourceIntTest {
     public void createUserWithExistingLogin() throws Exception {
         // Initialize the database
         userRepository.saveAndFlush(user);
+        userSearchRepository.save(user);
         int databaseSizeBeforeCreate = userRepository.findAll().size();
 
         Set<String> authorities = new HashSet<>();
@@ -252,6 +257,7 @@ public class UserResourceIntTest {
     public void createUserWithExistingEmail() throws Exception {
         // Initialize the database
         userRepository.saveAndFlush(user);
+        userSearchRepository.save(user);
         int databaseSizeBeforeCreate = userRepository.findAll().size();
 
         Set<String> authorities = new HashSet<>();
@@ -288,6 +294,7 @@ public class UserResourceIntTest {
     public void getAllUsers() throws Exception {
         // Initialize the database
         userRepository.saveAndFlush(user);
+        userSearchRepository.save(user);
 
         // Get all the users
         restUserMockMvc.perform(get("/api/users?sort=id,desc")
@@ -307,6 +314,7 @@ public class UserResourceIntTest {
     public void getUser() throws Exception {
         // Initialize the database
         userRepository.saveAndFlush(user);
+        userSearchRepository.save(user);
 
         // Get the user
         restUserMockMvc.perform(get("/api/users/{login}", user.getLogin()))
@@ -332,6 +340,7 @@ public class UserResourceIntTest {
     public void updateUser() throws Exception {
         // Initialize the database
         userRepository.saveAndFlush(user);
+        userSearchRepository.save(user);
         int databaseSizeBeforeUpdate = userRepository.findAll().size();
 
         // Update the user
@@ -376,6 +385,7 @@ public class UserResourceIntTest {
     public void updateUserLogin() throws Exception {
         // Initialize the database
         userRepository.saveAndFlush(user);
+        userSearchRepository.save(user);
         int databaseSizeBeforeUpdate = userRepository.findAll().size();
 
         // Update the user
@@ -421,6 +431,7 @@ public class UserResourceIntTest {
     public void updateUserExistingEmail() throws Exception {
         // Initialize the database with 2 users
         userRepository.saveAndFlush(user);
+        userSearchRepository.save(user);
 
         User anotherUser = new User();
         anotherUser.setLogin("jhipster");
@@ -432,6 +443,7 @@ public class UserResourceIntTest {
         anotherUser.setImageUrl("");
         anotherUser.setLangKey("en");
         userRepository.saveAndFlush(anotherUser);
+        userSearchRepository.save(anotherUser);
 
         // Update the user
         User updatedUser = userRepository.findOne(user.getId());
@@ -465,6 +477,7 @@ public class UserResourceIntTest {
     public void updateUserExistingLogin() throws Exception {
         // Initialize the database
         userRepository.saveAndFlush(user);
+        userSearchRepository.save(user);
 
         User anotherUser = new User();
         anotherUser.setLogin("jhipster");
@@ -476,6 +489,7 @@ public class UserResourceIntTest {
         anotherUser.setImageUrl("");
         anotherUser.setLangKey("en");
         userRepository.saveAndFlush(anotherUser);
+        userSearchRepository.save(anotherUser);
 
         // Update the user
         User updatedUser = userRepository.findOne(user.getId());
@@ -509,6 +523,7 @@ public class UserResourceIntTest {
     public void deleteUser() throws Exception {
         // Initialize the database
         userRepository.saveAndFlush(user);
+        userSearchRepository.save(user);
         int databaseSizeBeforeDelete = userRepository.findAll().size();
 
         // Delete the user
@@ -535,21 +550,17 @@ public class UserResourceIntTest {
 
     @Test
     @Transactional
-    public void testUserEquals() {
-        User userA = new User();
-        assertThat(userA).isEqualTo(userA);
-        assertThat(userA).isNotEqualTo(null);
-        assertThat(userA).isNotEqualTo(new Object());
-        assertThat(userA.toString()).isNotNull();
-
-        userA.setLogin("AAA");
-        User userB = new User();
-        userB.setLogin("BBB");
-        assertThat(userA).isNotEqualTo(userB);
-
-        userB.setLogin("AAA");
-        assertThat(userA).isEqualTo(userB);
-        assertThat(userA.hashCode()).isEqualTo(userB.hashCode());
+    public void testUserEquals() throws Exception {
+        TestUtil.equalsVerifier(User.class);
+        User user1 = new User();
+        user1.setId(1L);
+        User user2 = new User();
+        user2.setId(user1.getId());
+        assertThat(user1).isEqualTo(user2);
+        user2.setId(2L);
+        assertThat(user1).isNotEqualTo(user2);
+        user1.setId(null);
+        assertThat(user1).isNotEqualTo(user2);
     }
 
     @Test

@@ -6,6 +6,7 @@ import com.anelsoftware.domain.Pago;
 import com.anelsoftware.domain.Encargo;
 import com.anelsoftware.repository.PagoRepository;
 import com.anelsoftware.service.PagoService;
+import com.anelsoftware.repository.search.PagoSearchRepository;
 import com.anelsoftware.service.dto.PagoDTO;
 import com.anelsoftware.service.mapper.PagoMapper;
 import com.anelsoftware.web.rest.errors.ExceptionTranslator;
@@ -65,6 +66,9 @@ public class PagoResourceIntTest {
     private PagoService pagoService;
 
     @Autowired
+    private PagoSearchRepository pagoSearchRepository;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -112,6 +116,7 @@ public class PagoResourceIntTest {
 
     @Before
     public void initTest() {
+        pagoSearchRepository.deleteAll();
         pago = createEntity(em);
     }
 
@@ -135,6 +140,10 @@ public class PagoResourceIntTest {
         assertThat(testPago.getImporte()).isEqualTo(DEFAULT_IMPORTE);
         assertThat(testPago.getDetalle()).isEqualTo(DEFAULT_DETALLE);
         assertThat(testPago.getNumeroRecibo()).isEqualTo(DEFAULT_NUMERO_RECIBO);
+
+        // Validate the Pago in Elasticsearch
+        Pago pagoEs = pagoSearchRepository.findOne(testPago.getId());
+        assertThat(pagoEs).isEqualToComparingFieldByField(testPago);
     }
 
     @Test
@@ -261,6 +270,7 @@ public class PagoResourceIntTest {
     public void updatePago() throws Exception {
         // Initialize the database
         pagoRepository.saveAndFlush(pago);
+        pagoSearchRepository.save(pago);
         int databaseSizeBeforeUpdate = pagoRepository.findAll().size();
 
         // Update the pago
@@ -285,6 +295,10 @@ public class PagoResourceIntTest {
         assertThat(testPago.getImporte()).isEqualTo(UPDATED_IMPORTE);
         assertThat(testPago.getDetalle()).isEqualTo(UPDATED_DETALLE);
         assertThat(testPago.getNumeroRecibo()).isEqualTo(UPDATED_NUMERO_RECIBO);
+
+        // Validate the Pago in Elasticsearch
+        Pago pagoEs = pagoSearchRepository.findOne(testPago.getId());
+        assertThat(pagoEs).isEqualToComparingFieldByField(testPago);
     }
 
     @Test
@@ -311,6 +325,7 @@ public class PagoResourceIntTest {
     public void deletePago() throws Exception {
         // Initialize the database
         pagoRepository.saveAndFlush(pago);
+        pagoSearchRepository.save(pago);
         int databaseSizeBeforeDelete = pagoRepository.findAll().size();
 
         // Get the pago
@@ -318,9 +333,31 @@ public class PagoResourceIntTest {
             .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isOk());
 
+        // Validate Elasticsearch is empty
+        boolean pagoExistsInEs = pagoSearchRepository.exists(pago.getId());
+        assertThat(pagoExistsInEs).isFalse();
+
         // Validate the database is empty
         List<Pago> pagoList = pagoRepository.findAll();
         assertThat(pagoList).hasSize(databaseSizeBeforeDelete - 1);
+    }
+
+    @Test
+    @Transactional
+    public void searchPago() throws Exception {
+        // Initialize the database
+        pagoRepository.saveAndFlush(pago);
+        pagoSearchRepository.save(pago);
+
+        // Search the pago
+        restPagoMockMvc.perform(get("/api/_search/pagos?query=id:" + pago.getId()))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(pago.getId().intValue())))
+            .andExpect(jsonPath("$.[*].fechaPago").value(hasItem(DEFAULT_FECHA_PAGO.toString())))
+            .andExpect(jsonPath("$.[*].importe").value(hasItem(DEFAULT_IMPORTE.doubleValue())))
+            .andExpect(jsonPath("$.[*].detalle").value(hasItem(DEFAULT_DETALLE.toString())))
+            .andExpect(jsonPath("$.[*].numeroRecibo").value(hasItem(DEFAULT_NUMERO_RECIBO)));
     }
 
     @Test

@@ -3,9 +3,9 @@ package com.anelsoftware.web.rest;
 import com.anelsoftware.ClothesApp;
 
 import com.anelsoftware.domain.Proveedor;
-import com.anelsoftware.domain.Rubro;
 import com.anelsoftware.repository.ProveedorRepository;
 import com.anelsoftware.service.ProveedorService;
+import com.anelsoftware.repository.search.ProveedorSearchRepository;
 import com.anelsoftware.service.dto.ProveedorDTO;
 import com.anelsoftware.service.mapper.ProveedorMapper;
 import com.anelsoftware.web.rest.errors.ExceptionTranslator;
@@ -69,6 +69,9 @@ public class ProveedorResourceIntTest {
     private ProveedorService proveedorService;
 
     @Autowired
+    private ProveedorSearchRepository proveedorSearchRepository;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -108,16 +111,12 @@ public class ProveedorResourceIntTest {
             .cuilCuit(DEFAULT_CUIL_CUIT)
             .email(DEFAULT_EMAIL)
             .celular(DEFAULT_CELULAR);
-        // Add required entity
-        Rubro rubro = RubroResourceIntTest.createEntity(em);
-        em.persist(rubro);
-        em.flush();
-        proveedor.setRubro(rubro);
         return proveedor;
     }
 
     @Before
     public void initTest() {
+        proveedorSearchRepository.deleteAll();
         proveedor = createEntity(em);
     }
 
@@ -143,6 +142,10 @@ public class ProveedorResourceIntTest {
         assertThat(testProveedor.getCuilCuit()).isEqualTo(DEFAULT_CUIL_CUIT);
         assertThat(testProveedor.getEmail()).isEqualTo(DEFAULT_EMAIL);
         assertThat(testProveedor.getCelular()).isEqualTo(DEFAULT_CELULAR);
+
+        // Validate the Proveedor in Elasticsearch
+        Proveedor proveedorEs = proveedorSearchRepository.findOne(testProveedor.getId());
+        assertThat(proveedorEs).isEqualToComparingFieldByField(testProveedor);
     }
 
     @Test
@@ -330,6 +333,7 @@ public class ProveedorResourceIntTest {
     public void updateProveedor() throws Exception {
         // Initialize the database
         proveedorRepository.saveAndFlush(proveedor);
+        proveedorSearchRepository.save(proveedor);
         int databaseSizeBeforeUpdate = proveedorRepository.findAll().size();
 
         // Update the proveedor
@@ -358,6 +362,10 @@ public class ProveedorResourceIntTest {
         assertThat(testProveedor.getCuilCuit()).isEqualTo(UPDATED_CUIL_CUIT);
         assertThat(testProveedor.getEmail()).isEqualTo(UPDATED_EMAIL);
         assertThat(testProveedor.getCelular()).isEqualTo(UPDATED_CELULAR);
+
+        // Validate the Proveedor in Elasticsearch
+        Proveedor proveedorEs = proveedorSearchRepository.findOne(testProveedor.getId());
+        assertThat(proveedorEs).isEqualToComparingFieldByField(testProveedor);
     }
 
     @Test
@@ -384,6 +392,7 @@ public class ProveedorResourceIntTest {
     public void deleteProveedor() throws Exception {
         // Initialize the database
         proveedorRepository.saveAndFlush(proveedor);
+        proveedorSearchRepository.save(proveedor);
         int databaseSizeBeforeDelete = proveedorRepository.findAll().size();
 
         // Get the proveedor
@@ -391,9 +400,33 @@ public class ProveedorResourceIntTest {
             .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isOk());
 
+        // Validate Elasticsearch is empty
+        boolean proveedorExistsInEs = proveedorSearchRepository.exists(proveedor.getId());
+        assertThat(proveedorExistsInEs).isFalse();
+
         // Validate the database is empty
         List<Proveedor> proveedorList = proveedorRepository.findAll();
         assertThat(proveedorList).hasSize(databaseSizeBeforeDelete - 1);
+    }
+
+    @Test
+    @Transactional
+    public void searchProveedor() throws Exception {
+        // Initialize the database
+        proveedorRepository.saveAndFlush(proveedor);
+        proveedorSearchRepository.save(proveedor);
+
+        // Search the proveedor
+        restProveedorMockMvc.perform(get("/api/_search/proveedors?query=id:" + proveedor.getId()))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(proveedor.getId().intValue())))
+            .andExpect(jsonPath("$.[*].nombre").value(hasItem(DEFAULT_NOMBRE.toString())))
+            .andExpect(jsonPath("$.[*].domicilio").value(hasItem(DEFAULT_DOMICILIO.toString())))
+            .andExpect(jsonPath("$.[*].telefono").value(hasItem(DEFAULT_TELEFONO.toString())))
+            .andExpect(jsonPath("$.[*].cuilCuit").value(hasItem(DEFAULT_CUIL_CUIT.toString())))
+            .andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL.toString())))
+            .andExpect(jsonPath("$.[*].celular").value(hasItem(DEFAULT_CELULAR.toString())));
     }
 
     @Test

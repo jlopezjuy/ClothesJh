@@ -6,6 +6,7 @@ import com.anelsoftware.domain.Encargo;
 import com.anelsoftware.domain.Cliente;
 import com.anelsoftware.repository.EncargoRepository;
 import com.anelsoftware.service.EncargoService;
+import com.anelsoftware.repository.search.EncargoSearchRepository;
 import com.anelsoftware.service.dto.EncargoDTO;
 import com.anelsoftware.service.mapper.EncargoMapper;
 import com.anelsoftware.web.rest.errors.ExceptionTranslator;
@@ -77,6 +78,9 @@ public class EncargoResourceIntTest {
     private EncargoService encargoService;
 
     @Autowired
+    private EncargoSearchRepository encargoSearchRepository;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -127,6 +131,7 @@ public class EncargoResourceIntTest {
 
     @Before
     public void initTest() {
+        encargoSearchRepository.deleteAll();
         encargo = createEntity(em);
     }
 
@@ -153,6 +158,10 @@ public class EncargoResourceIntTest {
         assertThat(testEncargo.getEstado()).isEqualTo(DEFAULT_ESTADO);
         assertThat(testEncargo.getTipoEncargo()).isEqualTo(DEFAULT_TIPO_ENCARGO);
         assertThat(testEncargo.getTipoVestido()).isEqualTo(DEFAULT_TIPO_VESTIDO);
+
+        // Validate the Encargo in Elasticsearch
+        Encargo encargoEs = encargoSearchRepository.findOne(testEncargo.getId());
+        assertThat(encargoEs).isEqualToComparingFieldByField(testEncargo);
     }
 
     @Test
@@ -285,6 +294,7 @@ public class EncargoResourceIntTest {
     public void updateEncargo() throws Exception {
         // Initialize the database
         encargoRepository.saveAndFlush(encargo);
+        encargoSearchRepository.save(encargo);
         int databaseSizeBeforeUpdate = encargoRepository.findAll().size();
 
         // Update the encargo
@@ -315,6 +325,10 @@ public class EncargoResourceIntTest {
         assertThat(testEncargo.getEstado()).isEqualTo(UPDATED_ESTADO);
         assertThat(testEncargo.getTipoEncargo()).isEqualTo(UPDATED_TIPO_ENCARGO);
         assertThat(testEncargo.getTipoVestido()).isEqualTo(UPDATED_TIPO_VESTIDO);
+
+        // Validate the Encargo in Elasticsearch
+        Encargo encargoEs = encargoSearchRepository.findOne(testEncargo.getId());
+        assertThat(encargoEs).isEqualToComparingFieldByField(testEncargo);
     }
 
     @Test
@@ -341,6 +355,7 @@ public class EncargoResourceIntTest {
     public void deleteEncargo() throws Exception {
         // Initialize the database
         encargoRepository.saveAndFlush(encargo);
+        encargoSearchRepository.save(encargo);
         int databaseSizeBeforeDelete = encargoRepository.findAll().size();
 
         // Get the encargo
@@ -348,9 +363,34 @@ public class EncargoResourceIntTest {
             .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isOk());
 
+        // Validate Elasticsearch is empty
+        boolean encargoExistsInEs = encargoSearchRepository.exists(encargo.getId());
+        assertThat(encargoExistsInEs).isFalse();
+
         // Validate the database is empty
         List<Encargo> encargoList = encargoRepository.findAll();
         assertThat(encargoList).hasSize(databaseSizeBeforeDelete - 1);
+    }
+
+    @Test
+    @Transactional
+    public void searchEncargo() throws Exception {
+        // Initialize the database
+        encargoRepository.saveAndFlush(encargo);
+        encargoSearchRepository.save(encargo);
+
+        // Search the encargo
+        restEncargoMockMvc.perform(get("/api/_search/encargos?query=id:" + encargo.getId()))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(encargo.getId().intValue())))
+            .andExpect(jsonPath("$.[*].importeTotal").value(hasItem(DEFAULT_IMPORTE_TOTAL.doubleValue())))
+            .andExpect(jsonPath("$.[*].fechaEncargo").value(hasItem(DEFAULT_FECHA_ENCARGO.toString())))
+            .andExpect(jsonPath("$.[*].fechaEntrega").value(hasItem(DEFAULT_FECHA_ENTREGA.toString())))
+            .andExpect(jsonPath("$.[*].detalleVestido").value(hasItem(DEFAULT_DETALLE_VESTIDO.toString())))
+            .andExpect(jsonPath("$.[*].estado").value(hasItem(DEFAULT_ESTADO.toString())))
+            .andExpect(jsonPath("$.[*].tipoEncargo").value(hasItem(DEFAULT_TIPO_ENCARGO.toString())))
+            .andExpect(jsonPath("$.[*].tipoVestido").value(hasItem(DEFAULT_TIPO_VESTIDO.toString())));
     }
 
     @Test

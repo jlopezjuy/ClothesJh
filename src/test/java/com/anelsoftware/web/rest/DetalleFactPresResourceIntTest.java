@@ -5,6 +5,7 @@ import com.anelsoftware.ClothesApp;
 import com.anelsoftware.domain.DetalleFactPres;
 import com.anelsoftware.repository.DetalleFactPresRepository;
 import com.anelsoftware.service.DetalleFactPresService;
+import com.anelsoftware.repository.search.DetalleFactPresSearchRepository;
 import com.anelsoftware.service.dto.DetalleFactPresDTO;
 import com.anelsoftware.service.mapper.DetalleFactPresMapper;
 import com.anelsoftware.web.rest.errors.ExceptionTranslator;
@@ -57,6 +58,9 @@ public class DetalleFactPresResourceIntTest {
     private DetalleFactPresService detalleFactPresService;
 
     @Autowired
+    private DetalleFactPresSearchRepository detalleFactPresSearchRepository;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -97,6 +101,7 @@ public class DetalleFactPresResourceIntTest {
 
     @Before
     public void initTest() {
+        detalleFactPresSearchRepository.deleteAll();
         detalleFactPres = createEntity(em);
     }
 
@@ -118,6 +123,10 @@ public class DetalleFactPresResourceIntTest {
         DetalleFactPres testDetalleFactPres = detalleFactPresList.get(detalleFactPresList.size() - 1);
         assertThat(testDetalleFactPres.getCantidad()).isEqualTo(DEFAULT_CANTIDAD);
         assertThat(testDetalleFactPres.getPredio()).isEqualTo(DEFAULT_PREDIO);
+
+        // Validate the DetalleFactPres in Elasticsearch
+        DetalleFactPres detalleFactPresEs = detalleFactPresSearchRepository.findOne(testDetalleFactPres.getId());
+        assertThat(detalleFactPresEs).isEqualToComparingFieldByField(testDetalleFactPres);
     }
 
     @Test
@@ -183,6 +192,7 @@ public class DetalleFactPresResourceIntTest {
     public void updateDetalleFactPres() throws Exception {
         // Initialize the database
         detalleFactPresRepository.saveAndFlush(detalleFactPres);
+        detalleFactPresSearchRepository.save(detalleFactPres);
         int databaseSizeBeforeUpdate = detalleFactPresRepository.findAll().size();
 
         // Update the detalleFactPres
@@ -203,6 +213,10 @@ public class DetalleFactPresResourceIntTest {
         DetalleFactPres testDetalleFactPres = detalleFactPresList.get(detalleFactPresList.size() - 1);
         assertThat(testDetalleFactPres.getCantidad()).isEqualTo(UPDATED_CANTIDAD);
         assertThat(testDetalleFactPres.getPredio()).isEqualTo(UPDATED_PREDIO);
+
+        // Validate the DetalleFactPres in Elasticsearch
+        DetalleFactPres detalleFactPresEs = detalleFactPresSearchRepository.findOne(testDetalleFactPres.getId());
+        assertThat(detalleFactPresEs).isEqualToComparingFieldByField(testDetalleFactPres);
     }
 
     @Test
@@ -229,6 +243,7 @@ public class DetalleFactPresResourceIntTest {
     public void deleteDetalleFactPres() throws Exception {
         // Initialize the database
         detalleFactPresRepository.saveAndFlush(detalleFactPres);
+        detalleFactPresSearchRepository.save(detalleFactPres);
         int databaseSizeBeforeDelete = detalleFactPresRepository.findAll().size();
 
         // Get the detalleFactPres
@@ -236,9 +251,29 @@ public class DetalleFactPresResourceIntTest {
             .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isOk());
 
+        // Validate Elasticsearch is empty
+        boolean detalleFactPresExistsInEs = detalleFactPresSearchRepository.exists(detalleFactPres.getId());
+        assertThat(detalleFactPresExistsInEs).isFalse();
+
         // Validate the database is empty
         List<DetalleFactPres> detalleFactPresList = detalleFactPresRepository.findAll();
         assertThat(detalleFactPresList).hasSize(databaseSizeBeforeDelete - 1);
+    }
+
+    @Test
+    @Transactional
+    public void searchDetalleFactPres() throws Exception {
+        // Initialize the database
+        detalleFactPresRepository.saveAndFlush(detalleFactPres);
+        detalleFactPresSearchRepository.save(detalleFactPres);
+
+        // Search the detalleFactPres
+        restDetalleFactPresMockMvc.perform(get("/api/_search/detalle-fact-pres?query=id:" + detalleFactPres.getId()))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(detalleFactPres.getId().intValue())))
+            .andExpect(jsonPath("$.[*].cantidad").value(hasItem(DEFAULT_CANTIDAD)))
+            .andExpect(jsonPath("$.[*].predio").value(hasItem(DEFAULT_PREDIO.intValue())));
     }
 
     @Test

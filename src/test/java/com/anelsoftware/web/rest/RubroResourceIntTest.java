@@ -5,6 +5,7 @@ import com.anelsoftware.ClothesApp;
 import com.anelsoftware.domain.Rubro;
 import com.anelsoftware.repository.RubroRepository;
 import com.anelsoftware.service.RubroService;
+import com.anelsoftware.repository.search.RubroSearchRepository;
 import com.anelsoftware.service.dto.RubroDTO;
 import com.anelsoftware.service.mapper.RubroMapper;
 import com.anelsoftware.web.rest.errors.ExceptionTranslator;
@@ -56,6 +57,9 @@ public class RubroResourceIntTest {
     private RubroService rubroService;
 
     @Autowired
+    private RubroSearchRepository rubroSearchRepository;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -96,6 +100,7 @@ public class RubroResourceIntTest {
 
     @Before
     public void initTest() {
+        rubroSearchRepository.deleteAll();
         rubro = createEntity(em);
     }
 
@@ -117,6 +122,10 @@ public class RubroResourceIntTest {
         Rubro testRubro = rubroList.get(rubroList.size() - 1);
         assertThat(testRubro.getNombre()).isEqualTo(DEFAULT_NOMBRE);
         assertThat(testRubro.getDescripcion()).isEqualTo(DEFAULT_DESCRIPCION);
+
+        // Validate the Rubro in Elasticsearch
+        Rubro rubroEs = rubroSearchRepository.findOne(testRubro.getId());
+        assertThat(rubroEs).isEqualToComparingFieldByField(testRubro);
     }
 
     @Test
@@ -182,6 +191,7 @@ public class RubroResourceIntTest {
     public void updateRubro() throws Exception {
         // Initialize the database
         rubroRepository.saveAndFlush(rubro);
+        rubroSearchRepository.save(rubro);
         int databaseSizeBeforeUpdate = rubroRepository.findAll().size();
 
         // Update the rubro
@@ -202,6 +212,10 @@ public class RubroResourceIntTest {
         Rubro testRubro = rubroList.get(rubroList.size() - 1);
         assertThat(testRubro.getNombre()).isEqualTo(UPDATED_NOMBRE);
         assertThat(testRubro.getDescripcion()).isEqualTo(UPDATED_DESCRIPCION);
+
+        // Validate the Rubro in Elasticsearch
+        Rubro rubroEs = rubroSearchRepository.findOne(testRubro.getId());
+        assertThat(rubroEs).isEqualToComparingFieldByField(testRubro);
     }
 
     @Test
@@ -228,6 +242,7 @@ public class RubroResourceIntTest {
     public void deleteRubro() throws Exception {
         // Initialize the database
         rubroRepository.saveAndFlush(rubro);
+        rubroSearchRepository.save(rubro);
         int databaseSizeBeforeDelete = rubroRepository.findAll().size();
 
         // Get the rubro
@@ -235,9 +250,29 @@ public class RubroResourceIntTest {
             .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isOk());
 
+        // Validate Elasticsearch is empty
+        boolean rubroExistsInEs = rubroSearchRepository.exists(rubro.getId());
+        assertThat(rubroExistsInEs).isFalse();
+
         // Validate the database is empty
         List<Rubro> rubroList = rubroRepository.findAll();
         assertThat(rubroList).hasSize(databaseSizeBeforeDelete - 1);
+    }
+
+    @Test
+    @Transactional
+    public void searchRubro() throws Exception {
+        // Initialize the database
+        rubroRepository.saveAndFlush(rubro);
+        rubroSearchRepository.save(rubro);
+
+        // Search the rubro
+        restRubroMockMvc.perform(get("/api/_search/rubros?query=id:" + rubro.getId()))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(rubro.getId().intValue())))
+            .andExpect(jsonPath("$.[*].nombre").value(hasItem(DEFAULT_NOMBRE.toString())))
+            .andExpect(jsonPath("$.[*].descripcion").value(hasItem(DEFAULT_DESCRIPCION.toString())));
     }
 
     @Test

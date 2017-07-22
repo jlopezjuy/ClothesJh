@@ -6,6 +6,7 @@ import com.anelsoftware.domain.Medida;
 import com.anelsoftware.domain.Encargo;
 import com.anelsoftware.repository.MedidaRepository;
 import com.anelsoftware.service.MedidaService;
+import com.anelsoftware.repository.search.MedidaSearchRepository;
 import com.anelsoftware.service.dto.MedidaDTO;
 import com.anelsoftware.service.mapper.MedidaMapper;
 import com.anelsoftware.web.rest.errors.ExceptionTranslator;
@@ -145,6 +146,9 @@ public class MedidaResourceIntTest {
     private MedidaService medidaService;
 
     @Autowired
+    private MedidaSearchRepository medidaSearchRepository;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -218,6 +222,7 @@ public class MedidaResourceIntTest {
 
     @Before
     public void initTest() {
+        medidaSearchRepository.deleteAll();
         medida = createEntity(em);
     }
 
@@ -267,6 +272,10 @@ public class MedidaResourceIntTest {
         assertThat(testMedida.getAnchoRodillaPantalon()).isEqualTo(DEFAULT_ANCHO_RODILLA_PANTALON);
         assertThat(testMedida.getBotaPantalon()).isEqualTo(DEFAULT_BOTA_PANTALON);
         assertThat(testMedida.getLargoPantalon()).isEqualTo(DEFAULT_LARGO_PANTALON);
+
+        // Validate the Medida in Elasticsearch
+        Medida medidaEs = medidaSearchRepository.findOne(testMedida.getId());
+        assertThat(medidaEs).isEqualToComparingFieldByField(testMedida);
     }
 
     @Test
@@ -426,6 +435,7 @@ public class MedidaResourceIntTest {
     public void updateMedida() throws Exception {
         // Initialize the database
         medidaRepository.saveAndFlush(medida);
+        medidaSearchRepository.save(medida);
         int databaseSizeBeforeUpdate = medidaRepository.findAll().size();
 
         // Update the medida
@@ -502,6 +512,10 @@ public class MedidaResourceIntTest {
         assertThat(testMedida.getAnchoRodillaPantalon()).isEqualTo(UPDATED_ANCHO_RODILLA_PANTALON);
         assertThat(testMedida.getBotaPantalon()).isEqualTo(UPDATED_BOTA_PANTALON);
         assertThat(testMedida.getLargoPantalon()).isEqualTo(UPDATED_LARGO_PANTALON);
+
+        // Validate the Medida in Elasticsearch
+        Medida medidaEs = medidaSearchRepository.findOne(testMedida.getId());
+        assertThat(medidaEs).isEqualToComparingFieldByField(testMedida);
     }
 
     @Test
@@ -528,6 +542,7 @@ public class MedidaResourceIntTest {
     public void deleteMedida() throws Exception {
         // Initialize the database
         medidaRepository.saveAndFlush(medida);
+        medidaSearchRepository.save(medida);
         int databaseSizeBeforeDelete = medidaRepository.findAll().size();
 
         // Get the medida
@@ -535,9 +550,57 @@ public class MedidaResourceIntTest {
             .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isOk());
 
+        // Validate Elasticsearch is empty
+        boolean medidaExistsInEs = medidaSearchRepository.exists(medida.getId());
+        assertThat(medidaExistsInEs).isFalse();
+
         // Validate the database is empty
         List<Medida> medidaList = medidaRepository.findAll();
         assertThat(medidaList).hasSize(databaseSizeBeforeDelete - 1);
+    }
+
+    @Test
+    @Transactional
+    public void searchMedida() throws Exception {
+        // Initialize the database
+        medidaRepository.saveAndFlush(medida);
+        medidaSearchRepository.save(medida);
+
+        // Search the medida
+        restMedidaMockMvc.perform(get("/api/_search/medidas?query=id:" + medida.getId()))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(medida.getId().intValue())))
+            .andExpect(jsonPath("$.[*].contornoBusto").value(hasItem(DEFAULT_CONTORNO_BUSTO.doubleValue())))
+            .andExpect(jsonPath("$.[*].anchoPecho").value(hasItem(DEFAULT_ANCHO_PECHO.doubleValue())))
+            .andExpect(jsonPath("$.[*].altoBusto").value(hasItem(DEFAULT_ALTO_BUSTO.doubleValue())))
+            .andExpect(jsonPath("$.[*].bajoBusto").value(hasItem(DEFAULT_BAJO_BUSTO.doubleValue())))
+            .andExpect(jsonPath("$.[*].alturaPinza").value(hasItem(DEFAULT_ALTURA_PINZA.doubleValue())))
+            .andExpect(jsonPath("$.[*].separacionBusto").value(hasItem(DEFAULT_SEPARACION_BUSTO.doubleValue())))
+            .andExpect(jsonPath("$.[*].talleDeltantero").value(hasItem(DEFAULT_TALLE_DELTANTERO.doubleValue())))
+            .andExpect(jsonPath("$.[*].talleEspalda").value(hasItem(DEFAULT_TALLE_ESPALDA.doubleValue())))
+            .andExpect(jsonPath("$.[*].largoCorset").value(hasItem(DEFAULT_LARGO_CORSET.doubleValue())))
+            .andExpect(jsonPath("$.[*].costado").value(hasItem(DEFAULT_COSTADO.doubleValue())))
+            .andExpect(jsonPath("$.[*].hombro").value(hasItem(DEFAULT_HOMBRO.doubleValue())))
+            .andExpect(jsonPath("$.[*].anchoHombro").value(hasItem(DEFAULT_ANCHO_HOMBRO.doubleValue())))
+            .andExpect(jsonPath("$.[*].largoManga").value(hasItem(DEFAULT_LARGO_MANGA.doubleValue())))
+            .andExpect(jsonPath("$.[*].sisaDelantero").value(hasItem(DEFAULT_SISA_DELANTERO.doubleValue())))
+            .andExpect(jsonPath("$.[*].sisaEspalda").value(hasItem(DEFAULT_SISA_ESPALDA.doubleValue())))
+            .andExpect(jsonPath("$.[*].contornoCintura").value(hasItem(DEFAULT_CONTORNO_CINTURA.doubleValue())))
+            .andExpect(jsonPath("$.[*].anteCadera").value(hasItem(DEFAULT_ANTE_CADERA.doubleValue())))
+            .andExpect(jsonPath("$.[*].contornoCadera").value(hasItem(DEFAULT_CONTORNO_CADERA.doubleValue())))
+            .andExpect(jsonPath("$.[*].posicionCadera").value(hasItem(DEFAULT_POSICION_CADERA.doubleValue())))
+            .andExpect(jsonPath("$.[*].largoFalda").value(hasItem(DEFAULT_LARGO_FALDA.doubleValue())))
+            .andExpect(jsonPath("$.[*].tipoFalda").value(hasItem(DEFAULT_TIPO_FALDA.toString())))
+            .andExpect(jsonPath("$.[*].tipoMedida").value(hasItem(DEFAULT_TIPO_MEDIDA.toString())))
+            .andExpect(jsonPath("$.[*].fechaMedida").value(hasItem(DEFAULT_FECHA_MEDIDA.toString())))
+            .andExpect(jsonPath("$.[*].anchoEspalda").value(hasItem(DEFAULT_ANCHO_ESPALDA.doubleValue())))
+            .andExpect(jsonPath("$.[*].anchoManga").value(hasItem(DEFAULT_ANCHO_MANGA.doubleValue())))
+            .andExpect(jsonPath("$.[*].tiroPantalon").value(hasItem(DEFAULT_TIRO_PANTALON.doubleValue())))
+            .andExpect(jsonPath("$.[*].anchoPinzaPantalon").value(hasItem(DEFAULT_ANCHO_PINZA_PANTALON.doubleValue())))
+            .andExpect(jsonPath("$.[*].anchoRodillaPantalon").value(hasItem(DEFAULT_ANCHO_RODILLA_PANTALON.doubleValue())))
+            .andExpect(jsonPath("$.[*].botaPantalon").value(hasItem(DEFAULT_BOTA_PANTALON.doubleValue())))
+            .andExpect(jsonPath("$.[*].largoPantalon").value(hasItem(DEFAULT_LARGO_PANTALON.doubleValue())));
     }
 
     @Test
