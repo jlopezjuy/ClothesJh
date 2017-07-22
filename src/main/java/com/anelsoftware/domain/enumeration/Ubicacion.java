@@ -4,5 +4,5 @@ package com.anelsoftware.domain.enumeration;
  * The Ubicacion enumeration.
  */
 public enum Ubicacion {
-    PERCHERO,MUEBLE,REPISA,DEPOSITO
+    VIDRIERA, PERCHERO, MUEBLE, REPISA, DEPOSITO, MOSTRADOR, ESTANTE
 }
