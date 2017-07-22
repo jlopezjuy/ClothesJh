@@ -9,8 +9,6 @@ import { FacturaPresupuestoDetailComponent } from './factura-presupuesto-detail.
 import { FacturaPresupuestoPopupComponent } from './factura-presupuesto-dialog.component';
 import { FacturaPresupuestoDeletePopupComponent } from './factura-presupuesto-delete-dialog.component';
 
-import { Principal } from '../../shared';
-
 @Injectable()
 export class FacturaPresupuestoResolvePagingParams implements Resolve<any> {
 

@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { JhiAlertService, JhiEventManager } from 'ng-jhipster';
+import { JhiEventManager } from 'ng-jhipster';
 
 import { FacturaPresupuesto } from './factura-presupuesto.model';
 import { FacturaPresupuestoPopupService } from './factura-presupuesto-popup.service';
@@ -19,7 +19,6 @@ export class FacturaPresupuestoDeleteDialogComponent {
     constructor(
         private facturaPresupuestoService: FacturaPresupuestoService,
         public activeModal: NgbActiveModal,
-        private alertService: JhiAlertService,
         private eventManager: JhiEventManager
     ) {
     }
@@ -36,7 +35,6 @@ export class FacturaPresupuestoDeleteDialogComponent {
             });
             this.activeModal.dismiss(true);
         });
-        this.alertService.success('clothesApp.facturaPresupuesto.deleted', { param : id }, null);
     }
 }
 
@@ -46,7 +44,6 @@ export class FacturaPresupuestoDeleteDialogComponent {
 })
 export class FacturaPresupuestoDeletePopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
     constructor(
@@ -56,8 +53,8 @@ export class FacturaPresupuestoDeletePopupComponent implements OnInit, OnDestroy
 
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
-            this.modalRef = this.facturaPresupuestoPopupService
-                .open(FacturaPresupuestoDeleteDialogComponent, params['id']);
+            this.facturaPresupuestoPopupService
+                .open(FacturaPresupuestoDeleteDialogComponent as Component, params['id']);
         });
     }
 
