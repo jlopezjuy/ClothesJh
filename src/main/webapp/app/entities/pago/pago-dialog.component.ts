@@ -19,7 +19,6 @@ import { ResponseWrapper } from '../../shared';
 export class PagoDialogComponent implements OnInit {
 
     pago: Pago;
-    authorities: any[];
     isSaving: boolean;
 
     encargos: Encargo[];
@@ -36,7 +35,6 @@ export class PagoDialogComponent implements OnInit {
 
     ngOnInit() {
         this.isSaving = false;
-        this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
         this.encargoService.query()
             .subscribe((res: ResponseWrapper) => { this.encargos = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
@@ -49,24 +47,19 @@ export class PagoDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.pago.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.pagoService.update(this.pago), false);
+                this.pagoService.update(this.pago));
         } else {
             this.subscribeToSaveResponse(
-                this.pagoService.create(this.pago), true);
+                this.pagoService.create(this.pago));
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<Pago>, isCreated: boolean) {
+    private subscribeToSaveResponse(result: Observable<Pago>) {
         result.subscribe((res: Pago) =>
-            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: Pago, isCreated: boolean) {
-        this.alertService.success(
-            isCreated ? 'clothesApp.pago.created'
-            : 'clothesApp.pago.updated',
-            { param : result.id }, null);
-
+    private onSaveSuccess(result: Pago) {
         this.eventManager.broadcast({ name: 'pagoListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);
@@ -97,7 +90,6 @@ export class PagoDialogComponent implements OnInit {
 })
 export class PagoPopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
     constructor(
@@ -108,11 +100,11 @@ export class PagoPopupComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
             if ( params['id'] ) {
-                this.modalRef = this.pagoPopupService
-                    .open(PagoDialogComponent, params['id']);
+                this.pagoPopupService
+                    .open(PagoDialogComponent as Component, params['id']);
             } else {
-                this.modalRef = this.pagoPopupService
-                    .open(PagoDialogComponent);
+                this.pagoPopupService
+                    .open(PagoDialogComponent as Component);
             }
         });
     }
