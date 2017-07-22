@@ -2,28 +2,27 @@
 <databaseChangeLog
     xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
 
-    <include file="classpath:config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/20170611211921_added_entity_Cliente.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/20170611211922_added_entity_Modelo.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/20170611211923_added_entity_Medida.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/20170611211924_added_entity_Encargo.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/20170611211925_added_entity_Pago.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/20170620004357_added_entity_FacturaPresupuesto.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/20170620004358_added_entity_DetalleFactPres.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/20170620004359_added_entity_Producto.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/20170620004400_added_entity_Proveedor.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/20170621021914_added_entity_EntityAuditEvent.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/20170628175028_added_entity_Rubro.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20170722185301_added_entity_Cliente.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20170722185302_added_entity_Modelo.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20170722185303_added_entity_Medida.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20170722185304_added_entity_Encargo.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20170722185305_added_entity_Pago.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20170722185306_added_entity_FacturaPresupuesto.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20170722185307_added_entity_DetalleFactPres.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20170722185308_added_entity_Producto.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20170722185309_added_entity_Proveedor.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20170722185310_added_entity_Rubro.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
-    <include file="classpath:config/liquibase/changelog/20170611211922_added_entity_constraints_Modelo.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/20170611211923_added_entity_constraints_Medida.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/20170611211924_added_entity_constraints_Encargo.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/20170611211925_added_entity_constraints_Pago.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/20170620004357_added_entity_constraints_FacturaPresupuesto.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/20170620004358_added_entity_constraints_DetalleFactPres.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/20170620004359_added_entity_constraints_Producto.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/20170620004400_added_entity_constraints_Proveedor.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20170722185302_added_entity_constraints_Modelo.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20170722185303_added_entity_constraints_Medida.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20170722185304_added_entity_constraints_Encargo.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20170722185305_added_entity_constraints_Pago.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20170722185306_added_entity_constraints_FacturaPresupuesto.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20170722185307_added_entity_constraints_DetalleFactPres.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20170722185308_added_entity_constraints_Producto.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20170722185309_added_entity_constraints_Proveedor.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>
