@@ -1,6 +1,7 @@
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 
+import { WindowRef } from './tracker/window.service';
 import {
     ClothesSharedLibsModule,
     JhiLanguageHelper,
@@ -20,7 +21,12 @@ import {
     ],
     providers: [
         JhiLanguageHelper,
-        Title
+        WindowRef,
+        Title,
+        {
+            provide: LOCALE_ID,
+            useValue: 'es'
+        },
     ],
     exports: [
         ClothesSharedLibsModule,
