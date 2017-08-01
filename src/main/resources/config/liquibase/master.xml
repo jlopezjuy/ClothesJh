@@ -15,6 +15,7 @@
     <include file="config/liquibase/changelog/20170722185308_added_entity_Producto.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20170722185309_added_entity_Proveedor.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20170722185310_added_entity_Rubro.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20170726010612_added_entity_EntityAuditEvent.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20170722185302_added_entity_constraints_Modelo.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20170722185303_added_entity_constraints_Medida.xml" relativeToChangelogFile="false"/>
@@ -26,3 +27,4 @@
     <include file="config/liquibase/changelog/20170722185309_added_entity_constraints_Proveedor.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>
+

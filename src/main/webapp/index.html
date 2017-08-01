@@ -11,12 +11,61 @@
     <meta name="theme-color" content="#000000">
     <link rel="shortcut icon" href="favicon.ico" />
     <link rel="manifest" href="manifest.webapp" />
+    <!-- begin-pace-progress -->
+    <link rel="stylesheet" href="/content/pace-progress/themes/purple/pace-theme-flash.css"/>
+    <style type="text/css">
+        .pace .pace-activity {top: 70px;} .pace .pace-progress-inner {box-shadow: none;}
+        .loading::before,
+        .loading::after {
+            position: fixed;
+            z-index: 3000;
+            top: 0;
+            left: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+        }
+        .loading::before {
+            content: '';
+            background-color: #fff;
+        }
+        .loading::after {
+            font-family: "Helvetica Neue", Helvetica, sans-serif;
+            content: 'LOADING';
+            text-align: center;
+            white-space: pre;
+            font-weight: normal;
+            font-size: 24px;
+            letter-spacing: 0.04rem;
+            color: #000;
+            opacity: 0.8;
+            animation: animation 1s alternate infinite;
+        }
+        @keyframes animation {
+            to { opacity: 0.2; }
+        }
+    </style>
+    <script type="text/javascript">
+        window.paceOptions = {
+            document: true,
+            eventLag: true,
+            restartOnPushState: true,
+            restartOnRequestAfter: true,
+            ajax: {
+                trackMethods: [ 'POST','GET']
+            }
+        };
+    </script>
+    <script src="/content/pace-progress/pace.js"></script>
+    <!-- end-pace-progress -->
 </head>
 <body>
     <!--[if lt IE 9]>
         <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
-    <jhi-main></jhi-main>
+    <jhi-main><div class="loading"></div></jhi-main>
     <script>
         // load shim for IE
         if (window.navigator.userAgent.indexOf('Trident/') > 0) {

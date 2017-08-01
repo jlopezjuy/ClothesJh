@@ -24,7 +24,7 @@ import com.anelsoftware.domain.enumeration.TipoMedida;
 @Table(name = "medida")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Document(indexName = "medida")
-public class Medida implements Serializable {
+public class Medida extends AbstractAuditingEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
