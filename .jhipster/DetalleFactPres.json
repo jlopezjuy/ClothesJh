@@ -24,7 +24,7 @@
             "fieldType": "BigDecimal"
         }
     ],
-    "changelogDate": "20170722185307",
+    "changelogDate": "20170803195419",
     "entityTableName": "detalle_fact_pres",
     "dto": "mapstruct",
     "pagination": "pager",

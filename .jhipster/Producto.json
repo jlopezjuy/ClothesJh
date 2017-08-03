@@ -79,7 +79,7 @@
             "fieldTypeBlobContent": "image"
         }
     ],
-    "changelogDate": "20170722185308",
+    "changelogDate": "20170803195420",
     "entityTableName": "producto",
     "dto": "mapstruct",
     "pagination": "pager",

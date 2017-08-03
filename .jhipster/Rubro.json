@@ -18,7 +18,7 @@
             "fieldType": "String"
         }
     ],
-    "changelogDate": "20170722185310",
+    "changelogDate": "20170803195422",
     "entityTableName": "rubro",
     "dto": "mapstruct",
     "pagination": "pager",
