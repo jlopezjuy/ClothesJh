@@ -9,14 +9,13 @@ const utils = require('./utils.js');
 const commonConfig = require('./webpack.common.js');
 
 const ENV = 'production';
-const extractSASS = new ExtractTextPlugin(`[name]-sass.[hash].css`);
 const extractCSS = new ExtractTextPlugin(`[name].[hash].css`);
 
 module.exports = webpackMerge(commonConfig({ env: ENV }), {
     // devtool: 'source-map', // Enable source maps. Please note that this will slow down the build
     entry: {
         polyfills: './src/main/webapp/app/polyfills',
-        global: './src/main/webapp/content/scss/global.scss',
+        global: './src/main/webapp/content/css/global.css',
         main: './src/main/webapp/app/app.main-aot'
     },
     output: {
@@ -39,18 +38,6 @@ module.exports = webpackMerge(commonConfig({ env: ENV }), {
             exclude: ['node_modules/generator-jhipster']
         },
         {
-            test: /\.scss$/,
-            loaders: ['to-string-loader', 'css-loader', 'sass-loader'],
-            exclude: /(vendor\.scss|global\.scss)/
-        },
-        {
-            test: /(vendor\.scss|global\.scss)/,
-            use: extractSASS.extract({
-                fallback: 'style-loader',
-                use: ['css-loader', 'postcss-loader', 'sass-loader']
-            })
-        },
-        {
             test: /\.css$/,
             loaders: ['to-string-loader', 'css-loader'],
             exclude: /(vendor\.css|global\.css)/
@@ -64,7 +51,6 @@ module.exports = webpackMerge(commonConfig({ env: ENV }), {
         }]
     },
     plugins: [
-        extractSASS,
         extractCSS,
         new Visualizer({
             // Webpack statistics in target folder
