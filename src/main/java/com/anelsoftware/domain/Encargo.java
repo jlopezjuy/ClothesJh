@@ -29,7 +29,7 @@ import com.anelsoftware.domain.enumeration.TipoVestido;
 @Table(name = "encargo")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Document(indexName = "encargo")
-public class Encargo implements Serializable {
+public class Encargo extends AbstractAuditingEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

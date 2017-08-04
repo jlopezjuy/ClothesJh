@@ -26,7 +26,7 @@ import com.anelsoftware.domain.enumeration.FormaPago;
 @Table(name = "factura_presupuesto")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Document(indexName = "facturapresupuesto")
-public class FacturaPresupuesto implements Serializable {
+public class FacturaPresupuesto extends AbstractAuditingEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

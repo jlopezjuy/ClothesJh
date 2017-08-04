@@ -15,7 +15,7 @@ import com.anelsoftware.domain.enumeration.Ubicacion;
 /**
  * A DTO for the Producto entity.
  */
-public class ProductoDTO implements Serializable {
+public class ProductoDTO extends AbstractAuditingDTO implements Serializable {
 
     private Long id;
 
