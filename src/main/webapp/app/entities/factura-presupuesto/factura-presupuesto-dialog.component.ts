@@ -152,7 +152,7 @@ export class FacturaPresupuestoDialogComponent implements OnInit {
         // this.alertService.success(
         //     isCreated ? 'clothesApp.facturaPresupuesto.created'
         //         : 'clothesApp.facturaPresupuesto.updated',
-        //     {param: result.id}, null);
+        //     {param: reslsult.id}, null);
         console.log('Ok');
     }
 
@@ -178,6 +178,10 @@ export class FacturaPresupuestoDialogComponent implements OnInit {
 
     private onError(error) {
         this.alertService.error(error.message, null, null);
+    }
+
+    trackId(index: number, item: FacturaPresupuesto) {
+        return item.id;
     }
 
     trackClienteById(index: number, item: Cliente) {
