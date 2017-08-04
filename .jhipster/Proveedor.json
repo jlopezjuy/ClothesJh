@@ -58,7 +58,7 @@
             ]
         }
     ],
-    "changelogDate": "20170722185309",
+    "changelogDate": "20170803195421",
     "entityTableName": "proveedor",
     "dto": "mapstruct",
     "pagination": "pager",

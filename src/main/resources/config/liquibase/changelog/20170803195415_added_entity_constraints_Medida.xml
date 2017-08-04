@@ -4,13 +4,13 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
     <!--
-        Added the constraints for entity Modelo.
+        Added the constraints for entity Medida.
     -->
-    <changeSet id="20170722185302-2" author="jhipster">
+    <changeSet id="20170803195415-2" author="jhipster">
         
         <addForeignKeyConstraint baseColumnNames="encargo_id"
-                                 baseTableName="modelo"
-                                 constraintName="fk_modelo_encargo_id"
+                                 baseTableName="medida"
+                                 constraintName="fk_medida_encargo_id"
                                  referencedColumnNames="id"
                                  referencedTableName="encargo"/>
 

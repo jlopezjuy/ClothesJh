@@ -4,15 +4,15 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
     <!--
-        Added the constraints for entity Proveedor.
+        Added the constraints for entity Pago.
     -->
-    <changeSet id="20170722185309-2" author="jhipster">
+    <changeSet id="20170803195417-2" author="jhipster">
         
-        <addForeignKeyConstraint baseColumnNames="rubro_id"
-                                 baseTableName="proveedor"
-                                 constraintName="fk_proveedor_rubro_id"
+        <addForeignKeyConstraint baseColumnNames="encargo_id"
+                                 baseTableName="pago"
+                                 constraintName="fk_pago_encargo_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="rubro"/>
+                                 referencedTableName="encargo"/>
 
     </changeSet>
 </databaseChangeLog>

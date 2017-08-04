@@ -69,7 +69,7 @@
             "fieldValues": "DOS_PIEZAS,UNA_PIEZA,SIRENA,CORTE_A"
         }
     ],
-    "changelogDate": "20170722185304",
+    "changelogDate": "20170803195416",
     "javadoc": "Class Encargo.\n@author anelsoftware",
     "entityTableName": "encargo",
     "dto": "mapstruct",

@@ -15,38 +15,26 @@
     <property name="floatType" value="float" dbms="mysql, oracle, mssql"/>
 
     <!--
-        Added the entity Proveedor.
+        Added the entity DetalleFactPres.
     -->
-    <changeSet id="20170722185309-1" author="jhipster">
-        <createTable tableName="proveedor">
+    <changeSet id="20170803195419-1" author="jhipster">
+        <createTable tableName="detalle_fact_pres">
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="nombre" type="varchar(255)">
-                <constraints nullable="false" />
+            <column name="cantidad" type="integer">
+                <constraints nullable="true" />
             </column>
 
-            <column name="domicilio" type="varchar(255)">
-                <constraints nullable="false" />
+            <column name="predio" type="decimal(10,2)">
+                <constraints nullable="true" />
             </column>
 
-            <column name="telefono" type="varchar(255)">
-                <constraints nullable="false" />
+            <column name="factura_presupuesto_id" type="bigint">
+                <constraints nullable="true" />
             </column>
 
-            <column name="cuil_cuit" type="varchar(255)">
-                <constraints nullable="false" />
-            </column>
-
-            <column name="email" type="varchar(255)">
-                <constraints nullable="false" />
-            </column>
-
-            <column name="celular" type="varchar(255)">
-                <constraints nullable="false" />
-            </column>
-
-            <column name="rubro_id" type="bigint">
+            <column name="producto_id" type="bigint">
                 <constraints nullable="true" />
             </column>
 
