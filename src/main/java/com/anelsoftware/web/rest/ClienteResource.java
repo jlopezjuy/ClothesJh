@@ -22,6 +22,9 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.StreamSupport;
+
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * REST controller for managing Cliente.
@@ -124,4 +127,22 @@ public class ClienteResource {
         clienteService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
+
+    /**
+     * SEARCH  /_search/clientes?query=:query : search for the cliente corresponding
+     * to the query.
+     *
+     * @param query the query of the cliente search
+     * @param pageable the pagination information
+     * @return the result of the search
+     */
+    @GetMapping("/_search/clientes")
+    @Timed
+    public ResponseEntity<List<ClienteDTO>> searchClientes(@RequestParam String query, @ApiParam Pageable pageable) {
+        log.debug("REST request to search for a page of Clientes for query {}", query);
+        Page<ClienteDTO> page = clienteService.search(query, pageable);
+        HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/clientes");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
 }

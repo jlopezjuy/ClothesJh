@@ -12,6 +12,7 @@ export class MedidaService {
     private resourceUrl = 'api/medidas';
     private resourceUrlEncargo = 'api/medidas/encargo';
     private encargoId: number;
+    private resourceSearchUrl = 'api/_search/medidas';
 
     constructor(private http: Http, private dateUtils: JhiDateUtils) { }
 
@@ -51,6 +52,12 @@ export class MedidaService {
 
     delete(id: number): Observable<Response> {
         return this.http.delete(`${this.resourceUrl}/${id}`);
+    }
+
+    search(req?: any): Observable<ResponseWrapper> {
+        const options = createRequestOption(req);
+        return this.http.get(this.resourceSearchUrl, options)
+            .map((res: any) => this.convertResponse(res));
     }
 
     private convertResponse(res: Response): ResponseWrapper {

@@ -3,6 +3,7 @@ package com.anelsoftware.domain;
 import io.swagger.annotations.ApiModel;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -22,6 +23,7 @@ import com.anelsoftware.domain.enumeration.TipoMedida;
 @Entity
 @Table(name = "medida")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@Document(indexName = "medida")
 public class Medida extends AbstractAuditingEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;

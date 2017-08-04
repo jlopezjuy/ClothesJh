@@ -8,12 +8,9 @@
             "otherEntityRelationshipName": "proveedor"
         },
         {
+            "relationshipType": "many-to-one",
             "relationshipName": "rubro",
             "otherEntityName": "rubro",
-            "relationshipType": "many-to-one",
-            "relationshipValidateRules": [
-                "required"
-            ],
             "otherEntityField": "nombre"
         }
     ],
@@ -61,9 +58,9 @@
             ]
         }
     ],
-    "changelogDate": "20170620004400",
-    "dto": "mapstruct",
-    "service": "serviceImpl",
+    "changelogDate": "20170803195421",
     "entityTableName": "proveedor",
-    "pagination": "pager"
+    "dto": "mapstruct",
+    "pagination": "pager",
+    "service": "serviceImpl"
 }

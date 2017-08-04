@@ -2,10 +2,13 @@
     "clothesApp": {
         "Ubicacion" : {
             "null": "",
+            "VIDRIERA": "VIDRIERA",
             "PERCHERO": "PERCHERO",
             "MUEBLE": "MUEBLE",
             "REPISA": "REPISA",
-            "DEPOSITO": "DEPOSITO"
+            "DEPOSITO": "DEPOSITO",
+            "MOSTRADOR": "MOSTRADOR",
+            "ESTANTE": "ESTANTE"
         }
     }
 }

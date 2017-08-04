@@ -5,6 +5,7 @@ import com.anelsoftware.ClothesApp;
 import com.anelsoftware.domain.Cliente;
 import com.anelsoftware.repository.ClienteRepository;
 import com.anelsoftware.service.ClienteService;
+import com.anelsoftware.repository.search.ClienteSearchRepository;
 import com.anelsoftware.service.dto.ClienteDTO;
 import com.anelsoftware.service.mapper.ClienteMapper;
 import com.anelsoftware.web.rest.errors.ExceptionTranslator;
@@ -71,6 +72,9 @@ public class ClienteResourceIntTest {
     private ClienteService clienteService;
 
     @Autowired
+    private ClienteSearchRepository clienteSearchRepository;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -116,6 +120,7 @@ public class ClienteResourceIntTest {
 
     @Before
     public void initTest() {
+        clienteSearchRepository.deleteAll();
         cliente = createEntity(em);
     }
 
@@ -142,6 +147,10 @@ public class ClienteResourceIntTest {
         assertThat(testCliente.getEmail()).isEqualTo(DEFAULT_EMAIL);
         assertThat(testCliente.getDomicilio()).isEqualTo(DEFAULT_DOMICILIO);
         assertThat(testCliente.getColegio()).isEqualTo(DEFAULT_COLEGIO);
+
+        // Validate the Cliente in Elasticsearch
+        Cliente clienteEs = clienteSearchRepository.findOne(testCliente.getId());
+        assertThat(clienteEs).isEqualToComparingFieldByField(testCliente);
     }
 
     @Test
@@ -331,6 +340,7 @@ public class ClienteResourceIntTest {
     public void updateCliente() throws Exception {
         // Initialize the database
         clienteRepository.saveAndFlush(cliente);
+        clienteSearchRepository.save(cliente);
         int databaseSizeBeforeUpdate = clienteRepository.findAll().size();
 
         // Update the cliente
@@ -361,6 +371,10 @@ public class ClienteResourceIntTest {
         assertThat(testCliente.getEmail()).isEqualTo(UPDATED_EMAIL);
         assertThat(testCliente.getDomicilio()).isEqualTo(UPDATED_DOMICILIO);
         assertThat(testCliente.getColegio()).isEqualTo(UPDATED_COLEGIO);
+
+        // Validate the Cliente in Elasticsearch
+        Cliente clienteEs = clienteSearchRepository.findOne(testCliente.getId());
+        assertThat(clienteEs).isEqualToComparingFieldByField(testCliente);
     }
 
     @Test
@@ -387,6 +401,7 @@ public class ClienteResourceIntTest {
     public void deleteCliente() throws Exception {
         // Initialize the database
         clienteRepository.saveAndFlush(cliente);
+        clienteSearchRepository.save(cliente);
         int databaseSizeBeforeDelete = clienteRepository.findAll().size();
 
         // Get the cliente
@@ -394,9 +409,34 @@ public class ClienteResourceIntTest {
             .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isOk());
 
+        // Validate Elasticsearch is empty
+        boolean clienteExistsInEs = clienteSearchRepository.exists(cliente.getId());
+        assertThat(clienteExistsInEs).isFalse();
+
         // Validate the database is empty
         List<Cliente> clienteList = clienteRepository.findAll();
         assertThat(clienteList).hasSize(databaseSizeBeforeDelete - 1);
+    }
+
+    @Test
+    @Transactional
+    public void searchCliente() throws Exception {
+        // Initialize the database
+        clienteRepository.saveAndFlush(cliente);
+        clienteSearchRepository.save(cliente);
+
+        // Search the cliente
+        restClienteMockMvc.perform(get("/api/_search/clientes?query=id:" + cliente.getId()))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(cliente.getId().intValue())))
+            .andExpect(jsonPath("$.[*].nombre").value(hasItem(DEFAULT_NOMBRE.toString())))
+            .andExpect(jsonPath("$.[*].apellido").value(hasItem(DEFAULT_APELLIDO.toString())))
+            .andExpect(jsonPath("$.[*].celular").value(hasItem(DEFAULT_CELULAR.toString())))
+            .andExpect(jsonPath("$.[*].telefono").value(hasItem(DEFAULT_TELEFONO.toString())))
+            .andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL.toString())))
+            .andExpect(jsonPath("$.[*].domicilio").value(hasItem(DEFAULT_DOMICILIO.toString())))
+            .andExpect(jsonPath("$.[*].colegio").value(hasItem(DEFAULT_COLEGIO.toString())));
     }
 
     @Test

@@ -9,8 +9,6 @@ import { MedidaDetailComponent } from './medida-detail.component';
 import { MedidaPopupComponent } from './medida-dialog.component';
 import { MedidaDeletePopupComponent } from './medida-delete-dialog.component';
 
-import { Principal } from '../../shared';
-
 @Injectable()
 export class MedidaResolvePagingParams implements Resolve<any> {
 

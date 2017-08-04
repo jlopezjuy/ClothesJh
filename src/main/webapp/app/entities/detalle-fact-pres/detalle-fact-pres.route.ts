@@ -9,8 +9,6 @@ import { DetalleFactPresDetailComponent } from './detalle-fact-pres-detail.compo
 import { DetalleFactPresPopupComponent } from './detalle-fact-pres-dialog.component';
 import { DetalleFactPresDeletePopupComponent } from './detalle-fact-pres-delete-dialog.component';
 
-import { Principal } from '../../shared';
-
 @Injectable()
 export class DetalleFactPresResolvePagingParams implements Resolve<any> {
 

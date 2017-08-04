@@ -22,6 +22,9 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.StreamSupport;
+
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * REST controller for managing Encargo.
@@ -124,4 +127,22 @@ public class EncargoResource {
         encargoService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
+
+    /**
+     * SEARCH  /_search/encargos?query=:query : search for the encargo corresponding
+     * to the query.
+     *
+     * @param query the query of the encargo search
+     * @param pageable the pagination information
+     * @return the result of the search
+     */
+    @GetMapping("/_search/encargos")
+    @Timed
+    public ResponseEntity<List<EncargoDTO>> searchEncargos(@RequestParam String query, @ApiParam Pageable pageable) {
+        log.debug("REST request to search for a page of Encargos for query {}", query);
+        Page<EncargoDTO> page = encargoService.search(query, pageable);
+        HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/encargos");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
 }

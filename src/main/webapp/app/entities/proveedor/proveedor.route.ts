@@ -9,8 +9,6 @@ import { ProveedorDetailComponent } from './proveedor-detail.component';
 import { ProveedorPopupComponent } from './proveedor-dialog.component';
 import { ProveedorDeletePopupComponent } from './proveedor-delete-dialog.component';
 
-import { Principal } from '../../shared';
-
 @Injectable()
 export class ProveedorResolvePagingParams implements Resolve<any> {
 

@@ -5,6 +5,7 @@ import com.anelsoftware.ClothesApp;
 import com.anelsoftware.domain.FacturaPresupuesto;
 import com.anelsoftware.repository.FacturaPresupuestoRepository;
 import com.anelsoftware.service.FacturaPresupuestoService;
+import com.anelsoftware.repository.search.FacturaPresupuestoSearchRepository;
 import com.anelsoftware.service.dto.FacturaPresupuestoDTO;
 import com.anelsoftware.service.mapper.FacturaPresupuestoMapper;
 import com.anelsoftware.web.rest.errors.ExceptionTranslator;
@@ -63,6 +64,9 @@ public class FacturaPresupuestoResourceIntTest {
     private FacturaPresupuestoService facturaPresupuestoService;
 
     @Autowired
+    private FacturaPresupuestoSearchRepository facturaPresupuestoSearchRepository;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -104,6 +108,7 @@ public class FacturaPresupuestoResourceIntTest {
 
     @Before
     public void initTest() {
+        facturaPresupuestoSearchRepository.deleteAll();
         facturaPresupuesto = createEntity(em);
     }
 
@@ -126,6 +131,10 @@ public class FacturaPresupuestoResourceIntTest {
         assertThat(testFacturaPresupuesto.getFecha()).isEqualTo(DEFAULT_FECHA);
         assertThat(testFacturaPresupuesto.getFormaPago()).isEqualTo(DEFAULT_FORMA_PAGO);
         assertThat(testFacturaPresupuesto.getImporteTotal()).isEqualTo(DEFAULT_IMPORTE_TOTAL);
+
+        // Validate the FacturaPresupuesto in Elasticsearch
+        FacturaPresupuesto facturaPresupuestoEs = facturaPresupuestoSearchRepository.findOne(testFacturaPresupuesto.getId());
+        assertThat(facturaPresupuestoEs).isEqualToComparingFieldByField(testFacturaPresupuesto);
     }
 
     @Test
@@ -231,6 +240,7 @@ public class FacturaPresupuestoResourceIntTest {
     public void updateFacturaPresupuesto() throws Exception {
         // Initialize the database
         facturaPresupuestoRepository.saveAndFlush(facturaPresupuesto);
+        facturaPresupuestoSearchRepository.save(facturaPresupuesto);
         int databaseSizeBeforeUpdate = facturaPresupuestoRepository.findAll().size();
 
         // Update the facturaPresupuesto
@@ -253,6 +263,10 @@ public class FacturaPresupuestoResourceIntTest {
         assertThat(testFacturaPresupuesto.getFecha()).isEqualTo(UPDATED_FECHA);
         assertThat(testFacturaPresupuesto.getFormaPago()).isEqualTo(UPDATED_FORMA_PAGO);
         assertThat(testFacturaPresupuesto.getImporteTotal()).isEqualTo(UPDATED_IMPORTE_TOTAL);
+
+        // Validate the FacturaPresupuesto in Elasticsearch
+        FacturaPresupuesto facturaPresupuestoEs = facturaPresupuestoSearchRepository.findOne(testFacturaPresupuesto.getId());
+        assertThat(facturaPresupuestoEs).isEqualToComparingFieldByField(testFacturaPresupuesto);
     }
 
     @Test
@@ -279,6 +293,7 @@ public class FacturaPresupuestoResourceIntTest {
     public void deleteFacturaPresupuesto() throws Exception {
         // Initialize the database
         facturaPresupuestoRepository.saveAndFlush(facturaPresupuesto);
+        facturaPresupuestoSearchRepository.save(facturaPresupuesto);
         int databaseSizeBeforeDelete = facturaPresupuestoRepository.findAll().size();
 
         // Get the facturaPresupuesto
@@ -286,9 +301,30 @@ public class FacturaPresupuestoResourceIntTest {
             .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isOk());
 
+        // Validate Elasticsearch is empty
+        boolean facturaPresupuestoExistsInEs = facturaPresupuestoSearchRepository.exists(facturaPresupuesto.getId());
+        assertThat(facturaPresupuestoExistsInEs).isFalse();
+
         // Validate the database is empty
         List<FacturaPresupuesto> facturaPresupuestoList = facturaPresupuestoRepository.findAll();
         assertThat(facturaPresupuestoList).hasSize(databaseSizeBeforeDelete - 1);
+    }
+
+    @Test
+    @Transactional
+    public void searchFacturaPresupuesto() throws Exception {
+        // Initialize the database
+        facturaPresupuestoRepository.saveAndFlush(facturaPresupuesto);
+        facturaPresupuestoSearchRepository.save(facturaPresupuesto);
+
+        // Search the facturaPresupuesto
+        restFacturaPresupuestoMockMvc.perform(get("/api/_search/factura-presupuestos?query=id:" + facturaPresupuesto.getId()))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(facturaPresupuesto.getId().intValue())))
+            .andExpect(jsonPath("$.[*].fecha").value(hasItem(DEFAULT_FECHA.toString())))
+            .andExpect(jsonPath("$.[*].formaPago").value(hasItem(DEFAULT_FORMA_PAGO.toString())))
+            .andExpect(jsonPath("$.[*].importeTotal").value(hasItem(DEFAULT_IMPORTE_TOTAL.intValue())));
     }
 
     @Test

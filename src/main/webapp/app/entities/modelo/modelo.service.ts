@@ -11,6 +11,8 @@ export class ModeloService {
     private resourceUrl = 'api/modelos';
     private resourceUrlEncargo = 'api/modelos/encargo';
     private encargoId: number;
+    private resourceSearchUrl = 'api/_search/modelos';
+
     constructor(private http: Http) { }
 
     create(modelo: Modelo): Observable<Modelo> {
@@ -43,6 +45,12 @@ export class ModeloService {
 
     delete(id: number): Observable<Response> {
         return this.http.delete(`${this.resourceUrl}/${id}`);
+    }
+
+    search(req?: any): Observable<ResponseWrapper> {
+        const options = createRequestOption(req);
+        return this.http.get(this.resourceSearchUrl, options)
+            .map((res: any) => this.convertResponse(res));
     }
 
     private convertResponse(res: Response): ResponseWrapper {

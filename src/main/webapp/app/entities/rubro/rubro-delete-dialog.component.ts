@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { JhiAlertService, JhiEventManager } from 'ng-jhipster';
+import { JhiEventManager } from 'ng-jhipster';
 
 import { Rubro } from './rubro.model';
 import { RubroPopupService } from './rubro-popup.service';
@@ -19,7 +19,6 @@ export class RubroDeleteDialogComponent {
     constructor(
         private rubroService: RubroService,
         public activeModal: NgbActiveModal,
-        private alertService: JhiAlertService,
         private eventManager: JhiEventManager
     ) {
     }
@@ -36,7 +35,6 @@ export class RubroDeleteDialogComponent {
             });
             this.activeModal.dismiss(true);
         });
-        this.alertService.success('clothesApp.rubro.deleted', { param : id }, null);
     }
 }
 
@@ -46,7 +44,6 @@ export class RubroDeleteDialogComponent {
 })
 export class RubroDeletePopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
     constructor(
@@ -56,8 +53,8 @@ export class RubroDeletePopupComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
-            this.modalRef = this.rubroPopupService
-                .open(RubroDeleteDialogComponent, params['id']);
+            this.rubroPopupService
+                .open(RubroDeleteDialogComponent as Component, params['id']);
         });
     }
 

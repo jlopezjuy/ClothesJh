@@ -19,7 +19,6 @@ import { ResponseWrapper } from '../../shared';
 export class ProveedorDialogComponent implements OnInit {
 
     proveedor: Proveedor;
-    authorities: any[];
     isSaving: boolean;
 
     rubros: Rubro[];
@@ -35,7 +34,6 @@ export class ProveedorDialogComponent implements OnInit {
 
     ngOnInit() {
         this.isSaving = false;
-        this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
         this.rubroService.query()
             .subscribe((res: ResponseWrapper) => { this.rubros = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
@@ -48,24 +46,19 @@ export class ProveedorDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.proveedor.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.proveedorService.update(this.proveedor), false);
+                this.proveedorService.update(this.proveedor));
         } else {
             this.subscribeToSaveResponse(
-                this.proveedorService.create(this.proveedor), true);
+                this.proveedorService.create(this.proveedor));
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<Proveedor>, isCreated: boolean) {
+    private subscribeToSaveResponse(result: Observable<Proveedor>) {
         result.subscribe((res: Proveedor) =>
-            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: Proveedor, isCreated: boolean) {
-        this.alertService.success(
-            isCreated ? 'clothesApp.proveedor.created'
-            : 'clothesApp.proveedor.updated',
-            { param : result.id }, null);
-
+    private onSaveSuccess(result: Proveedor) {
         this.eventManager.broadcast({ name: 'proveedorListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);
@@ -96,7 +89,6 @@ export class ProveedorDialogComponent implements OnInit {
 })
 export class ProveedorPopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
     constructor(
@@ -107,11 +99,11 @@ export class ProveedorPopupComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
             if ( params['id'] ) {
-                this.modalRef = this.proveedorPopupService
-                    .open(ProveedorDialogComponent, params['id']);
+                this.proveedorPopupService
+                    .open(ProveedorDialogComponent as Component, params['id']);
             } else {
-                this.modalRef = this.proveedorPopupService
-                    .open(ProveedorDialogComponent);
+                this.proveedorPopupService
+                    .open(ProveedorDialogComponent as Component);
             }
         });
     }

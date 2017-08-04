@@ -1,16 +1,16 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {Response} from '@angular/http';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Response } from '@angular/http';
 
-import {Observable} from 'rxjs/Rx';
-import {NgbActiveModal, NgbModalRef, NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {JhiEventManager, JhiAlertService} from 'ng-jhipster';
+import { Observable } from 'rxjs/Rx';
+import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
-import {FacturaPresupuesto} from './factura-presupuesto.model';
-import {FacturaPresupuestoPopupService} from './factura-presupuesto-popup.service';
-import {FacturaPresupuestoService} from './factura-presupuesto.service';
-import {Cliente, ClienteService} from '../cliente';
-import {ResponseWrapper} from '../../shared';
+import { FacturaPresupuesto } from './factura-presupuesto.model';
+import { FacturaPresupuestoPopupService } from './factura-presupuesto-popup.service';
+import { FacturaPresupuestoService } from './factura-presupuesto.service';
+import { Cliente, ClienteService } from '../cliente';
+import { ResponseWrapper } from '../../shared';
 import {Producto} from '../producto/producto.model';
 import {ProductoService} from '../producto/producto.service';
 import {DetalleFactPres} from '../detalle-fact-pres/detalle-fact-pres.model';
@@ -37,14 +37,13 @@ export class FacturaPresupuestoDialogComponent implements OnInit {
     fechaDp: any;
 
     constructor(public activeModal: NgbActiveModal,
-                private alertService: JhiAlertService,
-                private facturaPresupuestoService: FacturaPresupuestoService,
-                private clienteService: ClienteService,
-                private productoService: ProductoService,
-                private detalleFactPresService: DetalleFactPresService,
-                private eventManager: JhiEventManager,
-                private modalService: NgbModal,
-                private router: Router,
+        private alertService: JhiAlertService,
+        private facturaPresupuestoService: FacturaPresupuestoService,
+        private clienteService: ClienteService,
+        private productoService: ProductoService,
+        private detalleFactPresService: DetalleFactPresService,
+        private eventManager: JhiEventManager,
+        private router: Router
     ) {
     }
 
@@ -70,10 +69,10 @@ export class FacturaPresupuestoDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.facturaPresupuesto.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.facturaPresupuestoService.update(this.facturaPresupuesto), false);
+                this.facturaPresupuestoService.update(this.facturaPresupuesto));
         } else {
             this.subscribeToSaveResponse(
-                this.facturaPresupuestoService.create(this.facturaPresupuesto), true);
+                this.facturaPresupuestoService.create(this.facturaPresupuesto));
         }
     }
 
@@ -118,18 +117,13 @@ export class FacturaPresupuestoDialogComponent implements OnInit {
         });
     }
 
-    private subscribeToSaveResponse(result: Observable<FacturaPresupuesto>, isCreated: boolean) {
+    private subscribeToSaveResponse(result: Observable<FacturaPresupuesto>) {
         result.subscribe((res: FacturaPresupuesto) =>
-            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: FacturaPresupuesto, isCreated: boolean) {
-        this.alertService.success(
-            isCreated ? 'clothesApp.facturaPresupuesto.created'
-                : 'clothesApp.facturaPresupuesto.updated',
-            {param: result.id}, null);
-
-        this.eventManager.broadcast({name: 'facturaPresupuestoListModification', content: 'OK'});
+    private onSaveSuccess(result: FacturaPresupuesto) {
+        this.eventManager.broadcast({ name: 'facturaPresupuestoListModification', content: 'OK'});
         this.isSaving = false;
         this.addVenta(result.id);
         this.listaVendidos.forEach((salida) => {
@@ -201,21 +195,21 @@ export class FacturaPresupuestoDialogComponent implements OnInit {
 })
 export class FacturaPresupuestoPopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
-    constructor(private route: ActivatedRoute,
-                private facturaPresupuestoPopupService: FacturaPresupuestoPopupService) {
-    }
+    constructor(
+        private route: ActivatedRoute,
+        private facturaPresupuestoPopupService: FacturaPresupuestoPopupService
+    ) {}
 
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
-            if (params['id']) {
-                this.modalRef = this.facturaPresupuestoPopupService
-                    .open(FacturaPresupuestoDialogComponent, params['id']);
+            if ( params['id'] ) {
+                this.facturaPresupuestoPopupService
+                    .open(FacturaPresupuestoDialogComponent as Component, params['id']);
             } else {
-                this.modalRef = this.facturaPresupuestoPopupService
-                    .open(FacturaPresupuestoDialogComponent);
+                this.facturaPresupuestoPopupService
+                    .open(FacturaPresupuestoDialogComponent as Component);
             }
         });
     }

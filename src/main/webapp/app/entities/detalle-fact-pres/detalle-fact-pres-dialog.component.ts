@@ -20,7 +20,6 @@ import { ResponseWrapper } from '../../shared';
 export class DetalleFactPresDialogComponent implements OnInit {
 
     detalleFactPres: DetalleFactPres;
-    authorities: any[];
     isSaving: boolean;
 
     facturapresupuestos: FacturaPresupuesto[];
@@ -39,7 +38,6 @@ export class DetalleFactPresDialogComponent implements OnInit {
 
     ngOnInit() {
         this.isSaving = false;
-        this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
         this.facturaPresupuestoService.query()
             .subscribe((res: ResponseWrapper) => { this.facturapresupuestos = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
         this.productoService.query()
@@ -54,24 +52,19 @@ export class DetalleFactPresDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.detalleFactPres.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.detalleFactPresService.update(this.detalleFactPres), false);
+                this.detalleFactPresService.update(this.detalleFactPres));
         } else {
             this.subscribeToSaveResponse(
-                this.detalleFactPresService.create(this.detalleFactPres), true);
+                this.detalleFactPresService.create(this.detalleFactPres));
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<DetalleFactPres>, isCreated: boolean) {
+    private subscribeToSaveResponse(result: Observable<DetalleFactPres>) {
         result.subscribe((res: DetalleFactPres) =>
-            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: DetalleFactPres, isCreated: boolean) {
-        this.alertService.success(
-            isCreated ? 'clothesApp.detalleFactPres.created'
-            : 'clothesApp.detalleFactPres.updated',
-            { param : result.id }, null);
-
+    private onSaveSuccess(result: DetalleFactPres) {
         this.eventManager.broadcast({ name: 'detalleFactPresListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);
@@ -106,7 +99,6 @@ export class DetalleFactPresDialogComponent implements OnInit {
 })
 export class DetalleFactPresPopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
     constructor(
@@ -117,11 +109,11 @@ export class DetalleFactPresPopupComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
             if ( params['id'] ) {
-                this.modalRef = this.detalleFactPresPopupService
-                    .open(DetalleFactPresDialogComponent, params['id']);
+                this.detalleFactPresPopupService
+                    .open(DetalleFactPresDialogComponent as Component, params['id']);
             } else {
-                this.modalRef = this.detalleFactPresPopupService
-                    .open(DetalleFactPresDialogComponent);
+                this.detalleFactPresPopupService
+                    .open(DetalleFactPresDialogComponent as Component);
             }
         });
     }

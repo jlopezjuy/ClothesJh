@@ -4,7 +4,8 @@
             "home": {
                 "title": "Modelos",
                 "createLabel": "Crear nuevo Modelo",
-                "createOrEditLabel": "Crear o editar Modelo"
+                "createOrEditLabel": "Crear o editar Modelo",
+                "search": "Search for Modelo"
             },
             "created": "Un nuevo Modelo ha sido creado con el identificador {{ param }}",
             "updated": "Un Modelo ha sido actualizado con el identificador {{ param }}",

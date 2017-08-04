@@ -4,7 +4,8 @@
             "home": {
                 "title": "Proveedors",
                 "createLabel": "Crear nuevo Proveedor",
-                "createOrEditLabel": "Crear o editar Proveedor"
+                "createOrEditLabel": "Crear o editar Proveedor",
+                "search": "Search for Proveedor"
             },
             "created": "Un nuevo Proveedor ha sido creado con el identificador {{ param }}",
             "updated": "Un Proveedor ha sido actualizado con el identificador {{ param }}",

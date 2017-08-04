@@ -9,7 +9,9 @@
             "POLICIA": "POLICIA",
             "COMUNION": "COMUNION",
             "CONFIRMACION": "CONFIRMACION",
-            "PAISANA": "PAISANA"
+            "PAISANA": "PAISANA",
+            "CENA_BLANCA": "CENA_BLANCA",
+            "COCKTAIL": "COCKTAIL"
         }
     }
 }

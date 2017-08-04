@@ -195,6 +195,19 @@
             <input type="number" class="form-control" name="largoPantalon" id="field_largoPantalon"
                 [(ngModel)]="medida.largoPantalon"  />
         </div>
+
+        <div class="form-group">
+            <label jhiTranslate="clothesApp.medida.encargo" for="field_encargo">Encargo</label>
+            <select class="form-control" id="field_encargo" name="encargo" [(ngModel)]="medida.encargoId"  required>
+                <option [ngValue]="encargoOption.id" *ngFor="let encargoOption of encargos; trackBy: trackEncargoById">{{encargoOption.id}}</option>
+            </select>
+        </div>
+        <div [hidden]="!(editForm.controls.encargo?.dirty && editForm.controls.encargo?.invalid)">
+            <small class="form-text text-danger"
+                [hidden]="!editForm.controls.encargo?.errors?.required" jhiTranslate="entity.validation.required">
+                This field is required.
+            </small>
+        </div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">

@@ -1,3 +1,4 @@
+import { BaseEntity } from './../../shared';
 
 const enum TipoFalda {
     'TUBO',
@@ -8,8 +9,7 @@ const enum TipoFalda {
     'CAMPANA',
     'PLATO',
     'GAJOS'
-
-};
+}
 
 const enum TipoMedida {
     'AMBO_HOMBRE',
@@ -20,9 +20,9 @@ const enum TipoMedida {
     'POLLERA',
     'VESTIDO',
     'CORSET'
+}
 
-};
-export class Medida {
+export class Medida implements BaseEntity {
     constructor(
         public id?: number,
         public contornoBusto?: number,

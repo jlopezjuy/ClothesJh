@@ -3,6 +3,7 @@ package com.anelsoftware.service.impl;
 import com.anelsoftware.service.RubroService;
 import com.anelsoftware.domain.Rubro;
 import com.anelsoftware.repository.RubroRepository;
+import com.anelsoftware.repository.search.RubroSearchRepository;
 import com.anelsoftware.service.dto.RubroDTO;
 import com.anelsoftware.service.mapper.RubroMapper;
 import org.slf4j.Logger;
@@ -12,6 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * Service Implementation for managing Rubro.
@@ -26,9 +29,12 @@ public class RubroServiceImpl implements RubroService{
 
     private final RubroMapper rubroMapper;
 
-    public RubroServiceImpl(RubroRepository rubroRepository, RubroMapper rubroMapper) {
+    private final RubroSearchRepository rubroSearchRepository;
+
+    public RubroServiceImpl(RubroRepository rubroRepository, RubroMapper rubroMapper, RubroSearchRepository rubroSearchRepository) {
         this.rubroRepository = rubroRepository;
         this.rubroMapper = rubroMapper;
+        this.rubroSearchRepository = rubroSearchRepository;
     }
 
     /**
@@ -42,7 +48,9 @@ public class RubroServiceImpl implements RubroService{
         log.debug("Request to save Rubro : {}", rubroDTO);
         Rubro rubro = rubroMapper.toEntity(rubroDTO);
         rubro = rubroRepository.save(rubro);
-        return rubroMapper.toDto(rubro);
+        RubroDTO result = rubroMapper.toDto(rubro);
+        rubroSearchRepository.save(rubro);
+        return result;
     }
 
     /**
@@ -82,5 +90,21 @@ public class RubroServiceImpl implements RubroService{
     public void delete(Long id) {
         log.debug("Request to delete Rubro : {}", id);
         rubroRepository.delete(id);
+        rubroSearchRepository.delete(id);
+    }
+
+    /**
+     * Search for the rubro corresponding to the query.
+     *
+     *  @param query the query of the search
+     *  @param pageable the pagination information
+     *  @return the list of entities
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public Page<RubroDTO> search(String query, Pageable pageable) {
+        log.debug("Request to search for a page of Rubros for query {}", query);
+        Page<Rubro> result = rubroSearchRepository.search(queryStringQuery(query), pageable);
+        return result.map(rubroMapper::toDto);
     }
 }

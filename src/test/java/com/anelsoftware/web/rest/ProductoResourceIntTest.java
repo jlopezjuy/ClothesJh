@@ -5,6 +5,7 @@ import com.anelsoftware.ClothesApp;
 import com.anelsoftware.domain.Producto;
 import com.anelsoftware.repository.ProductoRepository;
 import com.anelsoftware.service.ProductoService;
+import com.anelsoftware.repository.search.ProductoSearchRepository;
 import com.anelsoftware.service.dto.ProductoDTO;
 import com.anelsoftware.service.mapper.ProductoMapper;
 import com.anelsoftware.web.rest.errors.ExceptionTranslator;
@@ -72,8 +73,8 @@ public class ProductoResourceIntTest {
     private static final TipoProducto DEFAULT_CATEGORIA = TipoProducto.CAMISA;
     private static final TipoProducto UPDATED_CATEGORIA = TipoProducto.AMBO_LISO;
 
-    private static final Ubicacion DEFAULT_UBICACION = Ubicacion.PERCHERO;
-    private static final Ubicacion UPDATED_UBICACION = Ubicacion.MUEBLE;
+    private static final Ubicacion DEFAULT_UBICACION = Ubicacion.VIDRIERA;
+    private static final Ubicacion UPDATED_UBICACION = Ubicacion.PERCHERO;
 
     private static final byte[] DEFAULT_IMAGEN = TestUtil.createByteArray(1, "0");
     private static final byte[] UPDATED_IMAGEN = TestUtil.createByteArray(2, "1");
@@ -88,6 +89,9 @@ public class ProductoResourceIntTest {
 
     @Autowired
     private ProductoService productoService;
+
+    @Autowired
+    private ProductoSearchRepository productoSearchRepository;
 
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
@@ -140,6 +144,7 @@ public class ProductoResourceIntTest {
 
     @Before
     public void initTest() {
+        productoSearchRepository.deleteAll();
         producto = createEntity(em);
     }
 
@@ -171,6 +176,10 @@ public class ProductoResourceIntTest {
         assertThat(testProducto.getUbicacion()).isEqualTo(DEFAULT_UBICACION);
         assertThat(testProducto.getImagen()).isEqualTo(DEFAULT_IMAGEN);
         assertThat(testProducto.getImagenContentType()).isEqualTo(DEFAULT_IMAGEN_CONTENT_TYPE);
+
+        // Validate the Producto in Elasticsearch
+        Producto productoEs = productoSearchRepository.findOne(testProducto.getId());
+        assertThat(productoEs).isEqualToComparingFieldByField(testProducto);
     }
 
     @Test
@@ -351,6 +360,7 @@ public class ProductoResourceIntTest {
     public void updateProducto() throws Exception {
         // Initialize the database
         productoRepository.saveAndFlush(producto);
+        productoSearchRepository.save(producto);
         int databaseSizeBeforeUpdate = productoRepository.findAll().size();
 
         // Update the producto
@@ -391,6 +401,10 @@ public class ProductoResourceIntTest {
         assertThat(testProducto.getUbicacion()).isEqualTo(UPDATED_UBICACION);
         assertThat(testProducto.getImagen()).isEqualTo(UPDATED_IMAGEN);
         assertThat(testProducto.getImagenContentType()).isEqualTo(UPDATED_IMAGEN_CONTENT_TYPE);
+
+        // Validate the Producto in Elasticsearch
+        Producto productoEs = productoSearchRepository.findOne(testProducto.getId());
+        assertThat(productoEs).isEqualToComparingFieldByField(testProducto);
     }
 
     @Test
@@ -417,6 +431,7 @@ public class ProductoResourceIntTest {
     public void deleteProducto() throws Exception {
         // Initialize the database
         productoRepository.saveAndFlush(producto);
+        productoSearchRepository.save(producto);
         int databaseSizeBeforeDelete = productoRepository.findAll().size();
 
         // Get the producto
@@ -424,9 +439,39 @@ public class ProductoResourceIntTest {
             .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isOk());
 
+        // Validate Elasticsearch is empty
+        boolean productoExistsInEs = productoSearchRepository.exists(producto.getId());
+        assertThat(productoExistsInEs).isFalse();
+
         // Validate the database is empty
         List<Producto> productoList = productoRepository.findAll();
         assertThat(productoList).hasSize(databaseSizeBeforeDelete - 1);
+    }
+
+    @Test
+    @Transactional
+    public void searchProducto() throws Exception {
+        // Initialize the database
+        productoRepository.saveAndFlush(producto);
+        productoSearchRepository.save(producto);
+
+        // Search the producto
+        restProductoMockMvc.perform(get("/api/_search/productos?query=id:" + producto.getId()))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(producto.getId().intValue())))
+            .andExpect(jsonPath("$.[*].nombre").value(hasItem(DEFAULT_NOMBRE.toString())))
+            .andExpect(jsonPath("$.[*].descripcion").value(hasItem(DEFAULT_DESCRIPCION.toString())))
+            .andExpect(jsonPath("$.[*].cantidad").value(hasItem(DEFAULT_CANTIDAD)))
+            .andExpect(jsonPath("$.[*].codigoOrigen").value(hasItem(DEFAULT_CODIGO_ORIGEN.toString())))
+            .andExpect(jsonPath("$.[*].precioCompra").value(hasItem(DEFAULT_PRECIO_COMPRA.intValue())))
+            .andExpect(jsonPath("$.[*].precioVenta").value(hasItem(DEFAULT_PRECIO_VENTA.intValue())))
+            .andExpect(jsonPath("$.[*].margenGanancia").value(hasItem(DEFAULT_MARGEN_GANANCIA.intValue())))
+            .andExpect(jsonPath("$.[*].talle").value(hasItem(DEFAULT_TALLE.toString())))
+            .andExpect(jsonPath("$.[*].categoria").value(hasItem(DEFAULT_CATEGORIA.toString())))
+            .andExpect(jsonPath("$.[*].ubicacion").value(hasItem(DEFAULT_UBICACION.toString())))
+            .andExpect(jsonPath("$.[*].imagenContentType").value(hasItem(DEFAULT_IMAGEN_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].imagen").value(hasItem(Base64Utils.encodeToString(DEFAULT_IMAGEN))));
     }
 
     @Test

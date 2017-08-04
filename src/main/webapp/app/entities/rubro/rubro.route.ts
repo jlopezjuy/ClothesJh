@@ -9,8 +9,6 @@ import { RubroDetailComponent } from './rubro-detail.component';
 import { RubroPopupComponent } from './rubro-dialog.component';
 import { RubroDeletePopupComponent } from './rubro-delete-dialog.component';
 
-import { Principal } from '../../shared';
-
 @Injectable()
 export class RubroResolvePagingParams implements Resolve<any> {
 

@@ -1,4 +1,6 @@
-export class Modelo {
+import { BaseEntity } from './../../shared';
+
+export class Modelo implements BaseEntity {
     constructor(
         public id?: number,
         public imagenContentType?: string,

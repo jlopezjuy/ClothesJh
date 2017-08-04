@@ -4,7 +4,8 @@
             "home": {
                 "title": "Pagos",
                 "createLabel": "Crear nuevo Pago",
-                "createOrEditLabel": "Crear o editar Pago"
+                "createOrEditLabel": "Crear o editar Pago",
+                "search": "Search for Pago"
             },
             "created": "Un nuevo Pago ha sido creado con el identificador {{ param }}",
             "updated": "Un Pago ha sido actualizado con el identificador {{ param }}",

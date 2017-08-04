@@ -5,6 +5,7 @@ import com.anelsoftware.repository.FacturaPresupuestoRepository;
 import com.anelsoftware.service.DetalleFactPresService;
 import com.anelsoftware.domain.DetalleFactPres;
 import com.anelsoftware.repository.DetalleFactPresRepository;
+import com.anelsoftware.repository.search.DetalleFactPresSearchRepository;
 import com.anelsoftware.service.dto.DetalleFactPresDTO;
 import com.anelsoftware.service.mapper.DetalleFactPresMapper;
 import org.slf4j.Logger;
@@ -14,8 +15,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
 import java.util.List;
 
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * Service Implementation for managing DetalleFactPres.
@@ -31,11 +34,14 @@ public class DetalleFactPresServiceImpl implements DetalleFactPresService{
 
     private final DetalleFactPresMapper detalleFactPresMapper;
 
+    private final DetalleFactPresSearchRepository detalleFactPresSearchRepository;
+
     public DetalleFactPresServiceImpl(DetalleFactPresRepository detalleFactPresRepository, DetalleFactPresMapper detalleFactPresMapper,
-                                      FacturaPresupuestoRepository facturaPresupuestoRepository) {
+                                      FacturaPresupuestoRepository facturaPresupuestoRepository, DetalleFactPresSearchRepository detalleFactPresSearchRepository) {
         this.detalleFactPresRepository = detalleFactPresRepository;
         this.detalleFactPresMapper = detalleFactPresMapper;
         this.facturaPresupuestoRepository = facturaPresupuestoRepository;
+        this.detalleFactPresSearchRepository = detalleFactPresSearchRepository;
     }
 
     /**
@@ -49,7 +55,9 @@ public class DetalleFactPresServiceImpl implements DetalleFactPresService{
         log.debug("Request to save DetalleFactPres : {}", detalleFactPresDTO);
         DetalleFactPres detalleFactPres = detalleFactPresMapper.toEntity(detalleFactPresDTO);
         detalleFactPres = detalleFactPresRepository.save(detalleFactPres);
-        return detalleFactPresMapper.toDto(detalleFactPres);
+        DetalleFactPresDTO result = detalleFactPresMapper.toDto(detalleFactPres);
+        detalleFactPresSearchRepository.save(detalleFactPres);
+        return result;
     }
 
     /**
@@ -89,6 +97,7 @@ public class DetalleFactPresServiceImpl implements DetalleFactPresService{
     public void delete(Long id) {
         log.debug("Request to delete DetalleFactPres : {}", id);
         detalleFactPresRepository.delete(id);
+        detalleFactPresSearchRepository.delete(id);
     }
 
     @Override
@@ -97,5 +106,20 @@ public class DetalleFactPresServiceImpl implements DetalleFactPresService{
         FacturaPresupuesto facturaPresupuesto = facturaPresupuestoRepository.findOne(facturaPresupuestoId);
         List<DetalleFactPres> list = detalleFactPresRepository.findAllByFacturaPresupuesto(facturaPresupuesto);
         return detalleFactPresMapper.toDto(list);
+    }
+
+    /**
+     * Search for the detalleFactPres corresponding to the query.
+     *
+     *  @param query the query of the search
+     *  @param pageable the pagination information
+     *  @return the list of entities
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public Page<DetalleFactPresDTO> search(String query, Pageable pageable) {
+        log.debug("Request to search for a page of DetalleFactPres for query {}", query);
+        Page<DetalleFactPres> result = detalleFactPresSearchRepository.search(queryStringQuery(query), pageable);
+        return result.map(detalleFactPresMapper::toDto);
     }
 }

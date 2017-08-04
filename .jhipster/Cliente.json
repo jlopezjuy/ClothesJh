@@ -62,7 +62,7 @@
             ]
         }
     ],
-    "changelogDate": "20170611211921",
+    "changelogDate": "20170803195413",
     "javadoc": "Class Cliente.\n@author anelsoftware",
     "entityTableName": "cliente",
     "dto": "mapstruct",

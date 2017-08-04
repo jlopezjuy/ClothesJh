@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { JhiAlertService, JhiEventManager } from 'ng-jhipster';
+import { JhiEventManager } from 'ng-jhipster';
 
 import { Proveedor } from './proveedor.model';
 import { ProveedorPopupService } from './proveedor-popup.service';
@@ -19,7 +19,6 @@ export class ProveedorDeleteDialogComponent {
     constructor(
         private proveedorService: ProveedorService,
         public activeModal: NgbActiveModal,
-        private alertService: JhiAlertService,
         private eventManager: JhiEventManager
     ) {
     }
@@ -36,7 +35,6 @@ export class ProveedorDeleteDialogComponent {
             });
             this.activeModal.dismiss(true);
         });
-        this.alertService.success('clothesApp.proveedor.deleted', { param : id }, null);
     }
 }
 
@@ -46,7 +44,6 @@ export class ProveedorDeleteDialogComponent {
 })
 export class ProveedorDeletePopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
     constructor(
@@ -56,8 +53,8 @@ export class ProveedorDeletePopupComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
-            this.modalRef = this.proveedorPopupService
-                .open(ProveedorDeleteDialogComponent, params['id']);
+            this.proveedorPopupService
+                .open(ProveedorDeleteDialogComponent as Component, params['id']);
         });
     }
 

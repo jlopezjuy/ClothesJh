@@ -1,6 +1,6 @@
 {
+    "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
     "project": {
-        "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
         "name": "clothes"
     },
     "apps": [{
@@ -19,13 +19,11 @@
         "prefix": "jhi",
         "mobile": false,
         "styles": [
-            "content/scss/vendor.scss",
-            "content/scss/global.scss"
+            "content/css/vendor.css",
+            "content/css/global.css"
         ],
         "scripts": []
     }],
-    "addons": [],
-    "packages": [],
     "lint": [{
             "project": "../../../tsconfig.json"
         },
@@ -39,11 +37,11 @@
         }
     },
     "defaults": {
-        "styleExt": "scss",
+        "styleExt": "css",
         "prefixInterfaces": false,
-        "inline": {
-            "style": true,
-            "template": false
+        "component" : {
+            "inlineStyle" : true,
+            "inlineTemplate": false
         },
         "spec": {
             "component": false,

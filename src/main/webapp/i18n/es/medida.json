@@ -4,7 +4,8 @@
             "home": {
                 "title": "Medidas",
                 "createLabel": "Crear nuevo Medida",
-                "createOrEditLabel": "Crear o editar Medida"
+                "createOrEditLabel": "Crear o editar Medida",
+                "search": "Search for Medida"
             },
             "created": "Un nuevo Medida ha sido creado con el identificador {{ param }}",
             "updated": "Un Medida ha sido actualizado con el identificador {{ param }}",

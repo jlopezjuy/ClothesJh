@@ -3,6 +3,7 @@ package com.anelsoftware.domain;
 import io.swagger.annotations.ApiModel;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -18,6 +19,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "pago")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@Document(indexName = "pago")
 public class Pago extends AbstractAuditingEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;

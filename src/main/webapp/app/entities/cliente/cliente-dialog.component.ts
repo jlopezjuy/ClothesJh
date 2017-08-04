@@ -17,7 +17,6 @@ import { ClienteService } from './cliente.service';
 export class ClienteDialogComponent implements OnInit {
 
     cliente: Cliente;
-    authorities: any[];
     isSaving: boolean;
 
     constructor(
@@ -30,7 +29,6 @@ export class ClienteDialogComponent implements OnInit {
 
     ngOnInit() {
         this.isSaving = false;
-        this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
     }
 
     clear() {
@@ -41,24 +39,19 @@ export class ClienteDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.cliente.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.clienteService.update(this.cliente), false);
+                this.clienteService.update(this.cliente));
         } else {
             this.subscribeToSaveResponse(
-                this.clienteService.create(this.cliente), true);
+                this.clienteService.create(this.cliente));
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<Cliente>, isCreated: boolean) {
+    private subscribeToSaveResponse(result: Observable<Cliente>) {
         result.subscribe((res: Cliente) =>
-            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: Cliente, isCreated: boolean) {
-        this.alertService.success(
-            isCreated ? 'clothesApp.cliente.created'
-            : 'clothesApp.cliente.updated',
-            { param : result.id }, null);
-
+    private onSaveSuccess(result: Cliente) {
         this.eventManager.broadcast({ name: 'clienteListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);
@@ -85,7 +78,6 @@ export class ClienteDialogComponent implements OnInit {
 })
 export class ClientePopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
     constructor(
@@ -96,11 +88,11 @@ export class ClientePopupComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
             if ( params['id'] ) {
-                this.modalRef = this.clientePopupService
-                    .open(ClienteDialogComponent, params['id']);
+                this.clientePopupService
+                    .open(ClienteDialogComponent as Component, params['id']);
             } else {
-                this.modalRef = this.clientePopupService
-                    .open(ClienteDialogComponent);
+                this.clientePopupService
+                    .open(ClienteDialogComponent as Component);
             }
         });
     }

@@ -44,9 +44,18 @@ public interface DetalleFactPresService {
 
     /**
      *
-     * @param pageable
      * @param facturaPresupuestoId
      * @return
      */
     List<DetalleFactPresDTO> findAllByFacturaPresupuestoId(Long facturaPresupuestoId);
+
+    /**
+     * Search for the detalleFactPres corresponding to the query.
+     *
+     *  @param query the query of the search
+     *
+     *  @param pageable the pagination information
+     *  @return the list of entities
+     */
+    Page<DetalleFactPresDTO> search(String query, Pageable pageable);
 }

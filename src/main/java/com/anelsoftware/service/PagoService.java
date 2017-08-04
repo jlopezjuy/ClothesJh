@@ -47,4 +47,14 @@ public interface PagoService {
      * @return
      */
     Page<PagoDTO> findAllByEncargoId(Pageable pageable, Long encargoId);
+
+    /**
+     * Search for the pago corresponding to the query.
+     *
+     *  @param query the query of the search
+     *
+     *  @param pageable the pagination information
+     *  @return the list of entities
+     */
+    Page<PagoDTO> search(String query, Pageable pageable);
 }

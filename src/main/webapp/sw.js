@@ -1,5 +1,5 @@
-var dataCacheName = '"Clothes-v1';
-var cacheName = '"Clothes-1';
+var dataCacheName = 'Clothes-v1';
+var cacheName = 'Clothes-1';
 var filesToCache = [
     '/',
     '/index.html'

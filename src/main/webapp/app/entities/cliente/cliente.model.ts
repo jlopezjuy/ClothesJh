@@ -1,4 +1,6 @@
-export class Cliente {
+import { BaseEntity } from './../../shared';
+
+export class Cliente implements BaseEntity {
     constructor(
         public id?: number,
         public nombre?: string,
@@ -8,8 +10,8 @@ export class Cliente {
         public email?: string,
         public domicilio?: string,
         public colegio?: string,
-        public encargoId?: number,
-        public facturaPresupuestoId?: number,
+        public encargos?: BaseEntity[],
+        public facturaPresupuestos?: BaseEntity[],
     ) {
     }
 }

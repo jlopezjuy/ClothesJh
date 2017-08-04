@@ -9,8 +9,6 @@ import { PagoDetailComponent } from './pago-detail.component';
 import { PagoPopupComponent } from './pago-dialog.component';
 import { PagoDeletePopupComponent } from './pago-delete-dialog.component';
 
-import { Principal } from '../../shared';
-
 @Injectable()
 export class PagoResolvePagingParams implements Resolve<any> {
 

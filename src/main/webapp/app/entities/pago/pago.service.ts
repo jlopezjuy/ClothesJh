@@ -12,6 +12,7 @@ export class PagoService {
     private resourceUrl = 'api/pagos';
     private resourceUrlEncargo = 'api/pagos/encargo';
     private encargoId: number;
+    private resourceSearchUrl = 'api/_search/pagos';
 
     constructor(private http: Http, private dateUtils: JhiDateUtils) { }
 
@@ -51,6 +52,12 @@ export class PagoService {
 
     delete(id: number): Observable<Response> {
         return this.http.delete(`${this.resourceUrl}/${id}`);
+    }
+
+    search(req?: any): Observable<ResponseWrapper> {
+        const options = createRequestOption(req);
+        return this.http.get(this.resourceSearchUrl, options)
+            .map((res: any) => this.convertResponse(res));
     }
 
     private convertResponse(res: Response): ResponseWrapper {

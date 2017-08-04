@@ -19,7 +19,6 @@ import { ResponseWrapper } from '../../shared';
 export class EncargoDialogComponent implements OnInit {
 
     encargo: Encargo;
-    authorities: any[];
     isSaving: boolean;
 
     clientes: Cliente[];
@@ -37,7 +36,6 @@ export class EncargoDialogComponent implements OnInit {
 
     ngOnInit() {
         this.isSaving = false;
-        this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
         this.clienteService.query()
             .subscribe((res: ResponseWrapper) => { this.clientes = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
@@ -50,24 +48,19 @@ export class EncargoDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.encargo.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.encargoService.update(this.encargo), false);
+                this.encargoService.update(this.encargo));
         } else {
             this.subscribeToSaveResponse(
-                this.encargoService.create(this.encargo), true);
+                this.encargoService.create(this.encargo));
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<Encargo>, isCreated: boolean) {
+    private subscribeToSaveResponse(result: Observable<Encargo>) {
         result.subscribe((res: Encargo) =>
-            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: Encargo, isCreated: boolean) {
-        this.alertService.success(
-            isCreated ? 'clothesApp.encargo.created'
-            : 'clothesApp.encargo.updated',
-            { param : result.id }, null);
-
+    private onSaveSuccess(result: Encargo) {
         this.eventManager.broadcast({ name: 'encargoListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);
@@ -98,7 +91,6 @@ export class EncargoDialogComponent implements OnInit {
 })
 export class EncargoPopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
     constructor(
@@ -109,11 +101,11 @@ export class EncargoPopupComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
             if ( params['id'] ) {
-                this.modalRef = this.encargoPopupService
-                    .open(EncargoDialogComponent, params['id']);
+                this.encargoPopupService
+                    .open(EncargoDialogComponent as Component, params['id']);
             } else {
-                this.modalRef = this.encargoPopupService
-                    .open(EncargoDialogComponent);
+                this.encargoPopupService
+                    .open(EncargoDialogComponent as Component);
             }
         });
     }

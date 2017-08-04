@@ -4,7 +4,7 @@
       "packageName": "com.anelsoftware",
       "nativeLanguage": "es"
     },
-    "jhipsterVersion": "4.5.4",
+    "jhipsterVersion": "4.6.2",
     "baseName": "clothes",
     "packageName": "com.anelsoftware",
     "packageFolder": "com/anelsoftware",
@@ -12,29 +12,29 @@
     "authenticationType": "jwt",
     "hibernateCache": "hazelcast",
     "clusteredHttpSession": false,
-    "websocket": false,
+    "websocket": "spring-websocket",
     "databaseType": "sql",
-    "devDatabaseType": "mysql",
+    "devDatabaseType": "h2Disk",
     "prodDatabaseType": "mysql",
-    "searchEngine": false,
+    "searchEngine": "elasticsearch",
     "messageBroker": false,
     "serviceDiscoveryType": false,
     "buildTool": "maven",
     "enableSocialSignIn": false,
-    "jwtSecretKey": "5bd7aca4d240bc23ca3f0dc34ec828210b81fc25",
-    "clientFramework": "angular2",
-    "useSass": true,
-    "clientPackageManager": "yarn",
+    "jwtSecretKey": "630bbcb26af195193e3d7f8ffb5dbe711dd918dd",
+    "clientFramework": "angularX",
+    "useSass": false,
+    "clientPackageManager": "npm",
     "applicationType": "monolith",
     "testFrameworks": [
-      "gatling"
+      "gatling",
+      "cucumber"
     ],
     "jhiPrefix": "jhi",
     "enableTranslation": true,
     "nativeLanguage": "es",
     "languages": [
-      "es",
-      "en"
+      "es"
     ]
   },
   "generator-jhipster-entity-audit": {

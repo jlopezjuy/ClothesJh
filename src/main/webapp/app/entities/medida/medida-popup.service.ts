@@ -6,34 +6,44 @@ import { MedidaService } from './medida.service';
 
 @Injectable()
 export class MedidaPopupService {
-    private isOpen = false;
+    private ngbModalRef: NgbModalRef;
+
     constructor(
         private modalService: NgbModal,
         private router: Router,
         private medidaService: MedidaService
 
-    ) {}
+    ) {
+        this.ngbModalRef = null;
+    }
 
-    open(component: Component, id?: number | any): NgbModalRef {
-        if (this.isOpen) {
-            return;
-        }
-        this.isOpen = true;
+    open(component: Component, id?: number | any): Promise<NgbModalRef> {
+        return new Promise<NgbModalRef>((resolve, reject) => {
+            const isOpen = this.ngbModalRef !== null;
+            if (isOpen) {
+                resolve(this.ngbModalRef);
+            }
 
-        if (id) {
-            this.medidaService.find(id).subscribe((medida) => {
-                if (medida.fechaMedida) {
-                    medida.fechaMedida = {
-                        year: medida.fechaMedida.getFullYear(),
-                        month: medida.fechaMedida.getMonth() + 1,
-                        day: medida.fechaMedida.getDate()
-                    };
-                }
-                this.medidaModalRef(component, medida);
-            });
-        } else {
-            return this.medidaModalRef(component, new Medida());
-        }
+            if (id) {
+                this.medidaService.find(id).subscribe((medida) => {
+                    if (medida.fechaMedida) {
+                        medida.fechaMedida = {
+                            year: medida.fechaMedida.getFullYear(),
+                            month: medida.fechaMedida.getMonth() + 1,
+                            day: medida.fechaMedida.getDate()
+                        };
+                    }
+                    this.ngbModalRef = this.medidaModalRef(component, medida);
+                    resolve(this.ngbModalRef);
+                });
+            } else {
+                // setTimeout used as a workaround for getting ExpressionChangedAfterItHasBeenCheckedError
+                setTimeout(() => {
+                    this.ngbModalRef = this.medidaModalRef(component, new Medida());
+                    resolve(this.ngbModalRef);
+                }, 0);
+            }
+        });
     }
 
     medidaModalRef(component: Component, medida: Medida): NgbModalRef {
@@ -41,10 +51,10 @@ export class MedidaPopupService {
         modalRef.componentInstance.medida = medida;
         modalRef.result.then((result) => {
             this.router.navigate([{ outlets: { popup: null }}], { replaceUrl: true });
-            this.isOpen = false;
+            this.ngbModalRef = null;
         }, (reason) => {
             this.router.navigate([{ outlets: { popup: null }}], { replaceUrl: true });
-            this.isOpen = false;
+            this.ngbModalRef = null;
         });
         return modalRef;
     }

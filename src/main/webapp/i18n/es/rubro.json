@@ -4,7 +4,8 @@
             "home": {
                 "title": "Rubros",
                 "createLabel": "Crear nuevo Rubro",
-                "createOrEditLabel": "Crear o editar Rubro"
+                "createOrEditLabel": "Crear o editar Rubro",
+                "search": "Search for Rubro"
             },
             "created": "Un nuevo Rubro ha sido creado con el identificador {{ param }}",
             "updated": "Un Rubro ha sido actualizado con el identificador {{ param }}",

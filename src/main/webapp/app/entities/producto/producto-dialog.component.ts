@@ -19,7 +19,6 @@ import { ResponseWrapper } from '../../shared';
 export class ProductoDialogComponent implements OnInit {
 
     producto: Producto;
-    authorities: any[];
     isSaving: boolean;
 
     proveedors: Proveedor[];
@@ -37,7 +36,6 @@ export class ProductoDialogComponent implements OnInit {
 
     ngOnInit() {
         this.isSaving = false;
-        this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
         this.proveedorService.query()
             .subscribe((res: ResponseWrapper) => { this.proveedors = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
@@ -75,11 +73,11 @@ export class ProductoDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.producto.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.productoService.update(this.producto), false);
+                this.productoService.update(this.producto));
         } else {
             this.calculoFinal();
             this.subscribeToSaveResponse(
-                this.productoService.create(this.producto), true);
+                this.productoService.create(this.producto));
         }
     }
 
@@ -87,17 +85,12 @@ export class ProductoDialogComponent implements OnInit {
         this.producto.margenGanancia = this.producto.cantidad * (this.producto.precioVenta - this.producto.precioCompra);
     }
 
-    private subscribeToSaveResponse(result: Observable<Producto>, isCreated: boolean) {
+    private subscribeToSaveResponse(result: Observable<Producto>) {
         result.subscribe((res: Producto) =>
-            this.onSaveSuccess(res, isCreated), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
     }
 
-    private onSaveSuccess(result: Producto, isCreated: boolean) {
-        this.alertService.success(
-            isCreated ? 'clothesApp.producto.created'
-            : 'clothesApp.producto.updated',
-            { param : result.id }, null);
-
+    private onSaveSuccess(result: Producto) {
         this.eventManager.broadcast({ name: 'productoListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);
@@ -128,7 +121,6 @@ export class ProductoDialogComponent implements OnInit {
 })
 export class ProductoPopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
     constructor(
@@ -139,11 +131,11 @@ export class ProductoPopupComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
             if ( params['id'] ) {
-                this.modalRef = this.productoPopupService
-                    .open(ProductoDialogComponent, params['id']);
+                this.productoPopupService
+                    .open(ProductoDialogComponent as Component, params['id']);
             } else {
-                this.modalRef = this.productoPopupService
-                    .open(ProductoDialogComponent);
+                this.productoPopupService
+                    .open(ProductoDialogComponent as Component);
             }
         });
     }

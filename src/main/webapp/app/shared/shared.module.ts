@@ -12,6 +12,7 @@ import {
     LoginService,
     LoginModalService,
     Principal,
+    JhiTrackerService,
     HasAnyAuthorityDirective,
     JhiLoginModalComponent
 } from './';
@@ -32,6 +33,7 @@ import {
         StateStorageService,
         Principal,
         CSRFService,
+        JhiTrackerService,
         AuthServerProvider,
         UserService,
         DatePipe

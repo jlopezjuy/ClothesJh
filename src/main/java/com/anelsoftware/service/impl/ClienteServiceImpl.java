@@ -3,6 +3,7 @@ package com.anelsoftware.service.impl;
 import com.anelsoftware.service.ClienteService;
 import com.anelsoftware.domain.Cliente;
 import com.anelsoftware.repository.ClienteRepository;
+import com.anelsoftware.repository.search.ClienteSearchRepository;
 import com.anelsoftware.service.dto.ClienteDTO;
 import com.anelsoftware.service.mapper.ClienteMapper;
 import org.slf4j.Logger;
@@ -12,6 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * Service Implementation for managing Cliente.
@@ -26,9 +29,12 @@ public class ClienteServiceImpl implements ClienteService{
 
     private final ClienteMapper clienteMapper;
 
-    public ClienteServiceImpl(ClienteRepository clienteRepository, ClienteMapper clienteMapper) {
+    private final ClienteSearchRepository clienteSearchRepository;
+
+    public ClienteServiceImpl(ClienteRepository clienteRepository, ClienteMapper clienteMapper, ClienteSearchRepository clienteSearchRepository) {
         this.clienteRepository = clienteRepository;
         this.clienteMapper = clienteMapper;
+        this.clienteSearchRepository = clienteSearchRepository;
     }
 
     /**
@@ -42,7 +48,9 @@ public class ClienteServiceImpl implements ClienteService{
         log.debug("Request to save Cliente : {}", clienteDTO);
         Cliente cliente = clienteMapper.toEntity(clienteDTO);
         cliente = clienteRepository.save(cliente);
-        return clienteMapper.toDto(cliente);
+        ClienteDTO result = clienteMapper.toDto(cliente);
+        clienteSearchRepository.save(cliente);
+        return result;
     }
 
     /**
@@ -82,5 +90,21 @@ public class ClienteServiceImpl implements ClienteService{
     public void delete(Long id) {
         log.debug("Request to delete Cliente : {}", id);
         clienteRepository.delete(id);
+        clienteSearchRepository.delete(id);
+    }
+
+    /**
+     * Search for the cliente corresponding to the query.
+     *
+     *  @param query the query of the search
+     *  @param pageable the pagination information
+     *  @return the list of entities
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public Page<ClienteDTO> search(String query, Pageable pageable) {
+        log.debug("Request to search for a page of Clientes for query {}", query);
+        Page<Cliente> result = clienteSearchRepository.search(queryStringQuery(query), pageable);
+        return result.map(clienteMapper::toDto);
     }
 }
