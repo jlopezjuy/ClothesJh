@@ -125,12 +125,6 @@
         </div>
         <div class="row">
             <div class="form-group col col-sm-6">
-                <label class="form-control-label" jhiTranslate="clothesApp.producto.margenGanancia"
-                       for="field_margenGanancia">Margen Ganancia</label>
-                <input type="number" class="form-control" name="margenGanancia" id="field_margenGanancia"
-                       [(ngModel)]="producto.margenGanancia"/>
-            </div>
-            <div class="form-group col col-sm-6">
                 <label class="form-control-label" jhiTranslate="clothesApp.producto.talle"
                        for="field_talle">Talle</label>
                 <select class="form-control" name="talle" [(ngModel)]="producto.talle" id="field_talle">
@@ -140,6 +134,18 @@
                     <option value="L" jhiTranslate="clothesApp.Talla.L">L</option>
                     <option value="XL" jhiTranslate="clothesApp.Talla.XL">XL</option>
                     <option value="XXL" jhiTranslate="clothesApp.Talla.XXL">XXL</option>
+                </select>
+            </div>
+            <div class="form-group col col-sm-6">
+                <label class="form-control-label" jhiTranslate="clothesApp.producto.ubicacion" for="field_ubicacion">Ubicacion</label>
+                <select class="form-control" name="ubicacion" [(ngModel)]="producto.ubicacion" id="field_ubicacion">
+                    <option value="VIDRIERA" jhiTranslate="clothesApp.Ubicacion.VIDRIERA">VIDRIERA</option>
+                    <option value="PERCHERO" jhiTranslate="clothesApp.Ubicacion.PERCHERO">PERCHERO</option>
+                    <option value="MUEBLE" jhiTranslate="clothesApp.Ubicacion.MUEBLE">MUEBLE</option>
+                    <option value="REPISA" jhiTranslate="clothesApp.Ubicacion.REPISA">REPISA</option>
+                    <option value="DEPOSITO" jhiTranslate="clothesApp.Ubicacion.DEPOSITO">DEPOSITO</option>
+                    <option value="MOSTRADOR" jhiTranslate="clothesApp.Ubicacion.MOSTRADOR">MOSTRADOR</option>
+                    <option value="ESTANTE" jhiTranslate="clothesApp.Ubicacion.ESTANTE">ESTANTE</option>
                 </select>
             </div>
         </div>
@@ -173,20 +179,6 @@
                     </small>
                 </div>
             </div>
-            <div class="form-group col col-sm-6">
-                <label class="form-control-label" jhiTranslate="clothesApp.producto.ubicacion" for="field_ubicacion">Ubicacion</label>
-                <select class="form-control" name="ubicacion" [(ngModel)]="producto.ubicacion" id="field_ubicacion">
-                    <option value="VIDRIERA" jhiTranslate="clothesApp.Ubicacion.VIDRIERA">VIDRIERA</option>
-                    <option value="PERCHERO" jhiTranslate="clothesApp.Ubicacion.PERCHERO">PERCHERO</option>
-                    <option value="MUEBLE" jhiTranslate="clothesApp.Ubicacion.MUEBLE">MUEBLE</option>
-                    <option value="REPISA" jhiTranslate="clothesApp.Ubicacion.REPISA">REPISA</option>
-                    <option value="DEPOSITO" jhiTranslate="clothesApp.Ubicacion.DEPOSITO">DEPOSITO</option>
-                    <option value="MOSTRADOR" jhiTranslate="clothesApp.Ubicacion.MOSTRADOR">MOSTRADOR</option>
-                    <option value="ESTANTE" jhiTranslate="clothesApp.Ubicacion.ESTANTE">ESTANTE</option>
-                </select>
-            </div>
-        </div>
-        <div class="row">
             <div class="form-group col col-sm-6">
                 <label jhiTranslate="clothesApp.producto.proveedor" for="field_proveedor">Proveedor</label>
                 <select class="form-control" id="field_proveedor" name="proveedor" [(ngModel)]="producto.proveedorId">

@@ -1,89 +1,128 @@
 <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
 
     <div class="modal-header">
-        <h4 class="modal-title" id="myClienteLabel" jhiTranslate="clothesApp.cliente.home.createOrEditLabel">Create or edit a Cliente</h4>
+        <h4 class="modal-title" id="myClienteLabel" jhiTranslate="clothesApp.cliente.home.createOrEditLabel">Create or
+            edit a Cliente</h4>
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
-                (click)="clear()">&times;</button>
+                (click)="clear()">&times;
+        </button>
     </div>
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
-        <div class="form-group" [hidden]="!cliente.id">
-            <label for="id" jhiTranslate="global.field.id">ID</label>
-            <input type="text" class="form-control" id="id" name="id"
-                   [(ngModel)]="cliente.id" readonly />
-        </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="clothesApp.cliente.nombre" for="field_nombre">Nombre</label>
-            <input type="text" class="form-control" name="nombre" id="field_nombre"
-                [(ngModel)]="cliente.nombre" required />
-            <div [hidden]="!(editForm.controls.nombre?.dirty && editForm.controls.nombre?.invalid)">
-                <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.nombre?.errors?.required" jhiTranslate="entity.validation.required">
-                   This field is required.
-                </small>
+        <div class="row">
+            <div class="form-group col col-sm-6" [hidden]="!cliente.id">
+                <label for="id" jhiTranslate="global.field.id">ID</label>
+                <input type="text" class="form-control" id="id" name="id"
+                       [(ngModel)]="cliente.id" readonly/>
             </div>
         </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="clothesApp.cliente.apellido" for="field_apellido">Apellido</label>
-            <input type="text" class="form-control" name="apellido" id="field_apellido"
-                [(ngModel)]="cliente.apellido" required />
-            <div [hidden]="!(editForm.controls.apellido?.dirty && editForm.controls.apellido?.invalid)">
-                <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.apellido?.errors?.required" jhiTranslate="entity.validation.required">
-                   This field is required.
-                </small>
+        <div class="row">
+            <div class="form-group col col-sm-6">
+                <label class="form-control-label" jhiTranslate="clothesApp.cliente.nombre"
+                       for="field_nombre">Nombre</label>
+                <input type="text" class="form-control" name="nombre" id="field_nombre"
+                       [(ngModel)]="cliente.nombre" required/>
+                <div [hidden]="!(editForm.controls.nombre?.dirty && editForm.controls.nombre?.invalid)">
+                    <small class="form-text text-danger"
+                           [hidden]="!editForm.controls.nombre?.errors?.required"
+                           jhiTranslate="entity.validation.required">
+                        This field is required.
+                    </small>
+                </div>
+            </div>
+            <div class="form-group col col-sm-6">
+                <label class="form-control-label" jhiTranslate="clothesApp.cliente.apellido" for="field_apellido">Apellido</label>
+                <input type="text" class="form-control" name="apellido" id="field_apellido"
+                       [(ngModel)]="cliente.apellido" required/>
+                <div [hidden]="!(editForm.controls.apellido?.dirty && editForm.controls.apellido?.invalid)">
+                    <small class="form-text text-danger"
+                           [hidden]="!editForm.controls.apellido?.errors?.required"
+                           jhiTranslate="entity.validation.required">
+                        This field is required.
+                    </small>
+                </div>
             </div>
         </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="clothesApp.cliente.celular" for="field_celular">Celular</label>
-            <input type="text" class="form-control" name="celular" id="field_celular"
-                [(ngModel)]="cliente.celular"  />
-        </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="clothesApp.cliente.telefono" for="field_telefono">Telefono</label>
-            <input type="text" class="form-control" name="telefono" id="field_telefono"
-                [(ngModel)]="cliente.telefono" required />
-            <div [hidden]="!(editForm.controls.telefono?.dirty && editForm.controls.telefono?.invalid)">
-                <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.telefono?.errors?.required" jhiTranslate="entity.validation.required">
-                   This field is required.
-                </small>
+        <div class="row">
+            <div class="form-group col col-sm-6">
+                <label class="form-control-label" jhiTranslate="clothesApp.cliente.celular"
+                       for="field_celular">Celular</label>
+                <input type="tel" class="form-control" name="celular" id="field_celular" pattern="^\d{3}\d{3}\d{4}"
+                       placeholder="3885111222" required
+                       [(ngModel)]="cliente.celular"/>
+                <div [hidden]="!(editForm.controls.celular?.dirty && editForm.controls.celular?.invalid)">
+                    <small class="form-text text-danger"
+                           [hidden]="!editForm.controls.celular?.errors?.required">
+                        Celular es requerido
+                    </small>
+                    <small class="form-text text-danger"
+                           [hidden]="!editForm.controls.celular?.errors?.pattern">
+                        Celular invalido
+                    </small>
+                </div>
+            </div>
+            <div class="form-group col col-sm-6">
+                <label class="form-control-label" jhiTranslate="clothesApp.cliente.telefono" for="field_telefono">Telefono</label>
+                <input type="tel" class="form-control" name="telefono" id="field_telefono" pattern="^\d{3}\d{3}\d{4}"
+                       placeholder="3885111222" [(ngModel)]="cliente.telefono" required/>
+                <div [hidden]="!(editForm.controls.telefono?.dirty && editForm.controls.telefono?.invalid)">
+                    <small class="form-text text-danger"
+                           [hidden]="!editForm.controls.telefono?.errors?.required">
+                        Telefono es requerido
+                    </small>
+                    <small class="form-text text-danger"
+                           [hidden]="!editForm.controls.telefono?.errors?.pattern">
+                        Telefono invalido
+                    </small>
+                </div>
             </div>
         </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="clothesApp.cliente.email" for="field_email">Email</label>
-            <input type="text" class="form-control" name="email" id="field_email"
-                [(ngModel)]="cliente.email" required />
-            <div [hidden]="!(editForm.controls.email?.dirty && editForm.controls.email?.invalid)">
-                <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.email?.errors?.required" jhiTranslate="entity.validation.required">
-                   This field is required.
-                </small>
+        <div class="row">
+            <div class="form-group col col-sm-6">
+                <label class="form-control-label" jhiTranslate="clothesApp.cliente.email"
+                       for="field_email">Email</label>
+                <input type="email" class="form-control" name="email" id="field_email"
+                       pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
+                       [(ngModel)]="cliente.email" required/>
+                <div [hidden]="!(editForm.controls.email?.dirty && editForm.controls.email?.invalid)">
+                    <small class="form-text text-danger"
+                           [hidden]="!editForm.controls.email?.errors?.required">
+                        Email is required
+                    </small>
+                    <small class="form-text text-danger"
+                           [hidden]="!editForm.controls.email?.errors?.pattern">
+                        Email is invalid
+                    </small>
+                </div>
+            </div>
+            <div class="form-group col col-sm-6">
+                <label class="form-control-label" jhiTranslate="clothesApp.cliente.domicilio" for="field_domicilio">Domicilio</label>
+                <input type="text" class="form-control" name="domicilio" id="field_domicilio"
+                       [(ngModel)]="cliente.domicilio" required/>
+                <div [hidden]="!(editForm.controls.domicilio?.dirty && editForm.controls.domicilio?.invalid)">
+                    <small class="form-text text-danger"
+                           [hidden]="!editForm.controls.domicilio?.errors?.required"
+                           jhiTranslate="entity.validation.required">
+                        This field is required.
+                    </small>
+                </div>
             </div>
         </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="clothesApp.cliente.domicilio" for="field_domicilio">Domicilio</label>
-            <input type="text" class="form-control" name="domicilio" id="field_domicilio"
-                [(ngModel)]="cliente.domicilio" required />
-            <div [hidden]="!(editForm.controls.domicilio?.dirty && editForm.controls.domicilio?.invalid)">
-                <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.domicilio?.errors?.required" jhiTranslate="entity.validation.required">
-                   This field is required.
-                </small>
+        <div class="row">
+            <div class="form-group col col-sm-6">
+                <label class="form-control-label" jhiTranslate="clothesApp.cliente.colegio"
+                       for="field_colegio">Colegio</label>
+                <input type="text" class="form-control" name="colegio" id="field_colegio"
+                       [(ngModel)]="cliente.colegio" required/>
+                <div [hidden]="!(editForm.controls.colegio?.dirty && editForm.controls.colegio?.invalid)">
+                    <small class="form-text text-danger"
+                           [hidden]="!editForm.controls.colegio?.errors?.required"
+                           jhiTranslate="entity.validation.required">
+                        This field is required.
+                    </small>
+                </div>
             </div>
         </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="clothesApp.cliente.colegio" for="field_colegio">Colegio</label>
-            <input type="text" class="form-control" name="colegio" id="field_colegio"
-                [(ngModel)]="cliente.colegio" required />
-            <div [hidden]="!(editForm.controls.colegio?.dirty && editForm.controls.colegio?.invalid)">
-                <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.colegio?.errors?.required" jhiTranslate="entity.validation.required">
-                   This field is required.
-                </small>
-            </div>
-        </div>
-
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">
