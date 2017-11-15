@@ -9,7 +9,12 @@ const utils = require('./utils.js');
 module.exports = (options) => {
     const DATAS = {
         VERSION: `'${utils.parseVersion()}'`,
-        DEBUG_INFO_ENABLED: options.env === 'development'
+        DEBUG_INFO_ENABLED: options.env === 'development',
+        // The root URL for API calls, ending with a '/' - for example: `"http://www.jhipster.tech:8081/myservice/"`.
+        // If this URL is left empty (""), then it will be relative to the current context.
+        // If you use an API server, in `prod` mode, you will need to enable CORS  
+        // (see the `jhipster.cors` common JHipster property in the `application-*.yml` configurations)
+        SERVER_API_URL: `""`
     };
     return {
         resolve: {
@@ -83,7 +88,6 @@ module.exports = (options) => {
                 utils.root('src/main/webapp/app'), {}
             ),
             new CopyWebpackPlugin([
-                { from: './node_modules/core-js/client/shim.min.js', to: 'core-js-shim.min.js' },
                 { from: './node_modules/swagger-ui/dist/css', to: 'swagger-ui/dist/css' },
                 { from: './node_modules/swagger-ui/dist/lib', to: 'swagger-ui/dist/lib' },
                 { from: './node_modules/swagger-ui/dist/swagger-ui.min.js', to: 'swagger-ui/dist/swagger-ui.min.js' },

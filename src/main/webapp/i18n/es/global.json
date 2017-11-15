@@ -7,16 +7,6 @@
             "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
             "entities": {
                 "main": "Entidades",
-                "cliente": "Cliente",
-                "modelo": "Modelo",
-                "medida": "Medida",
-                "encargo": "Encargo",
-                "pago": "Pago",
-                "facturaPresupuesto": "Venta/Presup",
-                "detalleFactPres": "Detalle Fact Pres",
-                "producto": "Producto",
-                "proveedor": "Proveedor",
-                "rubro": "Rubro",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {
@@ -106,10 +96,7 @@
             "edit": "Editar",
             "open": "Open",
             "save": "Guardar",
-            "view": "Vista",
-            "model": "Modelo",
-            "measure": "Medida",
-            "pay": "Pago"
+            "view": "Vista"
         },
         "detail": {
             "field": "Campo",
